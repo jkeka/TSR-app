@@ -22,6 +22,7 @@ export default class User extends Component {
     this.removeClaimedReward = this.removeClaimedReward.bind(this)
   }
   componentDidMount() {
+    // Database fetch
     this.setState({tempDB: [
       {
         deviceCode: '1',

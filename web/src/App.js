@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/schedule" component={Schedule} />
         <Route exact path="/reward" component={Reward} />
         <Route exact path="/quiz" component={Quiz} />
-
+        
       </HashRouter>
   );
 }
