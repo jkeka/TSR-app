@@ -14,6 +14,7 @@ public class MapSceneManager : MonoBehaviour
     public GameObject MapScreen;
     public GameObject SetScreen;
     public GameObject SchedScreen;
+    public GameObject ConfScreen;
 
 
     //Buttons
@@ -28,6 +29,8 @@ public class MapSceneManager : MonoBehaviour
     public Button SchedBackButton;
     public Button LangButton;
     public Button SetBackButton;
+    public Button ConfYesButton;
+    public Button ConfNoButton;
 
     //Destinations
     public Button ShipButton;
@@ -41,6 +44,7 @@ public class MapSceneManager : MonoBehaviour
         MapScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
+        ConfScreen.SetActive(false);
 
         //Language clicks
         FinnButton.onClick.AddListener(FinnClick);
@@ -52,6 +56,8 @@ public class MapSceneManager : MonoBehaviour
         SchedBackButton.onClick.AddListener(SchedBackClick);
         SetBackButton.onClick.AddListener(SetBackClick);
         LangButton.onClick.AddListener(LangClick);
+        ConfYesButton.onClick.AddListener(YesClick);
+        ConfNoButton.onClick.AddListener(NoClick);
 
         //Destination clicks
         ShipButton.onClick.AddListener(ShipClick);
@@ -117,8 +123,21 @@ public class MapSceneManager : MonoBehaviour
 
     void ShipClick()
     {
-        Debug.Log("Destination ship chosen, change to ARScene");
+        Debug.Log("Destination ship chosen, ask confirmation");
+        ConfScreen.SetActive(true);
+    }
+
+    void YesClick()
+    {
+        Debug.Log("Confirmation yes, change to ARScene");
+        Debug.Log("Fetch location data from database");
         SceneManager.LoadScene("ARScene");
+    }
+
+    void NoClick()
+    {
+        Debug.Log("Confirmation answer no");
+        ConfScreen.SetActive(false);
     }
 
 }
