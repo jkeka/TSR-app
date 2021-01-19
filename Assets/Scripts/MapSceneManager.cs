@@ -10,6 +10,7 @@ public class MapSceneManager : MonoBehaviour
 
 
     //Screens
+    public GameObject HubScreen;
     public GameObject LangScreen;
     public GameObject MapScreen;
     public GameObject SetScreen;
@@ -24,8 +25,12 @@ public class MapSceneManager : MonoBehaviour
     public Button EngButton;
 
     //Navigation
+
+
+    public Button HamburgerButton;
     public Button ScheduleButton;
     public Button SettingsButton;
+    public Button MapButton;
     public Button SchedBackButton;
     public Button LangButton;
     public Button SetBackButton;
@@ -33,14 +38,17 @@ public class MapSceneManager : MonoBehaviour
     public Button ConfNoButton;
 
     //Destinations
-    public Button ShipButton;
+    public Button SigynButton;
+    public Button JoutsenButton;
 
 
     void Start()
     {
 
+
         //Activates and deactivates screen at start
         LangScreen.SetActive(true);
+        HubScreen.SetActive(false);
         MapScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
@@ -51,7 +59,9 @@ public class MapSceneManager : MonoBehaviour
         EngButton.onClick.AddListener(EngClick);
 
         //Navigation clicks
+        HamburgerButton.onClick.AddListener(HambClick);
         ScheduleButton.onClick.AddListener(ScheduleClick);
+        MapButton.onClick.AddListener(MapClick);
         SettingsButton.onClick.AddListener(SettingsClick);
         SchedBackButton.onClick.AddListener(SchedBackClick);
         SetBackButton.onClick.AddListener(SetBackClick);
@@ -60,7 +70,8 @@ public class MapSceneManager : MonoBehaviour
         ConfNoButton.onClick.AddListener(NoClick);
 
         //Destination clicks
-        ShipButton.onClick.AddListener(ShipClick);
+        SigynButton.onClick.AddListener(SigynClick);
+        JoutsenButton.onClick.AddListener(JoutsenClick);
 
 
     }
@@ -74,14 +85,32 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Set system to Finnish language!");
         LangScreen.SetActive(false);
-        MapScreen.SetActive(true);
+        HubScreen.SetActive(true);
     }
 
     void EngClick()
     {
         Debug.Log("Set system to English language!");
         LangScreen.SetActive(false);
+        HubScreen.SetActive(true);
+    }
+
+    void HambClick()
+    {
+        Debug.Log("Hamburger clicked");
+        HubScreen.SetActive(true);
+        MapScreen.SetActive(false);
+        SetScreen.SetActive(false);
+        SchedScreen.SetActive(false);
+        ConfScreen.SetActive(false);
+        LangScreen.SetActive(false);
+    }
+
+    void MapClick()
+    {
+        Debug.Log("Map clicked");
         MapScreen.SetActive(true);
+        HubScreen.SetActive(false);
     }
 
     void ScheduleClick()
@@ -99,9 +128,6 @@ public class MapSceneManager : MonoBehaviour
     void SchedBackClick()
     {
         Debug.Log("Exit clicked, return to map screen");
-        MapScreen.SetActive(true);
-        LangScreen.SetActive(false);
-        SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
     }
 
@@ -121,11 +147,18 @@ public class MapSceneManager : MonoBehaviour
         SetScreen.SetActive(false);
     }
 
-    void ShipClick()
+    void SigynClick()
     {
-        Debug.Log("Destination ship chosen, ask confirmation");
+        Debug.Log("Sigyn ship chosen, ask confirmation");
         ConfScreen.SetActive(true);
     }
+
+    void JoutsenClick()
+    {
+        Debug.Log("Joutsen ship chosen, ask confirmation");
+        ConfScreen.SetActive(true);
+    }
+
 
     void YesClick()
     {
