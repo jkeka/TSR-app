@@ -8,6 +8,9 @@ public class MapSceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    //References
+    public Text menuText;
+
 
     //Screens
     public GameObject HubScreen;
@@ -72,7 +75,7 @@ public class MapSceneManager : MonoBehaviour
         //Destination clicks
         SigynButton.onClick.AddListener(SigynClick);
         JoutsenButton.onClick.AddListener(JoutsenClick);
-
+        menuText.text = "Language";
 
     }
 
@@ -104,6 +107,7 @@ public class MapSceneManager : MonoBehaviour
         SchedScreen.SetActive(false);
         ConfScreen.SetActive(false);
         LangScreen.SetActive(false);
+        menuText.text = "Menu";
     }
 
     void MapClick()
@@ -111,24 +115,28 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Map clicked");
         MapScreen.SetActive(true);
         HubScreen.SetActive(false);
+        menuText.text = "Map";
     }
 
     void ScheduleClick()
     {
         Debug.Log("Schedule clicked");
         SchedScreen.SetActive(true);
+        menuText.text = "Schedule";
     }
 
     void SettingsClick()
     {
         Debug.Log("Settings clicked");
         SetScreen.SetActive(true);
+        menuText.text = "Settings";
     }
 
     void SchedBackClick()
     {
         Debug.Log("Exit clicked, return to map screen");
         SchedScreen.SetActive(false);
+        menuText.text = "Map";
     }
 
     void SetBackClick()
@@ -138,6 +146,7 @@ public class MapSceneManager : MonoBehaviour
         LangScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
+        menuText.text = "Map";
     }
 
     void LangClick()
@@ -145,6 +154,7 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Language selection clicked");
         LangScreen.SetActive(true);
         SetScreen.SetActive(false);
+        menuText.text = "Languages";
     }
 
     void SigynClick()
