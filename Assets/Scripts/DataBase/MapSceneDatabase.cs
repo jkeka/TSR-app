@@ -11,12 +11,17 @@ public class MapSceneDatabase : MonoBehaviour
     public GameObject mapScreen;
     DatabaseReference reference;
     DataSnapshot snapshot;
-    
-    
-    void Start()
+
+
+    void Awake()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+        CheckDependencies();
+        
+    }
 
+    void Start()
+    {     
         LoadMarkers();
     }
 
@@ -25,7 +30,27 @@ public class MapSceneDatabase : MonoBehaviour
 
     }
 
+    public void CheckDependencies()
+        // Checks dependencies of Firebase Unity SDK. Android Devices require latest version of Google Play Services.
+    {
+
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            var dependencyStatus = task.Result;
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                Debug.Log("Dependencies are fine");
+            }
+            else
+            {
+                Debug.LogError(System.String.Format(
+                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+            }
+        });
+    }
+
     public void LoadMarkers()
+        // Loads markers on the MapScreen.
     {
 
         FirebaseDatabase.DefaultInstance
@@ -34,6 +59,7 @@ public class MapSceneDatabase : MonoBehaviour
     }
 
     void HandleValueChanged(object sender, ValueChangedEventArgs args)
+      //Listens to changes in the database and loads a new snapshot when data changes.
     {
         if (args.DatabaseError != null)
         {
@@ -49,6 +75,7 @@ public class MapSceneDatabase : MonoBehaviour
     }
 
     public void CreateMarker(string name, string latitude, string longitude)
+        // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
         GameObject marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as GameObject;
         
