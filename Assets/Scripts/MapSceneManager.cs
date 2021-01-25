@@ -40,11 +40,6 @@ public class MapSceneManager : MonoBehaviour
     public Button ConfYesButton;
     public Button ConfNoButton;
 
-    //Destinations
-    public Button SigynButton;
-    public Button JoutsenButton;
-
-
     void Start()
     {
 
@@ -56,6 +51,7 @@ public class MapSceneManager : MonoBehaviour
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
         ConfScreen.SetActive(false);
+      
 
         //Language clicks
         FinnButton.onClick.AddListener(FinnClick);
@@ -73,8 +69,6 @@ public class MapSceneManager : MonoBehaviour
         ConfNoButton.onClick.AddListener(NoClick);
 
         //Destination clicks
-        SigynButton.onClick.AddListener(SigynClick);
-        JoutsenButton.onClick.AddListener(JoutsenClick);
         menuText.text = "Language";
 
     }
@@ -156,19 +150,6 @@ public class MapSceneManager : MonoBehaviour
         SetScreen.SetActive(false);
         menuText.text = "Languages";
     }
-
-    void SigynClick()
-    {
-        Debug.Log("Sigyn ship chosen, ask confirmation");
-        ConfScreen.SetActive(true);
-    }
-
-    void JoutsenClick()
-    {
-        Debug.Log("Joutsen ship chosen, ask confirmation");
-        ConfScreen.SetActive(true);
-    }
-
 
     void YesClick()
     {
