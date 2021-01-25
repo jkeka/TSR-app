@@ -11,7 +11,7 @@ public class DataBaseTest : MonoBehaviour
     public Text outputText;
     public InputField textInput;
     DatabaseReference reference;
-    string text = "";
+    //string text = "";
     // Start is called before the first frame update
     void Start()
     {
