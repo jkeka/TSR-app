@@ -48,7 +48,7 @@ public class MapSceneManager : MonoBehaviour
 
 	void Awake()
 	{
-        string deviceCode = "EEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEX"; // SystemInfo.deviceUniqueIdentifier;
+        string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
         print(deviceCode);
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckTheDatabaseForNewUser(deviceCode);
