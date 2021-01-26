@@ -77,6 +77,8 @@ public class MapSceneManager : MonoBehaviour
         JoutsenButton.onClick.AddListener(JoutsenClick);
         menuText.text = "Language";
 
+        GameObject.DontDestroyOnLoad(this);
+
     }
 
     // Update is called once per frame
