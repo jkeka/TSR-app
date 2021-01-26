@@ -3,7 +3,10 @@ guid: cc1be065f80670e4eae28c6831e4c6b3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - locationMarker: {fileID: 2643738278568629517, guid: 5472d5df447da994bb1427905fcf3c47,
+      type: 3}
+  - mapScreen: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

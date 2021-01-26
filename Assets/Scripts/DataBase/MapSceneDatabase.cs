@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
+using UnityEngine.UI;
 using Firebase.Extensions;
 
 public class MapSceneDatabase : MonoBehaviour
 {
-    public GameObject locationMarker;
+    public Button locationMarker;
     public GameObject mapScreen;
     DatabaseReference reference;
     DataSnapshot snapshot;
@@ -77,7 +78,7 @@ public class MapSceneDatabase : MonoBehaviour
     public void CreateMarker(string name, string latitude, string longitude)
         // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
-        GameObject marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as GameObject;
+        Button marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as Button;
         
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = latitude;

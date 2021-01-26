@@ -3,26 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class MarkerButton : MonoBehaviour
-{
-    public Text textBox;
+
+{  
     public Button button;
-    public Image image;
-    public GameObject parent;
+    public GameObject confScreen;
 
-    private bool destroy = false;
-    private float x;
-    private float y;
-
+    private void Awake()
+    {
+        FindConfScreen();
+    }
     private void Start()
     {
-        x = gameObject.transform.localPosition.x;
-        y = gameObject.transform.localPosition.y;
-
-        button.onClick.AddListener(showInformation);
+        button.onClick.AddListener(MarkerClick);            
+    }
+    public void MarkerClick()
+    {      
+        string locationName = this.gameObject.GetComponent<Coordinates>().locationName;
+        var child = confScreen.transform.GetChild(3);
+        child.GetComponent<Text>().text = "Navigate to " + locationName + "?";
+        confScreen.SetActive(true);
     }
 
-    public void showInformation()
+    public void FindConfScreen() {
+
+        GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
+
+        foreach (var i in objects)
+        {
+            if (i.name == "ConfirmationScreen")
+            {
+                confScreen = i.gameObject;
+                break;
+            }
+        }
+    }
+
+    /*public void showInformation()
     {
         if (destroy == true)
         {
@@ -43,5 +61,5 @@ public class MarkerButton : MonoBehaviour
         textOutput.text = "Name: " + locationName + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude;
 
         destroy = true;
-    }
+    }*/
 }

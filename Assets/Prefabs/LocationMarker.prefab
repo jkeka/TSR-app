@@ -215,6 +215,7 @@ MonoBehaviour:
   button: {fileID: 2643738278568629517}
   image: {fileID: 3330934227427864285, guid: 5570fcf23d3b0c64891dc5b730a85b87, type: 3}
   parent: {fileID: 1727701332228480426}
+  screen: {fileID: 6544729015725333121, guid: 526c2ace28166db479c6a8550fc95c02, type: 3}
 --- !u!114 &-2566083725865331200
 MonoBehaviour:
   m_ObjectHideFlags: 0
