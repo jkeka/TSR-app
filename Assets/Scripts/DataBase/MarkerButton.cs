@@ -9,7 +9,7 @@ public class MarkerButton : MonoBehaviour
 {  
     public Button button;
     public GameObject confScreen;
-
+    
     private void Awake()
     {
         FindConfScreen();
@@ -19,14 +19,22 @@ public class MarkerButton : MonoBehaviour
         button.onClick.AddListener(MarkerClick);            
     }
     public void MarkerClick()
+        //Sets confirmationscreen visible and writes text to confirmation textbox. Also adds the location data to Coordinatedata class
+
     {      
-        string locationName = this.gameObject.GetComponent<Coordinates>().locationName;
+        string locationName = gameObject.GetComponent<Coordinates>().locationName;
         var child = confScreen.transform.GetChild(3);
         child.GetComponent<Text>().text = "Navigate to " + locationName + "?";
         confScreen.SetActive(true);
+
+        CoordinateData.locationName = gameObject.GetComponent<Coordinates>().locationName;
+        CoordinateData.latitude = gameObject.GetComponent<Coordinates>().latitude;
+        CoordinateData.longitude = gameObject.GetComponent<Coordinates>().longitude;
+
     }
 
     public void FindConfScreen() {
+        // Finds the ConfirmationScreen gameobject and places it in the confScreen variable
 
         GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
 
