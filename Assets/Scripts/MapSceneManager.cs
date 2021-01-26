@@ -48,7 +48,7 @@ public class MapSceneManager : MonoBehaviour
 
 	void Awake()
 	{
-        string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
+        string deviceCode = "testi"; // Replace with any string to test the db
         print(deviceCode);
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckTheDatabaseForNewUser(deviceCode);
@@ -87,6 +87,7 @@ public class MapSceneManager : MonoBehaviour
                     DataSnapshot snapshot = task.Result;
                     if (snapshot.Value != null) {
                         currentUser = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
+                        Debug.Log(snapshot.Value);
                         Debug.Log(currentUser.ToString());
                         OldUser();
                     } else {

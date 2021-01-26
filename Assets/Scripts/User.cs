@@ -8,6 +8,8 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 
+
+
 class User {
     public string deviceCode;
     public string language;
@@ -16,7 +18,7 @@ class User {
     public User() {}
     public  User(string deviceCode) {
         this.deviceCode = deviceCode;
-        this.reference = FirebaseDatabase.DefaultInstance.RootReference;
+        this.language = "default";
     }
     public override string ToString()
     {
@@ -25,6 +27,7 @@ class User {
     public void setLanguage(string lang) {
       Debug.Log("set lang");
       this.language = lang;
+      reference = FirebaseDatabase.DefaultInstance.RootReference;
       string json = JsonUtility.ToJson(this);
       reference.Child("Users").Child(this.deviceCode).SetRawJsonValueAsync(json);
     }
