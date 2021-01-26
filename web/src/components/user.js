@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Table, Row, Col, Container } from 'react-bootstrap'
+import { Button, Form, Table, Container } from 'react-bootstrap'
 import firebase from '../services/firebase'
 
 export default class User extends Component {
@@ -10,12 +10,17 @@ export default class User extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.removeClaimedReward = this.removeClaimedReward.bind(this)
+    this.modifyClicked = this.modifyClicked.bind(this)
+    this.addRewardKey = this.addRewardKey.bind(this)
+    this.addClaimedRewardKey = this.addClaimedRewardKey.bind(this)
     this.state = {
       deviceCode: '',
       language: '',
       rewardKey: [''],
       claimedRewardKey: [''], 
-      tempDB: []
+      tempDB: [],
+      deviceInputDisabled: false,
+      submitOrUpdate: 'Submit'
     }
   }
   componentDidMount() {
@@ -25,19 +30,23 @@ export default class User extends Component {
       if (snapshot.val() !== null) {
         this.setState({tempDB: snapshot.val()})
       } else {
-        this.setState({tempDB: [
-          {
-            deviceCode: '1',
-            language: 'fi',
-            rewardKey: ['xxx', 'yyy'],
-            claimedRewardKey: ['xxx']
-          }]})
+        console.log('fetch failed')
       }
-        
     })
   }
   addRewardKey() {
   
+  }
+  addClaimedRewardKey() {
+
+  }
+  modifyClicked(key, language) {
+    console.log(language)
+    this.setState({deviceCode: key, 
+      language: language, 
+      deviceInputDisabled: true,
+      submitOrUpdate: 'Update'
+    })
   }
   handleChange(event, index) {
     switch (event.target.name) {
@@ -65,6 +74,7 @@ export default class User extends Component {
     const testObj = { deviceCode: this.state.deviceCode, language: this.state.language }
     const ref = this.ref.child(this.state.deviceCode)
     ref.set(testObj)
+    this.setState({deviceInputDisabled: false, submitOrUpdate: 'Submit'})
     
     event.preventDefault() 
   }
@@ -96,7 +106,7 @@ export default class User extends Component {
             </ul>
           </td>
           <td>
-            <Button onClick={() => this.modifyClicked(key)}>Modify</Button>
+            <Button onClick={() => this.modifyClicked(key, value.language)}>Modify</Button>
             <Button variant="danger" onClick={() => this.removeDevice(key)}>Remove</Button>
           </td>
         </tr>
@@ -110,7 +120,7 @@ export default class User extends Component {
         <Form.Group>
           <Form.Label htmlFor="device">deviceCode:</Form.Label>
           <Form.Control type="text" name="deviceCode" value={this.state.deviceCode}
-            onChange={this.handleChange} />
+            onChange={this.handleChange} disabled={this.state.deviceInputDisabled ? "disabled" : ""} />
         </Form.Group>
 
         <Form.Group>
@@ -131,8 +141,7 @@ export default class User extends Component {
         </Form.Group>
 
         <Form.Group>
-          <Button variant="primary" type="submit">Submit</Button>
-          <Button variant="secondary" onClick={() => this.handleUpdate()}>Update</Button>
+          <Button variant="primary" type="submit">{this.state.submitOrUpdate}</Button>
         </Form.Group>
       </Form>
     
