@@ -17,7 +17,7 @@ public class MapSceneDatabase : MonoBehaviour
     void Awake()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        CheckDependencies();
+        //CheckDependencies();
         
     }
 
