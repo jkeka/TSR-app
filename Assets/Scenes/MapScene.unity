@@ -1079,8 +1079,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321420350}
+  - component: {fileID: 321420351}
   m_Layer: 0
-  m_Name: GpsManager
+  m_Name: GPSmanager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1100,6 +1101,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &321420351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321420349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c382128eab0564a41b2651b45e20ddf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  latitude: 0
+  longitude: 0
 --- !u!1 &328498722
 GameObject:
   m_ObjectHideFlags: 0
