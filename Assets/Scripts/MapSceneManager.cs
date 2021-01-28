@@ -13,19 +13,25 @@ public class MapSceneManager : MonoBehaviour
     // Start is called before the first frame update
 
     //References
-    public Text menuText;
+    //public Text menuText;
     DatabaseReference reference;
     DataSnapshot snapshot;
     User currentUser;
-
+    /*
     //Screens
-    public GameObject HubScreen;
+    //public GameObject HubScreen;
     public GameObject LangScreen;
     public GameObject MapScreen;
     public GameObject SetScreen;
     public GameObject SchedScreen;
+    */
     public GameObject ConfScreen;
+    
 
+    public RectTransform mapScreen;
+    public RectTransform setScreen;
+    public RectTransform schedScreen;
+    public RectTransform langScreen;
 
     //Buttons
 
@@ -105,33 +111,35 @@ public class MapSceneManager : MonoBehaviour
     void Start()
     {
 
-
+        /*
         //Activates and deactivates screen at start
         LangScreen.SetActive(true);
-        HubScreen.SetActive(false);
+        //HubScreen.SetActive(false);
         MapScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
         ConfScreen.SetActive(false);
       
+    */
+        langScreen.SetAsLastSibling();
+
 
         //Language clicks
         FinnButton.onClick.AddListener(FinnClick);
         EngButton.onClick.AddListener(EngClick);
 
         //Navigation clicks
-        HamburgerButton.onClick.AddListener(HambClick);
+        //HamburgerButton.onClick.AddListener(HambClick);
         ScheduleButton.onClick.AddListener(ScheduleClick);
         MapButton.onClick.AddListener(MapClick);
         SettingsButton.onClick.AddListener(SettingsClick);
-        SchedBackButton.onClick.AddListener(SchedBackClick);
-        SetBackButton.onClick.AddListener(SetBackClick);
+        //SchedBackButton.onClick.AddListener(SchedBackClick);
+        //SetBackButton.onClick.AddListener(SetBackClick);
         LangButton.onClick.AddListener(LangClick);
         ConfYesButton.onClick.AddListener(YesClick);
         ConfNoButton.onClick.AddListener(NoClick);
 
-        //Destination clicks
-        menuText.text = "Language";
+        //menuText.text = "Language";
 
         GameObject.DontDestroyOnLoad(this);
 
@@ -146,9 +154,10 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Set system to Finnish language!");
         currentUser.setLanguage("fi");
+        mapScreen.SetAsLastSibling();
 
-        LangScreen.SetActive(false);
-        HubScreen.SetActive(true);
+        //langScreen.SetActive(false);
+        //HubScreen.SetActive(true);
         
     }
 
@@ -156,53 +165,60 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Set system to English language!");
         currentUser.setLanguage("en");
+        mapScreen.SetAsLastSibling();
 
-        LangScreen.SetActive(false);
-        HubScreen.SetActive(true);
+       // LangScreen.SetActive(false);
+        //HubScreen.SetActive(true);
         
     }
-
+    /*
     void HambClick()
     {
         Debug.Log("Hamburger clicked");
-        HubScreen.SetActive(true);
+        //HubScreen.SetActive(true);
         MapScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
         ConfScreen.SetActive(false);
         LangScreen.SetActive(false);
-        menuText.text = "Menu";
+        //menuText.text = "Menu";
     }
-
+    */
     void MapClick()
     {
         Debug.Log("Map clicked");
-        MapScreen.SetActive(true);
-        HubScreen.SetActive(false);
-        menuText.text = "Map";
+        //MapScreen.SetActive(true);
+        mapScreen.SetAsLastSibling();
+        //HubScreen.SetActive(false);
+        //menuText.text = "Map";
     }
 
     void ScheduleClick()
     {
         Debug.Log("Schedule clicked");
-        SchedScreen.SetActive(true);
-        menuText.text = "Schedule";
+        //SchedScreen.SetActive(true);
+        schedScreen.SetAsLastSibling();
+
+        //menuText.text = "Schedule";
     }
 
     void SettingsClick()
     {
         Debug.Log("Settings clicked");
-        SetScreen.SetActive(true);
-        menuText.text = "Settings";
-    }
+        //SetScreen.SetActive(true);
+        setScreen.SetAsLastSibling();
 
+        //menuText.text = "Settings";
+    }
+    /*
     void SchedBackClick()
     {
         Debug.Log("Exit clicked, return to map screen");
         SchedScreen.SetActive(false);
-        menuText.text = "Map";
+        //menuText.text = "Map";
     }
-
+    */
+    /*
     void SetBackClick()
     {
         Debug.Log("Exit clicked, return to map screen");
@@ -210,15 +226,17 @@ public class MapSceneManager : MonoBehaviour
         LangScreen.SetActive(false);
         SetScreen.SetActive(false);
         SchedScreen.SetActive(false);
-        menuText.text = "Map";
+        //menuText.text = "Map";
     }
-
+    */
     void LangClick()
     {
         Debug.Log("Language selection clicked");
-        LangScreen.SetActive(true);
-        SetScreen.SetActive(false);
-        menuText.text = "Languages";
+        langScreen.SetAsLastSibling();
+
+        //LangScreen.SetActive(true);
+        //SetScreen.SetActive(false);
+        //menuText.text = "Languages";
     }
 
     void YesClick()
