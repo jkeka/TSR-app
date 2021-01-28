@@ -52,6 +52,9 @@ public class MapSceneManager : MonoBehaviour
     public Button ConfYesButton;
     public Button ConfNoButton;
 
+    private int mapSiblingIndex = 3;
+    private int siblingIndex = 4;
+
 	void Awake()
 	{
         string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
@@ -121,7 +124,9 @@ public class MapSceneManager : MonoBehaviour
         ConfScreen.SetActive(false);
       
     */
-        langScreen.SetAsLastSibling();
+        langScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
 
 
         //Language clicks
@@ -154,22 +159,22 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Set system to Finnish language!");
         currentUser.setLanguage("fi");
-        mapScreen.SetAsLastSibling();
+        mapScreen.SetSiblingIndex(siblingIndex);
 
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
-        
+
     }
 
     void EngClick()
     {
         Debug.Log("Set system to English language!");
         currentUser.setLanguage("en");
-        mapScreen.SetAsLastSibling();
+        mapScreen.SetSiblingIndex(siblingIndex);
 
-       // LangScreen.SetActive(false);
+        // LangScreen.SetActive(false);
         //HubScreen.SetActive(true);
-        
+
     }
     /*
     void HambClick()
@@ -188,7 +193,7 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Map clicked");
         //MapScreen.SetActive(true);
-        mapScreen.SetAsLastSibling();
+        mapScreen.SetSiblingIndex(siblingIndex);
         //HubScreen.SetActive(false);
         //menuText.text = "Map";
     }
@@ -197,7 +202,8 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Schedule clicked");
         //SchedScreen.SetActive(true);
-        schedScreen.SetAsLastSibling();
+        schedScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
 
         //menuText.text = "Schedule";
     }
@@ -206,7 +212,9 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Settings clicked");
         //SetScreen.SetActive(true);
-        setScreen.SetAsLastSibling();
+        setScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
 
         //menuText.text = "Settings";
     }
@@ -232,7 +240,9 @@ public class MapSceneManager : MonoBehaviour
     void LangClick()
     {
         Debug.Log("Language selection clicked");
-        langScreen.SetAsLastSibling();
+        langScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
 
         //LangScreen.SetActive(true);
         //SetScreen.SetActive(false);
