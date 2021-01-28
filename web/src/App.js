@@ -6,11 +6,14 @@ import Home from './components/home'
 import Schedule from './components/schedule'
 import Reward from './components/reward'
 import Quiz from './components/quiz'
-import { Route, HashRouter } from 'react-router-dom'
+
+
+// import { Route, IndexRoute, HashRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 function App() {
   return (
-      <HashRouter>
+      <BrowserRouter>
 
         <Navigation />
 
@@ -21,7 +24,7 @@ function App() {
         <Route exact path="/reward" component={Reward} />
         <Route exact path="/quiz" component={Quiz} />
         
-      </HashRouter>
+      </BrowserRouter>
   );
 }
 
