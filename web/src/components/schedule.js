@@ -5,21 +5,34 @@ import Venue from './schedule/venue'
 import Day from './schedule/day'
 import Event from './schedule/event'
 
+
 export default class Schedule extends Component {
     constructor(props) {
         super(props)
         this.title = 'Schedule'
         this.ref = firebase.database().ref("Schedule")
         this.changeRoute = this.changeRoute.bind(this)
+        this.kill = this.kill.bind(this)
         this.state = { 
             venues: [],
             days: [],
-            events: [],
+            events: {},
             router: <p>Choose a tab</p>,
             dayButton: "primary",
             eventButton: "primary",
             venueButton: "primary"
         }
+    }
+    kill() {
+        this.ref.child('days').remove()
+        
+        let tmpEvents = {...this.state.events}
+        Object.entries(tmpEvents).forEach(element => {
+            element[1].setToDay = false
+        })
+        console.log(tmpEvents)
+        this.ref.child('events').set(tmpEvents)
+        
     }
     componentDidMount() {
         // Database fetch
@@ -70,11 +83,10 @@ export default class Schedule extends Component {
     render() {
         return (
             <Container>
-                    <h1>{this.title}</h1>
-                    <Button variant={this.state.dayButton} onClick={() => this.changeRoute('day')}>Day</Button>
-                    <Button variant={this.state.eventButton} onClick={() => this.changeRoute('event')}>Event</Button>
-                    <Button variant={this.state.venueButton} onClick={() => this.changeRoute('venue')}>Venue</Button>
-                    {this.state.router}
+                <h1>{this.title}</h1>
+                <Button variant={this.state.eventButton} onClick={() => this.changeRoute('event')}>Event</Button>
+                <Button variant={this.state.venueButton} onClick={() => this.changeRoute('venue')}>Venue</Button>
+                {this.state.router}
             </Container>
             
         )

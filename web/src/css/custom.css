@@ -1,3 +1,6 @@
 .navlink {
   padding-right: 1em;
 }
+.selected {
+  background-color: green;
+}

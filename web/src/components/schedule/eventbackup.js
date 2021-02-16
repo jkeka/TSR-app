@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
-import firebase from '../../services/firebase'
-import { Button, Form, Container, Table, Row } from 'react-bootstrap'
-import DatePicker from 'react-datepicker'
+import { Button, Form, Container, Table, Row, Col } from 'react-bootstrap'
 
 export default class Event extends Component {
   constructor(props) {
     super(props)
     this.title = 'Events'
-    this.ref = firebase.database().ref()
+    this.ref = props.fireRef
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.copyEvent = this.copyEvent.bind(this)
     this.copyDescription = this.copyDescription.bind(this)
-    this.setStartTime = this.setStartTime.bind(this)
-    this.setEndTime = this.setEndTime.bind(this)
     this.fillStuff = this.fillStuff.bind(this)
     this.state = { 
-      events: {},
-      venues: {},
+      events: props.events,
+      venues: props.venues,
+      venueDropDown: <option>no venues found</option>,
       venue: '',
-      startTime: new Date(),
-      endTime: new Date(),
+      startHour: 0,
+      startMinute: 0,
+      endHour: 0,
+      endMinute: 0,
       eventFi: '',
       eventEn: '',
       eventSe: '',
@@ -30,46 +29,14 @@ export default class Event extends Component {
     }
   }
   componentDidMount() {
-    let tmpStartDate = new Date(this.state.startTime)
-    let tmpEndDate = new Date(this.state.endTime)
-    tmpStartDate.setHours(12)
-    tmpStartDate.setMinutes(0)
-    tmpEndDate.setHours(tmpStartDate.getHours() + 1)
-    tmpEndDate.setMinutes(0)
-    let tmpEvents = {}
-    let tmpVenues = {}
-    this.ref.child('Schedule').child('events').on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
-        this.setState({events: snapshot.val()})
-      } else {
-        console.log('events fetch failed or nothing to fetch')
-      }
-    })
-    this.ref.child('Location').on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
-        for (const [key, value] of Object.entries(snapshot.val())) {
-          if (value.type === 'venue') {
-            console.log(key)
-            tmpVenues[key] = (snapshot.val()[key])
-          }
-          console.log(tmpVenues)
-          this.setState({venues: tmpVenues, venue: Object.keys(this.state.venues)[0]})
-        }
-        
-      } else {
-        console.log('locations fetch failed or nothing to fetch')
-      }
-    })
     this.setState({
-      startTime: tmpStartDate,
-      endTime: tmpEndDate,
+      venueDropDown: Object.entries(this.state.venues).map(([key, value], index) => {
+        return (
+          <option key={index} value={key}>{value.translations.en.venue} ({key})</option>
+        )
+      }),
+      venue: Object.keys(this.state.venues)[0]
     })
-  }
-  setStartTime(date) {
-    this.setState({startTime: date})
-  }
-  setEndTime(date) {
-    this.setState({endTime: date})
   }
   fillStuff() {
     this.setState({
@@ -80,7 +47,10 @@ export default class Event extends Component {
         descEn: 'eventDescription',
         descSe: 'eventDeskriptionen',
         venue: Object.keys(this.state.venues)[1],
-
+        startHour: 12,
+        startMinute: 15,
+        endHour: 13,
+        endMinute: 30
     })
   }
   handleChange(event) {
@@ -88,6 +58,18 @@ export default class Event extends Component {
     switch (event.target.name) {
       case 'venue':
         this.setState({venue: event.target.value})
+        break
+      case 'endHour':
+        this.setState({endHour: event.target.value})
+        break
+      case 'endMinute':
+        this.setState({endMinute: event.target.value})
+        break
+      case 'startHour':
+        this.setState({startHour: event.target.value})
+        break
+      case 'startMinute':
+        this.setState({startMinute: event.target.value})
         break
       case 'eventFi':
         this.setState({eventFi: event.target.value})
@@ -118,9 +100,12 @@ export default class Event extends Component {
     const venueId = this.state.venues[this.state.venue].id
     const newEvent = { 
       id: newId,
-      startTime: this.state.startTime.getTime(),
-      endTime: this.state.endTime.getTime(),
+      startHour: this.state.startHour,
+      startMinute: this.state.startMinute,
+      endHour: this.state.endHour,
+      endMinute: this.state.endMinute,
       venueId: venueId,
+      setToDay: false,
       translations: { 
         fi:  {
           event: this.state.eventFi,
@@ -150,8 +135,10 @@ export default class Event extends Component {
       descFi: '',
       descEn: '',
       descSe: '',
-      startTime: new Date(),
-      endTime: new Date(),
+      startHour: 0,
+      startMinute: 0,
+      endHour: 0,
+      endMinute: 0,
       venue: Object.keys(this.state.venues)[0]
     })
     
@@ -181,21 +168,24 @@ export default class Event extends Component {
       return (
         <tr key={index}>
           <td>{key}</td>
-          <td>{value.translations.en.event}</td>
           <td>{value.venueId}</td>
-          <td>{new Date(value.startTime).toLocaleString()}</td>
-          <td>{new Date(value.endTime).toLocaleString()}</td>
+          <td>{value.startHour}:{value.startMinute}</td>
+          <td>{value.endHour}:{value.endMinute}</td>
+          <td>{value.setToDay ? 'Yes' : 'No'}</td>
           <td>
             <Button variant="danger" onClick={() => this.removeEvent(key)}>Remove</Button>
           </td>
         </tr>
       )
     })
-    const venueDropDown = Object.entries(this.state.venues).map(([key, value], index) => {
-        return (
-          <option key={index} value={key}>{key} ({value.id})</option>
-        )
-      })
+    let hours = []
+    let minutes = []
+    for (let x = 0; x < 24; x++) {
+      hours[x] = <option key={x} value={x}>{x}</option>
+    }
+    for (let x = 0; x < 60; x += 15) {
+      minutes[x] = <option key={x} value={x}>{x}</option>
+    }
     return (
       <Container>
         
@@ -204,10 +194,10 @@ export default class Event extends Component {
           <thead>
             <tr>
               <th>id</th>
-              <th>name</th>
               <th>venue</th>
               <th>startTime</th>
               <th>endTime</th>
+              <th>setToDay</th>
               <th>buttons</th>
             </tr>
           </thead>
@@ -236,17 +226,41 @@ export default class Event extends Component {
           <hr/>
           <Form.Label>Select venue</Form.Label>
           <Form.Control as="select" custom name="venue" value={this.state.venue} onChange={this.handleChange}>
-            {venueDropDown}
+            {this.state.venueDropDown}
           </Form.Control>
           <hr/>
           <Form.Label>Select start time</Form.Label>
           <Row>
-            <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.startTime} onChange={date => this.setStartTime(date)} />
+            <Col>
+              <Form.Label>Select hours</Form.Label>
+              <Form.Control as="select" custom name="startHour" value={this.state.startHour} onChange={this.handleChange}>
+                {hours}
+              </Form.Control>
+            </Col>
+            <Col>
+              <Form.Label>Select minutes</Form.Label>
+              <Form.Control as="select" custom name="startMinute" value={this.state.startMinute} onChange={this.handleChange}>
+                {minutes}
+              </Form.Control>
+            </Col>
+            <Col xs={8}></Col> 
           </Row>
           <hr/>
           <Form.Label>Select end time</Form.Label>
           <Row>
-            <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.endTime} onChange={date => this.setEndTime(date)} />
+            <Col>
+              <Form.Label>Select hours</Form.Label>
+              <Form.Control as="select" custom name="endHour" value={this.state.endHour} onChange={this.handleChange}>
+                {hours}
+              </Form.Control>
+            </Col>
+            <Col>
+              <Form.Label>Select minutes</Form.Label>
+              <Form.Control as="select" custom name="endMinute" value={this.state.endMinute} onChange={this.handleChange}>
+                {minutes}
+              </Form.Control>
+            </Col>
+            <Col xs={8}></Col> 
           </Row>
           <hr/>
           <Form.Group>
@@ -265,7 +279,7 @@ export default class Event extends Component {
           </Form.Group>
           <hr/>
           <Form.Group>
-            <Button variant="primary" type="submit">Add event</Button>
+            <Button variant="primary" type="submit">Add venue</Button>
           </Form.Group>
         </Form>
         

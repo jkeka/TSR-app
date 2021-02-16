@@ -6,65 +6,92 @@ export default class Location extends Component {
     constructor(props) {
         super(props)
         this.title = 'Location'
-        this.state = { ships: {},
-                        temp: { name: 'Titanic', lat: '0', lon: '0' } }
+        this.state = { 
+            locations: {},
+            types: ['ship', 'venue', 'booth'],
+            temp: { name: 'Titanic', Latitude: '0', Longitude: '0', type: 'ship' },
+            typeDropDown: <option>no types found</option>,
+            type: 'ship'
+        }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleRemove = this.handleRemove.bind(this)
-        this.ref = firebase.database().ref("Ships")
+        this.ref = firebase.database().ref("Location")
     }
     componentDidMount() {
+        let tmpDropDown = this.state.types.map(t => <option key={t}>{t}</option>) 
         this.ref.on('value', (snapshot) => {
-            console.log(snapshot.val())
             if (snapshot.val() !== null) {
-                this.setState({ships: snapshot.val()})
+                this.setState(
+                    {
+                        locations: snapshot.val(),
+                        typeDropDown: tmpDropDown    
+                    }
+        )
+            } else {
+                console.log('no locations found')
+                this.setState({typeDropDown: tmpDropDown})
             }
-            
         })
+        
     }
     handleSubmit(event) {
-        console.log(this.state.ships)
-
-        const testObj = { Latitude: this.state.temp.lat, Longitude: this.state.temp.lon }
-        const ref = this.ref.child(this.state.temp.name)
-        ref.set(testObj)
-        this.setState({temp: { name: 'Success', lat: '1', lon: '2' }})
-
         event.preventDefault()
+        console.log(this.state.locations)
+        const ref = this.ref.child(this.state.temp.name)
+        let tmpLocations = {...this.state.locations}
+        let newObj = {...this.state.temp}
+        newObj.id = new Date().getTime()
+        ref.set(newObj)
+        tmpLocations[this.state.temp.name] = newObj
+        this.setState({locations: tmpLocations})
     }
-    handleRemove(ship) {
-        console.log(ship)
-        const ref = this.ref.child(ship)
+    handleRemove(loc, locId) {
+        console.log(loc, locId)
+        const ref = this.ref.child(loc)
         ref.remove()
+        let tmpLocations = {...this.state.locations}
+        delete tmpLocations[loc]
+        this.setState({locations: tmpLocations})
     }
     handleChange(event, index) {
         let changedObject = JSON.parse(JSON.stringify(this.state.temp))
         switch (event.target.name) {
-          case 'name':
-            changedObject.name = event.target.value
-            this.setState({temp: changedObject})
-            break;
-          case 'latitude':
-            changedObject.lat = event.target.value
-            this.setState({temp: changedObject})
-            break;
-          case 'longitude':
-            changedObject.lon = event.target.value
-            this.setState({temp: changedObject})
-            break;
-          default:
-            console.log('error with switch')
+            case 'name':
+                changedObject.name = event.target.value
+                this.setState({temp: changedObject})
+                break
+            case 'latitude':
+                changedObject.Latitude = event.target.value
+                this.setState({temp: changedObject})
+                break
+            case 'longitude':
+                changedObject.Longitude = event.target.value
+                this.setState({temp: changedObject})
+                break
+            case 'type':
+                changedObject.type = event.target.value
+                this.setState({temp: changedObject, type: event.target.value})
+                break
+            default:
+                console.log('error with switch')
         }
     }
     render() {
-        console.log(this.state.ships)
+        console.log(this.state.locations)
         const tmp = this.state.temp
 
-        const fetchedShips = Object.entries(this.state.ships).map(([key, value], index) => {
+        const fetchedLocs = Object.entries(this.state.locations).map(([key, value], index) => {
             return (
                 <tr key={index}>
                     <td>
+                        {value.id}
+                    </td>
+                    <td>
                         {key}
+                    </td>
+                    <td>
+                        <li>{value.type}</li>
                     </td>
                     <td>
                         <li>{value.Latitude}</li>
@@ -73,7 +100,7 @@ export default class Location extends Component {
                         <li>{value.Longitude}</li>
                     </td>
                     <td>
-                        <Button variant="danger" onClick={() => this.handleRemove(key)}>Remove</Button>
+                        <Button variant="danger" onClick={() => this.handleRemove(key, value.id)}>Remove</Button>
                     </td>
                 </tr>
             )
@@ -86,18 +113,24 @@ export default class Location extends Component {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
+                        <th>id</th>
                         <th>Name</th>
+                        <th>Type</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
                         <th>Button</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {fetchedShips}
+                        {fetchedLocs}
                     </tbody>
                 </Table>
-                <p>{tmp.name} - lat: {tmp.lat}, lon: {tmp.lon}</p>
+                <p>{tmp.name} - lat: {tmp.lat}, lon: {tmp.lon}, {tmp.type}</p>
                 <Form onSubmit={this.handleSubmit}>
+
+                    <Form.Control as="select" custom name="type" value={this.state.type} onChange={this.handleChange}>
+                        {this.state.typeDropDown}
+                    </Form.Control>
 
                     <Form.Group>
                         <Form.Label htmlFor="name">name:</Form.Label>
