@@ -58,7 +58,7 @@ public class MapSceneDatabase : MonoBehaviour
     {
 
         FirebaseDatabase.DefaultInstance
-            .GetReference("Ships")
+            .GetReference("Location")
             .ValueChanged += MarkerValueChanged;
     }
 
