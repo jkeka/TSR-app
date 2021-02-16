@@ -79,12 +79,13 @@ public class MapSceneDatabase : MonoBehaviour
 
         foreach (DataSnapshot i in snapshot.Children)
         {
-            CreateMarker(i.Key, i.Child("Latitude").Value.ToString(), i.Child("Longitude").Value.ToString());
+            CreateMarker(i.Key, i.Child("Latitude").Value.ToString(), i.Child("Longitude").Value.ToString(),
+				i.Child("type").Value.ToString());
 
         }
     }
 
-    public void CreateMarker(string name, string latitude, string longitude)
+    public void CreateMarker(string name, string latitude, string longitude, string type)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
 
@@ -93,6 +94,12 @@ public class MapSceneDatabase : MonoBehaviour
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = latitude;
         marker.GetComponent<Coordinates>().longitude = longitude;
+		
+		if (type.Equals("venue")) {
+			marker.GetComponent<Image>().color = Color.green;
+		} else if (type.Equals("booth")) {
+			marker.GetComponent<Image>().color = Color.yellow;
+		}
 
         marker.transform.SetParent(mapScreen.transform, false);
 
