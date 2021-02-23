@@ -41,14 +41,10 @@ public class MapSceneManager : MonoBehaviour
 
     //Navigation
 
-
-    public Button HamburgerButton;
     public Button ScheduleButton;
     public Button SettingsButton;
     public Button MapButton;
-    public Button SchedBackButton;
     public Button LangButton;
-    public Button SetBackButton;
     public Button ConfYesButton;
     public Button ConfNoButton;
 
@@ -134,7 +130,6 @@ public class MapSceneManager : MonoBehaviour
         EngButton.onClick.AddListener(EngClick);
 
         //Navigation clicks
-        //HamburgerButton.onClick.AddListener(HambClick);
         ScheduleButton.onClick.AddListener(ScheduleClick);
         MapButton.onClick.AddListener(MapClick);
         SettingsButton.onClick.AddListener(SettingsClick);
@@ -172,81 +167,39 @@ public class MapSceneManager : MonoBehaviour
         currentUser.setLanguage("en");
         mapScreen.SetSiblingIndex(siblingIndex);
 
-        // LangScreen.SetActive(false);
-        //HubScreen.SetActive(true);
+
 
     }
-    /*
-    void HambClick()
-    {
-        Debug.Log("Hamburger clicked");
-        //HubScreen.SetActive(true);
-        MapScreen.SetActive(false);
-        SetScreen.SetActive(false);
-        SchedScreen.SetActive(false);
-        ConfScreen.SetActive(false);
-        LangScreen.SetActive(false);
-        //menuText.text = "Menu";
-    }
-    */
+
     void MapClick()
     {
         Debug.Log("Map clicked");
-        //MapScreen.SetActive(true);
         mapScreen.SetSiblingIndex(siblingIndex);
-        //HubScreen.SetActive(false);
-        //menuText.text = "Map";
+
     }
 
     void ScheduleClick()
     {
         Debug.Log("Schedule clicked");
-        //SchedScreen.SetActive(true);
         schedScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
-        //menuText.text = "Schedule";
     }
 
     void SettingsClick()
     {
         Debug.Log("Settings clicked");
-        //SetScreen.SetActive(true);
         setScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
+    }
 
-        //menuText.text = "Settings";
-    }
-    /*
-    void SchedBackClick()
-    {
-        Debug.Log("Exit clicked, return to map screen");
-        SchedScreen.SetActive(false);
-        //menuText.text = "Map";
-    }
-    */
-    /*
-    void SetBackClick()
-    {
-        Debug.Log("Exit clicked, return to map screen");
-        MapScreen.SetActive(true);
-        LangScreen.SetActive(false);
-        SetScreen.SetActive(false);
-        SchedScreen.SetActive(false);
-        //menuText.text = "Map";
-    }
-    */
     void LangClick()
     {
         Debug.Log("Language selection clicked");
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
-
-        //LangScreen.SetActive(true);
-        //SetScreen.SetActive(false);
-        //menuText.text = "Languages";
     }
 
     void YesClick()
