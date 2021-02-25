@@ -2247,7 +2247,7 @@ GameObject:
   - component: {fileID: 475418522}
   - component: {fileID: 475418521}
   m_Layer: 5
-  m_Name: ScrollArea
+  m_Name: earollArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
