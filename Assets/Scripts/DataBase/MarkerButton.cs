@@ -27,6 +27,7 @@ public class MarkerButton : MonoBehaviour
         child.GetComponent<Text>().text = "Navigate to " + locationName + "?";
         confScreen.SetActive(true);
 
+
         CoordinateData.locationName = gameObject.GetComponent<Coordinates>().locationName;
         CoordinateData.latitude = gameObject.GetComponent<Coordinates>().latitude;
         CoordinateData.longitude = gameObject.GetComponent<Coordinates>().longitude;
@@ -35,6 +36,14 @@ public class MarkerButton : MonoBehaviour
 
     public void FindConfScreen() {
         // Finds the ConfirmationScreen gameobject and places it in the confScreen variable
+
+                                                                                    //Matti:
+                                                                                    //SUGGESTION: make a public static instance SINGLETON of the mapscenemanager
+                                                                                    // and store all references in that, all other scripts can find the references from that singleton with 
+                                                                                    //t.ex: confScreen=MapSceneManager.instance.confirmationScreen;
+
+                                                                                    //Can be made cheaper with:
+                                                                                    //confScreen = GameObject.Find("ConfirmationScreen");
 
         GameObject[] objects = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
 

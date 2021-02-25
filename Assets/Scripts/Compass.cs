@@ -8,22 +8,28 @@ public class Compass : MonoBehaviour
     public enum Space {two, three };
     public Space dimension;
     public Transform dTrans;        //move gameobject to target ship's location in relation to this gameobject
-
+    private float latitude;
+    private float longitude;
 
 
     //get location
     public GPSmanager gpsManager;
 
-
+    //public static Compass Instance;
     //implement phone gyroscope
 
     private void Start()
     {
-
+       // if (Instance == null)
+        //    Instance = this;
+       // else
+       // Destroy(gameObject);
 
     }
     private void FixedUpdate()
     {
+        dTrans.position = new Vector3(longitude - gpsManager.longitude, 0, latitude - gpsManager.latitude);
+
         switch (dimension)
         {
             case Space.two:
@@ -32,7 +38,7 @@ public class Compass : MonoBehaviour
 
                 float angle = Mathf.Tan(dTrans.position.z / dTrans.position.x);
 
-                transform.rotation=Quaternion.Euler(0, 0, angle);
+                //transform.rotation=Quaternion.Euler(0, 0, angle);
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, posvec);
 
                 break;
@@ -42,12 +48,16 @@ public class Compass : MonoBehaviour
                 break;
         
         }
+
     }
-    
-    private void GetDestination(string _latitude, string _longitude)
+    /// <summary>
+    /// Tells the Compass the coordinates of the target
+    /// </summary>
+    /// <param name="_latitude"></param>
+    /// <param name="_longitude"></param>
+    private void GetDestination(float _latitude, float _longitude)
     {
-        float latitude = float.Parse(_latitude);
-        float longitude = float.Parse(_longitude);
-        dTrans.position = new Vector3(longitude-gpsManager.longitude, 0, latitude - gpsManager.latitude);
+        latitude =_latitude;
+        longitude =_longitude;
     }
 }

@@ -7,26 +7,21 @@ using UnityEngine.UI;
 
 public class ARSceneManager : MonoBehaviour
 {
-    //Screens
-    public GameObject NavScreen;
-    public GameObject ARScreen;
-    public GameObject QuizScreen;
 
+    public Button backButton;
 
     void Start()
     {
-        NavScreen.SetActive(true);
-        ARScreen.SetActive(false);
-        QuizScreen.SetActive(false);
-
+        backButton.onClick.AddListener(ArSceneBackClick);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void ArSceneBackClick()
     {
-        
+        Debug.Log("returning from AR scene");
+        Debug.Log("return to Map screen");
+        SceneManager.LoadScene("MapScene");
     }
-
-
-
 }
+
+

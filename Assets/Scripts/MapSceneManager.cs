@@ -26,7 +26,7 @@ public class MapSceneManager : MonoBehaviour
     public GameObject SchedScreen;
     */
     public GameObject ConfScreen;
-    
+
 
     public RectTransform mapScreen;
     public RectTransform setScreen;
@@ -51,14 +51,23 @@ public class MapSceneManager : MonoBehaviour
     private int mapSiblingIndex = 3;
     private int siblingIndex = 4;
 
-	void Awake()
-	{
+
+                                                                            //Matti: 
+                                                                // WITH SCENE CHANGES GOING BACK AND FORTH
+                                                                // MIGHT NEED A SINGLETON FOR THIS SO IT WONT CREATE MULTIPLE MAPSCENEMANAGERS WHENEVER
+                                                                // THE MAP SCENE IS LOADED
+
+
+
+
+    void Awake()
+    {
         string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
         print(deviceCode);
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         CheckTheDatabaseForNewUser(deviceCode);
-        
-	}
+
+    }
 
     // Creates a new User if a device with particular device code wasn't found from DB
     void CreateUser(string deviceCode)
@@ -71,7 +80,7 @@ public class MapSceneManager : MonoBehaviour
     }
 
 
-    void OldUser() 
+    void OldUser()
     {
         Debug.Log("Old User");
 
@@ -81,30 +90,36 @@ public class MapSceneManager : MonoBehaviour
     {
         FirebaseDatabase.DefaultInstance
             .GetReference("Users").Child(deviceCode)
-            .GetValueAsync().ContinueWith(task => {
-                if (task.IsFaulted) 
+            .GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
                 {
                     Debug.Log("Task faulted!");
                 }
-                else if (task.IsCompleted) 
+                else if (task.IsCompleted)
                 {
                     Debug.Log("Task success!");
                     DataSnapshot snapshot = task.Result;
-                    if (snapshot.Value != null) {
+                    if (snapshot.Value != null)
+                    {
                         currentUser = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
                         Debug.Log(snapshot.Value);
                         Debug.Log(currentUser.ToString());
                         OldUser();
-                    } else {
+                    }
+                    else
+                    {
                         Debug.Log("forwarding to create user");
                         CreateUser(deviceCode);
                     }
-                    
-                    
-                } else {
+
+
+                }
+                else
+                {
                     Debug.Log("Something terrible happened during fetching data");
                 }
-        });
+            });
     }
 
     void Start()
@@ -214,5 +229,5 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Confirmation answer no");
         ConfScreen.SetActive(false);
     }
-
 }
+   

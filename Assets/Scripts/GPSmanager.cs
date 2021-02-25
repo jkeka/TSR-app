@@ -12,6 +12,10 @@ public class GPSmanager : MonoBehaviour
     private Text longitudeText;
     private Text logText;
 
+                                                                        //Matti:
+                                                                        //AR scene would need this as a DontDestroyOnLoad object
+                                                                        //Target coordinates could be stored here as well unless I missed some script where it's already done
+
 
     void Awake()
     {
