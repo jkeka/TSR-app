@@ -15,15 +15,21 @@ public class Compass : MonoBehaviour
     //get location
     public GPSmanager gpsManager;
 
+    [SerializeField]
+    private Transform ARcam;
+
     //public static Compass Instance;
     //implement phone gyroscope
 
     private void Start()
     {
-       // if (Instance == null)
+        // if (Instance == null)
         //    Instance = this;
-       // else
-       // Destroy(gameObject);
+        //else
+        //Destroy(gameObject);
+
+
+        GetDestination(CoordinateData.latitude, CoordinateData.longitude);
 
     }
     private void FixedUpdate()
@@ -34,11 +40,11 @@ public class Compass : MonoBehaviour
         {
             case Space.two:
                 
-                Vector3 posvec=new Vector3(dTrans.position.x,dTrans.position.z,0);
+               Vector3 _posvec=new Vector3(dTrans.position.x,dTrans.position.z,0);
 
                 float angle = Mathf.Tan(dTrans.position.z / dTrans.position.x);
 
-                //transform.rotation=Quaternion.Euler(0, 0, angle);
+                Vector3 posvec=Quaternion.AngleAxis(Vector3.SignedAngle(Vector3.forward, ARcam.forward, Vector3.up),Vector3.up)*_posvec;        //test
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, posvec);
 
                 break;
@@ -55,9 +61,11 @@ public class Compass : MonoBehaviour
     /// </summary>
     /// <param name="_latitude"></param>
     /// <param name="_longitude"></param>
-    private void GetDestination(float _latitude, float _longitude)
+    private void GetDestination(string _latitude, string _longitude)
     {
-        latitude =_latitude;
-        longitude =_longitude;
+        if(_latitude!=null)
+        latitude =float.Parse(_latitude);
+        if(_longitude!=null)
+        longitude =float.Parse(_longitude);
     }
 }

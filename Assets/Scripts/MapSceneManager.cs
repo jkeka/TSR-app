@@ -52,11 +52,10 @@ public class MapSceneManager : MonoBehaviour
     private int siblingIndex = 4;
 
 
-                                                                            //Matti: 
-                                                                // WITH SCENE CHANGES GOING BACK AND FORTH
-                                                                // MIGHT NEED A SINGLETON FOR THIS SO IT WONT CREATE MULTIPLE MAPSCENEMANAGERS WHENEVER
-                                                                // THE MAP SCENE IS LOADED
-
+    //Matti: 
+    // WITH SCENE CHANGES GOING BACK AND FORTH
+    // MIGHT NEED A SINGLETON FOR THIS SO IT WONT CREATE MULTIPLE MAPSCENEMANAGERS WHENEVER
+    // THE MAP SCENE IS LOADED
 
 
 
