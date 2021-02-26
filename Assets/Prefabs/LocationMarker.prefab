@@ -108,7 +108,7 @@ RectTransform:
   m_GameObject: {fileID: 1727701332228480426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 3188073255223764275}
   m_Father: {fileID: 0}
@@ -211,11 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6427a4e45e771d847bb3a29c807c4bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBox: {fileID: 9144896565770227532, guid: 9a54f8216128b0d48bf84c29281b62b0, type: 3}
   button: {fileID: 2643738278568629517}
-  image: {fileID: 3330934227427864285, guid: 5570fcf23d3b0c64891dc5b730a85b87, type: 3}
-  parent: {fileID: 1727701332228480426}
-  screen: {fileID: 6544729015725333121, guid: 526c2ace28166db479c6a8550fc95c02, type: 3}
+  confScreen: {fileID: 0}
 --- !u!114 &-2566083725865331200
 MonoBehaviour:
   m_ObjectHideFlags: 0
