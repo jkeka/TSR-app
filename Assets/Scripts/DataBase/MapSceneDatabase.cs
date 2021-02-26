@@ -13,11 +13,14 @@ using Newtonsoft.Json;
 public class MapSceneDatabase : MonoBehaviour
 {
     public Button locationMarker;
-    public Button scheduleButton;
+    public Button eventButton;
     public GameObject mapScreen;
     public GameObject scheduleScreen;
+    public TMPro.TMP_Dropdown dropdown;
     List<Button> markerList = new List<Button>();
-    List<Button> scheduleList = new List<Button>();
+    List<Button> activeList = new List<Button>();
+    public static List<Button> scheduleList = new List<Button>();
+    
     DatabaseReference reference;
 
 
@@ -139,7 +142,7 @@ public class MapSceneDatabase : MonoBehaviour
     }
 
     void ScheduleValueChanged(object sender, ValueChangedEventArgs args)
-    //Listens to changes in the database and loads a new snapshot when data changes.
+    //Listens to changes in the database and loads a new snapshot when data changes. 
     {
         if (args.DatabaseError != null)
         {
@@ -156,7 +159,7 @@ public class MapSceneDatabase : MonoBehaviour
         foreach (DataSnapshot i in snapshot.Children)
         {
 
-            CreateSchedule(
+            CreateEvent(
                i.Child("id").Value.ToString(),
                i.Child("venueId").Value.ToString(),
                i.Child("startTime").Value.ToString(),
@@ -164,12 +167,15 @@ public class MapSceneDatabase : MonoBehaviour
                i.Child("translations").GetRawJsonValue());
         }
 
+        scheduleList.Sort((x, y) => x.GetComponent<Schedule>().startTime.CompareTo(y.GetComponent<Schedule>().startTime));
+        CheckEventDate();
+
     }
 
-    public void CreateSchedule(string id, string venueId, string startTime, string endTime, string translations)
+    public void CreateEvent(string id, string venueId, string startTime, string endTime, string translations)
     // Creates button for schedule menu which shows event name, start- and endtime.
     {
-        Button schedule = Instantiate(scheduleButton);
+        Button schedule = Instantiate(eventButton);
 
         schedule.GetComponent<Schedule>().id = id;
         schedule.GetComponent<Schedule>().venueId = venueId;
@@ -180,21 +186,18 @@ public class MapSceneDatabase : MonoBehaviour
         var start = schedule.GetComponent<Schedule>().startTime.ToShortTimeString();
         var end = schedule.GetComponent<Schedule>().endTime.ToShortTimeString();
 
-        var translation = SetScheduleLanguage(translations);
+        var translation = SetEventLanguage(translations);
 
         var child = schedule.transform.GetChild(0);
-        child.GetComponent<Text>().text = translation["event"];
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " +  start + " - " + end;
 
-        child = schedule.transform.GetChild(1);
-        child.GetComponent<Text>().text = start + " - " + end;
-
+        
+        schedule.transform.SetParent(scheduleScreen.transform, false);
         scheduleList.Add(schedule);
-
-        //schedule.transform.SetParent(scheduleScreen.transform, false);
-
+       
     }
-
-    public Dictionary<string, string> SetScheduleLanguage(string translations)
+    
+    public Dictionary<string, string> SetEventLanguage(string translations)
     // Sets schedule language based on user settings.
     {
         Dictionary<string, Dictionary<string, string>> languages =
@@ -223,6 +226,50 @@ public class MapSceneDatabase : MonoBehaviour
         }
 
         scheduleList.Clear();
+    }
+
+    public void CheckEventDate()
+    // Checks if the event date matches the selected dropdown date.
+    {
+        var day = dropdown.options[dropdown.value].text;
+
+        foreach (Button button in MapSceneDatabase.scheduleList)
+        {
+            var eventDate = button.GetComponent<Schedule>().startTime.Day + "." + button.GetComponent<Schedule>().startTime.Month;
+
+            if (eventDate == day)
+            {
+                button.gameObject.SetActive(true);
+                activeList.Add(button);
+            }
+            else
+            {
+                button.gameObject.SetActive(false);
+            }
+        }
+        SetEventPosition(activeList);
+    }
+
+    public void SetEventPosition(List<Button> activeList)
+    // Sets event position in the schedule.
+    {
+        int index = 0;
+        Vector3 defaultPos = new Vector3();
+        foreach (Button button in activeList)
+        {
+
+            if (index != 0)
+            {
+                button.transform.position = defaultPos + new Vector3(0, index * -40, 0);
+            }
+            else
+            {
+                defaultPos = button.transform.position;
+            }
+
+            index++;
+        }
+        activeList.Clear();
     }
 
 }
