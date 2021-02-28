@@ -21,7 +21,6 @@ public class MapSceneDatabase : MonoBehaviour
     public static List<Button> markerList = new List<Button>();
     public static List<Button> scheduleList = new List<Button>();
 
-    List<Button> activeList = new List<Button>();
     DatabaseReference reference;
 
 
@@ -242,38 +241,13 @@ public class MapSceneDatabase : MonoBehaviour
             if (eventDate == day)
             {
                 button.gameObject.SetActive(true);
-                activeList.Add(button);
             }
             else
             {
                 button.gameObject.SetActive(false);
             }
         }
-        SetEventPosition(activeList);
+       
     }
-
-    public void SetEventPosition(List<Button> activeList)
-    // Sets event position in the schedule.
-    {
-        int index = 0;
-        Vector3 defaultPos = new Vector3();
-        foreach (Button button in activeList)
-        {
-
-            if (index != 0)
-            {
-                button.transform.position = defaultPos + new Vector3(0, index * -40, 0);
-            }
-            else
-            {
-                defaultPos = button.transform.position;
-            }
-
-            index++;
-        }
-        activeList.Clear();
-    }
-
-
 
 }
