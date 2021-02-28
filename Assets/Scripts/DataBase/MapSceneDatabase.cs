@@ -17,10 +17,11 @@ public class MapSceneDatabase : MonoBehaviour
     public GameObject mapScreen;
     public GameObject scheduleScreen;
     public TMPro.TMP_Dropdown dropdown;
-    List<Button> markerList = new List<Button>();
-    List<Button> activeList = new List<Button>();
+
+    public static List<Button> markerList = new List<Button>();
     public static List<Button> scheduleList = new List<Button>();
-    
+
+    List<Button> activeList = new List<Button>();
     DatabaseReference reference;
 
 
@@ -88,12 +89,12 @@ public class MapSceneDatabase : MonoBehaviour
         foreach (DataSnapshot i in snapshot.Children)
         {
             CreateMarker(i.Key, i.Child("Latitude").Value.ToString(), i.Child("Longitude").Value.ToString(),
-                i.Child("type").Value.ToString());
+                i.Child("type").Value.ToString(), i.Child("id").Value.ToString());
 
         }
     }
 
-    public void CreateMarker(string name, string latitude, string longitude, string type)
+    public void CreateMarker(string name, string latitude, string longitude, string type, string id)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
 
@@ -102,6 +103,7 @@ public class MapSceneDatabase : MonoBehaviour
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = latitude;
         marker.GetComponent<Coordinates>().longitude = longitude;
+        marker.GetComponent<Coordinates>().id = id;
 
         if (type.Equals("venue"))
         {
@@ -271,5 +273,7 @@ public class MapSceneDatabase : MonoBehaviour
         }
         activeList.Clear();
     }
+
+
 
 }

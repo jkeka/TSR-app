@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 5063995326727047964}
   - component: {fileID: 8768609253833643979}
   - component: {fileID: 8441313650282537625}
+  - component: {fileID: -1992967455940139506}
   m_Layer: 5
   m_Name: EventButton
   m_TagString: Untagged
@@ -279,3 +280,17 @@ MonoBehaviour:
   id: 
   venueId: 
   translations: 
+--- !u!114 &-1992967455940139506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083161003023478688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9ae0933d08f8945bdc62731c24ddaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8768609253833643979}
+  confScreen: {fileID: 0}
