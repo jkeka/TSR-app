@@ -36,7 +36,7 @@ export default class Event extends Component {
     tmpStartDate.setMinutes(0)
     tmpEndDate.setHours(tmpStartDate.getHours() + 1)
     tmpEndDate.setMinutes(0)
-    let tmpEvents = {}
+    // let tmpEvents = {}
     let tmpVenues = {}
     this.ref.child('Schedule').child('events').on('value', (snapshot) => {
       if (snapshot.val() !== null) {

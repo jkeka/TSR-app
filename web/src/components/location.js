@@ -54,7 +54,7 @@ export default class Location extends Component {
         delete tmpLocations[loc]
         this.setState({locations: tmpLocations})
     }
-    handleChange(event, index) {
+    handleChange(event) {
         let changedObject = JSON.parse(JSON.stringify(this.state.temp))
         switch (event.target.name) {
             case 'name':

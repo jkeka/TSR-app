@@ -12,7 +12,7 @@ export default class Home extends Component {
         
         ref.on('value', (snapshot) => {
             console.log(snapshot.val())
-            this.setState({testi: snapshot.val().Testi})
+            this.setState({testi: JSON.stringify(snapshot.val(), null, 2)})
         })
         
     }
@@ -20,10 +20,12 @@ export default class Home extends Component {
         return (
             
             <div>
-                {this.title}<br/>
                 <h1>
-                {this.state.testi}
+                   {this.title} 
                 </h1>
+                <p>
+                    {this.state.testi}
+                </p>
             </div>
         )
     }
