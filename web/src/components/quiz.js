@@ -5,10 +5,13 @@ import { Button, Form } from 'react-bootstrap'
 export default function Quiz() {
     // Declare a new state variable, which we'll call "count"
     const [dataHasBeenFetched, setFetched] = useState(false)
-    const ref = firebase.database().ref("Location")
+    const ref = firebase.database().ref()
     const [locations, setLocations] = useState({})
     const [locationDropDown, setLocDropDown] = useState([<option key='0'>Select location</option>])
-    const [selectedLocation, setSelectedLocation] = useState(undefined)
+    const [selectedLocation, setSelectedLocation] = useState('undefined')
+    const [quizzes, setQuizzes] = useState({})
+    const [langSelected, setLanguage] = useState('en')
+    const langDropDown = ['en', 'fi', 'se'].map(l => <option key={l}>{l}</option>)
     const [showForm, setShowForm] = useState(false)
     const [theObject, setTheObject] = useState({
         q1: {
@@ -36,7 +39,7 @@ export default function Quiz() {
 
     useEffect(() => {
         if (!dataHasBeenFetched) {
-            ref.on('value', (snapshot) => {
+            ref.child("Location").once('value', (snapshot) => {
                 if (snapshot.val() !== null) {
                     setLocations(snapshot.val())
                     setLocDropDown([...locationDropDown, Object.entries(snapshot.val()).map(([key, value]) => {
@@ -47,12 +50,19 @@ export default function Quiz() {
                     console.log('no locations found')
                 }
             })
+            ref.child("Quiz").once('value', (snapshot) => {
+                if (snapshot.val() !== null) {
+                    console.log(snapshot.val())
+                    setQuizzes(snapshot.val())
+                } else {
+                    console.log('no quizzes found')
+                }
+            })
         }
     })
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(selectedLocation)
         const locId = selectedLocation.substring(selectedLocation.length - 13)
 
         const loc = Object.entries(locations).find(([key,value]) => {
@@ -60,17 +70,35 @@ export default function Quiz() {
                 value.id === parseInt(locId)
             )
         })
-        console.log(loc)
-        ref.child(loc[0]).child('quiz').set(theObject)
+        ref.child('Quiz').child(loc[1].id).child(langSelected).set(theObject)
+    }
+
+    const setInputData = (selectedLocation) => {
+        const locId = selectedLocation.substring(selectedLocation.length - 13)
+        const loc = Object.entries(locations).find(([key,value]) => {
+            return (
+                value.id === parseInt(locId)
+            )
+        })
+        if (loc[1].quiz) {
+            console.log('quiz found!')
+            return loc[1].quiz
+        } else {
+            console.log('no quiz found for the location')
+            return theObject
+        }
     }
 
     const handleChange = (e) => {
-        console.log(e.target.name)
         let tmpObj = {...theObject}
         switch(e.target.name) {
             case 'location':
                 setSelectedLocation(e.target.value)
                 setShowForm(true)
+                tmpObj = setInputData(e.target.value)
+                break
+            case 'language':
+                setLanguage(e.target.value)
                 break
             case 'q1':
                 tmpObj.q1.q = e.target.value
@@ -131,20 +159,6 @@ export default function Quiz() {
         }
         setTheObject(tmpObj)
     }
-    
-    /*
-    const renderQuizTable = () =>  {
-        return Object.entries(locations).map(([key, value], index) => {
-            return (
-                <tr key={index}>
-                    <td>{value.a}</td>
-                    <td>{value.b}</td>
-                </tr>
-                
-            )
-        })
-    }
-    */
   
     return (
       <div>
@@ -157,14 +171,20 @@ export default function Quiz() {
             <h2>{selectedLocation}</h2>
 
             <Form.Group>
+                <Form.Control as="select" custom name="language" value={langSelected} onChange={handleChange}>
+                    {langDropDown}
+                </Form.Control>
+            </Form.Group>
+
+            <Form.Group>
                 <Form.Label htmlFor="q1">Question 1:</Form.Label>
-                <Form.Control type="text" name="q1" onChange={handleChange} />
+                <Form.Control type="text" name="q1" onChange={handleChange} value={theObject.q1.q} />
                 <Form.Label htmlFor="q1a1">Answer 1:</Form.Label>
-                <Form.Control type="text" name="q1a1" onChange={handleChange} />
+                <Form.Control type="text" name="q1a1" onChange={handleChange} value={theObject.q1.a1}/>
                 <Form.Label htmlFor="q1a2">Answer 2:</Form.Label>
-                <Form.Control type="text" name="q1a2" onChange={handleChange} />
+                <Form.Control type="text" name="q1a2" onChange={handleChange} value={theObject.q1.a2} />
                 <Form.Label htmlFor="q1a3">Answer 3:</Form.Label>
-                <Form.Control type="text" name="q1a3" onChange={handleChange} />
+                <Form.Control type="text" name="q1a3" onChange={handleChange} value={theObject.q1.a3} />
                 <Form.Check inline label="1" value="1" name="0" type='radio' onChange={handleRadio} checked={theObject.q1.r === 1}/>
                 <Form.Check inline label="2" value="2" name="0" type='radio' onChange={handleRadio} checked={theObject.q1.r === 2} />
                 <Form.Check inline label="3" value="3" name="0" type='radio' onChange={handleRadio} checked={theObject.q1.r === 3} />
@@ -172,13 +192,13 @@ export default function Quiz() {
 
             <Form.Group>
                 <Form.Label htmlFor="q2">Question 2:</Form.Label>
-                <Form.Control type="text" name="q2" onChange={handleChange} />
+                <Form.Control type="text" name="q2" onChange={handleChange} value={theObject.q2.q} />
                 <Form.Label htmlFor="q2a1">Answer 1:</Form.Label>
-                <Form.Control type="text" name="q2a1" onChange={handleChange} />
+                <Form.Control type="text" name="q2a1" onChange={handleChange} value={theObject.q2.a1} />
                 <Form.Label htmlFor="q2a2">Answer 2:</Form.Label>
-                <Form.Control type="text" name="q2a2" onChange={handleChange} />
+                <Form.Control type="text" name="q2a2" onChange={handleChange} value={theObject.q2.a2} />
                 <Form.Label htmlFor="q2a3">Answer 3:</Form.Label>
-                <Form.Control type="text" name="q2a3" onChange={handleChange} />
+                <Form.Control type="text" name="q2a3" onChange={handleChange} value={theObject.q2.a3} />
                 <Form.Check inline label="1" value="1" name="1" type='radio' onChange={handleRadio} checked={theObject.q2.r === 1}/>
                 <Form.Check inline label="2" value="2" name="1" type='radio' onChange={handleRadio} checked={theObject.q2.r === 2} />
                 <Form.Check inline label="3" value="3" name="1" type='radio' onChange={handleRadio} checked={theObject.q2.r === 3} />
@@ -186,13 +206,13 @@ export default function Quiz() {
 
             <Form.Group>
                 <Form.Label htmlFor="q3">Question 3:</Form.Label>
-                <Form.Control type="text" name="q3" onChange={handleChange} />
+                <Form.Control type="text" name="q3" onChange={handleChange} value={theObject.q3.q} />
                 <Form.Label htmlFor="q3a1">Answer 1:</Form.Label>
-                <Form.Control type="text" name="q3a1" onChange={handleChange} />
+                <Form.Control type="text" name="q3a1" onChange={handleChange} value={theObject.q3.a1} />
                 <Form.Label htmlFor="q3a2">Answer 2:</Form.Label>
-                <Form.Control type="text" name="q3a2" onChange={handleChange} />
+                <Form.Control type="text" name="q3a2" onChange={handleChange} value={theObject.q3.a2} />
                 <Form.Label htmlFor="q3a3">Answer 3:</Form.Label>
-                <Form.Control type="text" name="q3a3" onChange={handleChange} />
+                <Form.Control type="text" name="q3a3" onChange={handleChange} value={theObject.q3.a3} />
                 <Form.Check inline label="1" value="1" name="2" type='radio' onChange={handleRadio} checked={theObject.q3.r === 1}/>
                 <Form.Check inline label="2" value="2" name="2" type='radio' onChange={handleRadio} checked={theObject.q3.r === 2} />
                 <Form.Check inline label="3" value="3" name="2" type='radio' onChange={handleRadio} checked={theObject.q3.r === 3} />
