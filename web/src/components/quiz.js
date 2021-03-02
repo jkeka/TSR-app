@@ -73,16 +73,24 @@ export default function Quiz() {
         ref.child('Quiz').child(loc[1].id).child(langSelected).set(theObject)
     }
 
-    const setInputData = (selectedLocation) => {
+    const setInputData = (language) => {
         const locId = selectedLocation.substring(selectedLocation.length - 13)
-        const loc = Object.entries(locations).find(([key,value]) => {
-            return (
-                value.id === parseInt(locId)
-            )
-        })
-        if (loc[1].quiz) {
-            console.log('quiz found!')
-            return loc[1].quiz
+
+        let lang
+        if (language) {
+            lang = language
+        } else {
+            lang = langSelected
+        }
+
+        let data = null
+        if (quizzes[locId]) {
+            data = quizzes[locId][lang]
+        }
+
+        if (data) {
+            console.log('quiz found!', data)
+            return data
         } else {
             console.log('no quiz found for the location')
             return theObject
@@ -95,10 +103,11 @@ export default function Quiz() {
             case 'location':
                 setSelectedLocation(e.target.value)
                 setShowForm(true)
-                tmpObj = setInputData(e.target.value)
+                tmpObj = setInputData()
                 break
             case 'language':
                 setLanguage(e.target.value)
+                tmpObj = setInputData(e.target.value)
                 break
             case 'q1':
                 tmpObj.q1.q = e.target.value
@@ -159,10 +168,15 @@ export default function Quiz() {
         }
         setTheObject(tmpObj)
     }
+
+    const kill = () => {
+        ref.child('Quiz').child('Baltic Princess').remove()
+    }
   
     return (
       <div>
         <Form onSubmit={handleSubmit}>
+            <Button size="lg" variant="danger" onClick={() => kill()}>Kill</Button>
             <Form.Control as="select" custom name="location" value={selectedLocation} onChange={handleChange}>
                 {locationDropDown}
             </Form.Control>
