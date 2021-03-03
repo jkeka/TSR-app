@@ -32,6 +32,7 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform setScreen;
     public RectTransform schedScreen;
     public RectTransform langScreen;
+    public RectTransform compassScreen;
 
     //Buttons
 
@@ -48,8 +49,8 @@ public class MapSceneManager : MonoBehaviour
     public Button ConfYesButton;
     public Button ConfNoButton;
 
-    private int mapSiblingIndex = 3;
-    private int siblingIndex = 4;
+    private int mapSiblingIndex = 4;
+    private int siblingIndex = 5;
 
 
     //Matti: 
@@ -218,9 +219,11 @@ public class MapSceneManager : MonoBehaviour
 
     void YesClick()
     {
-        Debug.Log("Confirmation yes, change to ARScene");
+        Debug.Log("Confirmation yes, change to CompassScreen");
         Debug.Log("Fetch location data from database");
-        SceneManager.LoadScene("ARScene");
+        compassScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+        //SceneManager.LoadScene("ARScene");
     }
 
     void NoClick()

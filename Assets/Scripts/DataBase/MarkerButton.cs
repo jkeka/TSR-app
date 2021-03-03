@@ -25,7 +25,7 @@ public class MarkerButton : MonoBehaviour
         var child = confScreen.transform.GetChild(0).transform.GetChild(0);
         child.GetComponent<TMPro.TextMeshProUGUI>().text = "Navigate to " + locationName + "?";
         RectTransform Pos = confScreen.GetComponent<RectTransform>();
-        Pos.SetSiblingIndex(4);
+        Pos.SetSiblingIndex(5);
         confScreen.SetActive(true);
       
         CoordinateData.locationName = gameObject.GetComponent<Coordinates>().locationName;
