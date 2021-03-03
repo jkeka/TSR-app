@@ -8,4 +8,5 @@ public class CoordinateData
     public static string locationName;
     public static string latitude;
     public static string longitude;
+
 }

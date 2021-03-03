@@ -10,7 +10,10 @@ public class MarkerButton : MonoBehaviour
 {  
     public Button button;
     public GameObject confScreen;
-    
+
+    public static float destinationLatitude;
+    public static float destinationLongitude;
+
     private void Start()
     {
         confScreen = GameObject.Find("ConfirmationScreen");
@@ -32,7 +35,12 @@ public class MarkerButton : MonoBehaviour
         CoordinateData.latitude = gameObject.GetComponent<Coordinates>().latitude;
         CoordinateData.longitude = gameObject.GetComponent<Coordinates>().longitude;
 
-    }
+
+        //Destination coordinates
+        destinationLatitude = float.Parse(CoordinateData.latitude);
+        destinationLongitude = float.Parse(CoordinateData.longitude);
+
+}
 
     
     /*public void showInformation()

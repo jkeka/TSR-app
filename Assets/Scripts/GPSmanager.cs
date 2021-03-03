@@ -9,7 +9,6 @@ public class GPSmanager : MonoBehaviour
     public float deviceLatitude;
     public float deviceLongitude;
 
-    //Destination coordinates
     public float destinationLatitude;
     public float destinationLongitude;
 
@@ -19,19 +18,22 @@ public class GPSmanager : MonoBehaviour
 
     public GameObject compassSimple;
 
-    private MapSceneDatabase mapSceneDatabaseScript;
 
     void Awake()
     {
         //Calls the GPS at start
         StartCoroutine(Start());
 
-        mapSceneDatabaseScript = GameObject.Find("MapSceneDatabase").GetComponent<MapSceneDatabase>();
-
     }
 
     void Update()
     {
+;
+        destinationLatitude = MarkerButton.destinationLatitude;
+        destinationLongitude = MarkerButton.destinationLongitude;
+
+        Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
+
         //Rotating compass
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
         compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, Input.compass.magneticHeading + bearing), 100f);

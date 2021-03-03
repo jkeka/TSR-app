@@ -23,6 +23,7 @@ public class MapSceneDatabase : MonoBehaviour
 
     DatabaseReference reference;
 
+    public static float destinationLong;
 
     void Awake()
     {
