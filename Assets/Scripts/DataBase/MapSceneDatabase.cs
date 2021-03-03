@@ -23,9 +23,6 @@ public class MapSceneDatabase : MonoBehaviour
 
     DatabaseReference reference;
 
-    //Destination coordinates
-    public float destinationLatitude;
-    public float destinationLongitude;
 
     void Awake()
     {
@@ -106,6 +103,7 @@ public class MapSceneDatabase : MonoBehaviour
         marker.GetComponent<Coordinates>().latitude = latitude;
         marker.GetComponent<Coordinates>().longitude = longitude;
         marker.GetComponent<Coordinates>().id = id;
+
 
 
         if (type.Equals("venue"))

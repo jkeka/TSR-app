@@ -32,15 +32,7 @@ public class GPSmanager : MonoBehaviour
 
     void Update()
     {
-        //Just rotate compass
-        //compassSimple.transform.Rotate(0, 0, 20 * Time.deltaTime);
-
-        destinationLatitude = mapSceneDatabaseScript.("Latitude").Value;
-        destinationLongitude = mapSceneDatabaseScript.("Longitude").Value;
-
-        Debug.Log("Dest.Lat: " + destinationLatitude);
-        Debug.Log("Dest.Lon: " + destinationLongitude);
-
+        //Rotating compass
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
         compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, Input.compass.magneticHeading + bearing), 100f);
     }
