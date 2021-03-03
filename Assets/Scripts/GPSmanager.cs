@@ -5,30 +5,44 @@ using UnityEngine.UI;
 
 public class GPSmanager : MonoBehaviour
 {
-    public float latitude;
-    public float longitude;
+    //Device coordinates
+    public float deviceLatitude;
+    public float deviceLongitude;
 
-    private Text latitudeText;
-    private Text longitudeText;
+    //Destination coordinates
+    public float destinationLatitude;
+    public float destinationLongitude;
+
+    private Text deviceLatitudeText;
+    private Text deviceLongitudeText;
     private Text logText;
 
     public GameObject compassSimple;
 
-                                                                        //Matti:
-                                                                        //AR scene would need this as a DontDestroyOnLoad object
-                                                                        //Target coordinates could be stored here as well unless I missed some script where it's already done
-
+    private MapSceneDatabase mapSceneDatabaseScript;
 
     void Awake()
     {
         //Calls the GPS at start
         StartCoroutine(Start());
+
+        mapSceneDatabaseScript = GameObject.Find("MapSceneDatabase").GetComponent<MapSceneDatabase>();
+
     }
 
     void Update()
     {
-        compassSimple.transform.Rotate(0, 0, 20 * Time.deltaTime);
+        //Just rotate compass
+        //compassSimple.transform.Rotate(0, 0, 20 * Time.deltaTime);
 
+        destinationLatitude = mapSceneDatabaseScript.("Latitude").Value;
+        destinationLongitude = mapSceneDatabaseScript.("Longitude").Value;
+
+        Debug.Log("Dest.Lat: " + destinationLatitude);
+        Debug.Log("Dest.Lon: " + destinationLongitude);
+
+        float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
+        compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, Input.compass.magneticHeading + bearing), 100f);
     }
 
     IEnumerator Start()
@@ -44,7 +58,7 @@ public class GPSmanager : MonoBehaviour
 
 
         // Start service before querying location
-        Input.location.Start(10, 10); //Default accuracy 10m
+        Input.location.Start(1, 1); //Default accuracy 10m
         Debug.Log("GPS: Input.location started");
 
         // Wait until service initializes
@@ -73,14 +87,36 @@ public class GPSmanager : MonoBehaviour
         {
             // Access granted and location value could be retrieved
             Debug.Log("GPS: Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
-            latitude = Input.location.lastData.latitude;
-            longitude = Input.location.lastData.longitude;
-            Debug.Log("Latitude " + latitude + " Longitude " + longitude);
+            deviceLatitude = Input.location.lastData.latitude;
+            deviceLongitude = Input.location.lastData.longitude;
+            Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
         }
 
         // Stop service if there is no need to query location updates continuously
         Input.location.Stop();
     }
-    
+
+
+    private float CalculateAngle(float deviceLatitude, float deviceLongitude, float destinationLatitude, float destinationLongitude)
+    {
+
+        //Convert to radians
+        deviceLatitude = deviceLatitude * Mathf.Deg2Rad;
+        deviceLongitude = deviceLongitude * Mathf.Deg2Rad;
+
+        destinationLatitude = destinationLatitude * Mathf.Deg2Rad;
+        destinationLongitude = destinationLongitude * Mathf.Deg2Rad;
+        
+        //Calculate angle
+        float dLon = (destinationLongitude - deviceLongitude);
+        float y = Mathf.Sin(dLon) * Mathf.Cos(destinationLatitude);
+        float x = (Mathf.Cos(deviceLatitude) * Mathf.Sin(destinationLatitude)) - (Mathf.Sin(deviceLatitude) * Mathf.Cos(destinationLatitude) * Mathf.Cos(dLon));
+
+        float brng = Mathf.Atan2(y, x);
+        brng = Mathf.Rad2Deg * brng;
+        brng = (brng + 360) % 360;
+        brng = 360 - brng;
+        return brng;
+    }
 
 }

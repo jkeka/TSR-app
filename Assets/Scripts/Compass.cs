@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Compass : MonoBehaviour
 {
+    /*
     public enum Space {two, three };
     public Space dimension;
     public Transform dTrans;        //move gameobject to target ship's location in relation to this gameobject
@@ -68,4 +69,5 @@ public class Compass : MonoBehaviour
         if(_longitude!=null)
         longitude =float.Parse(_longitude);
     }
+    */
 }
