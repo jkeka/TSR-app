@@ -223,6 +223,7 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Fetch location data from database");
         compassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
+        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");
         //SceneManager.LoadScene("ARScene");
     }
 
@@ -231,5 +232,6 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Confirmation answer no");
         ConfScreen.SetActive(false);
     }
+ 
 }
    
