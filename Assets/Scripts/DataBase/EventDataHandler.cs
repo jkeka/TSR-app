@@ -2,138 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Firebase;
 using Firebase.Database;
-using UnityEngine.UI;
 
 using Newtonsoft.Json;
 
 
-public class MapSceneDatabase : MonoBehaviour
+public class EventDataHandler : MonoBehaviour
+
 {
-    public Button locationMarker;
     public Button eventButton;
-    public GameObject mapScreen;
     public GameObject scheduleScreen;
     public TMPro.TMP_Dropdown dropdown;
-
-    public static List<Button> markerList = new List<Button>();
     public static List<Button> scheduleList = new List<Button>();
 
     DatabaseReference reference;
 
-    public static float destinationLong;
 
-    void Awake()
+    private void Start()
     {
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        //CheckDependencies();
-
-    }
-
-    void Start()
-    {
-        LoadMarkers();
-        LoadScheduleData();
-    }
-
-    void Update()
-    {
-
-    }
-
-    public void CheckDependencies()
-    // Checks dependencies of Firebase Unity SDK. Android Devices require latest version of Google Play Services.
-    {
-
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-        {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
-            {
-                Debug.Log("Dependencies are fine");
-            }
-            else
-            {
-                Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-            }
-        });
-    }
-
-    public void LoadMarkers()
-    // Loads location data form the database.
-    {
-
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Location")
-            .ValueChanged += MarkerValueChanged;
-    }
-
-    void MarkerValueChanged(object sender, ValueChangedEventArgs args)
-    //Listens to changes in the database and loads a new snapshot when data changes.
-    {
-        if (args.DatabaseError != null)
-        {
-            Debug.LogError(args.DatabaseError.Message);
-            return;
-        }
-        DataSnapshot snapshot = args.Snapshot;
-
-        if (markerList != null)
-        {
-            DestroyMarkers();
-        }
-
-        foreach (DataSnapshot i in snapshot.Children)
-        {
-            CreateMarker(i.Key, i.Child("Latitude").Value.ToString(), i.Child("Longitude").Value.ToString(),
-                i.Child("type").Value.ToString(), i.Child("id").Value.ToString());
-
-        }
-    }
-
-    public void CreateMarker(string name, string latitude, string longitude, string type, string id)
-    // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
-    {
-
-        Button marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as Button;
-
-        marker.GetComponent<Coordinates>().locationName = name;
-        marker.GetComponent<Coordinates>().latitude = latitude;
-        marker.GetComponent<Coordinates>().longitude = longitude;
-        marker.GetComponent<Coordinates>().id = id;
-
-
-
-        if (type.Equals("venue"))
-        {
-            marker.GetComponent<Image>().color = Color.green;
-        }
-        else if (type.Equals("booth"))
-        {
-            marker.GetComponent<Image>().color = Color.yellow;
-        }
-
-        marker.transform.SetParent(mapScreen.transform, false);
-      
-        markerList.Add(marker);
-
-
-    }
-
-    public void DestroyMarkers()
-    // Destroys existing markers on the map screen any time the location data changes in the database.
-    {
-
-        for (int i = 0; i < markerList.Count; i++)
-        {
-            Destroy(markerList[i].gameObject);
-        }
-
-        markerList.Clear();
-
+     reference = FirebaseDatabase.DefaultInstance.RootReference;
+     LoadScheduleData();
     }
 
     public void LoadScheduleData()
@@ -193,13 +84,13 @@ public class MapSceneDatabase : MonoBehaviour
         var translation = SetEventLanguage(translations);
 
         var child = schedule.transform.GetChild(0);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " +  start + " - " + end;
-      
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " + start + " - " + end;
+
         schedule.transform.SetParent(scheduleScreen.transform, false);
         scheduleList.Add(schedule);
-       
+
     }
-    
+
     public Dictionary<string, string> SetEventLanguage(string translations)
     // Sets schedule language based on user settings.
     {
@@ -236,9 +127,12 @@ public class MapSceneDatabase : MonoBehaviour
     {
         var day = dropdown.options[dropdown.value].text;
 
-        foreach (Button button in MapSceneDatabase.scheduleList)
+        foreach (Button button in scheduleList)
         {
+            Debug.Log("Hello");
             var eventDate = button.GetComponent<Event>().startTime.Day + "." + button.GetComponent<Event>().startTime.Month;
+
+            
 
             if (eventDate == day)
             {
@@ -249,7 +143,6 @@ public class MapSceneDatabase : MonoBehaviour
                 button.gameObject.SetActive(false);
             }
         }
-       
-    }
 
+    }
 }

@@ -19,7 +19,7 @@ public class EventButton : MonoBehaviour
     //Sets confirmationscreen visible and writes text to confirmation textbox. Also adds the location data to Coordinatedata class
 
     {
-        string venueID = gameObject.GetComponent<Schedule>().venueId;
+        string venueID = gameObject.GetComponent<Event>().venueId;
        
         foreach (Button button in MapSceneDatabase.markerList)
         {

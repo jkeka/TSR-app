@@ -27,9 +27,9 @@ public class ShceduleDropdown : MonoBehaviour
     {
         var day = dropdown.options[dropdown.value].text;
                
-        foreach (Button button in MapSceneDatabase.scheduleList)
+        foreach (Button button in EventDataHandler.scheduleList)
         {
-            var eventDate = button.GetComponent<Schedule>().startTime.Day + "." + button.GetComponent<Schedule>().startTime.Month;
+            var eventDate = button.GetComponent<Event>().startTime.Day + "." + button.GetComponent<Event>().startTime.Month;
 
             if (eventDate == day)
             {

@@ -16,4 +16,15 @@ public class Coordinates : MonoBehaviour
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public override string ToString()
+    {
+         string s =
+            "id: " + id + "\n" +
+            "locationName: " + locationName + "\n" +
+            "latitude: " + latitude + "\n" +
+            "longitude: " + longitude;
+
+        return s;
+    }
 }

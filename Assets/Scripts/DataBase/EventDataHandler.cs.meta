@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 35b912990c3948f41b5f01bad35e17d3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - eventButton: {fileID: 8768609253833643979, guid: 0dedd15bf18a908439452d84ef10d3f8,
+      type: 3}
+  - scheduleScreen: {instanceID: 0}
+  - dropdown: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -34,15 +34,15 @@ public class MarkerButton : MonoBehaviour
         CoordinateData.locationName = gameObject.GetComponent<Coordinates>().locationName;
         CoordinateData.latitude = gameObject.GetComponent<Coordinates>().latitude;
         CoordinateData.longitude = gameObject.GetComponent<Coordinates>().longitude;
-
+        CoordinateData.id = gameObject.GetComponent<Coordinates>().id;
 
         //Destination coordinates
         destinationLatitude = float.Parse(CoordinateData.latitude);
         destinationLongitude = float.Parse(CoordinateData.longitude);
 
-}
+    }
 
-    
+       
     /*public void showInformation()
     {
         if (destroy == true)
