@@ -21,6 +21,7 @@ allprojects {
    }
 }
 
+
 // Android Resolver Repos Start
 ([rootProject] + (rootProject.subprojects as List)).each { project ->
     project.repositories {

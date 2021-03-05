@@ -12,9 +12,8 @@ public class GPSmanager : MonoBehaviour
     public float destinationLatitude;
     public float destinationLongitude;
 
-    private Text deviceLatitudeText;
-    private Text deviceLongitudeText;
-    private Text logText;
+    public Text deviceCoordText;
+    public Text logText;
 
     public GameObject compassSimple;
 
@@ -28,7 +27,7 @@ public class GPSmanager : MonoBehaviour
 
     void Update()
     {
-;
+
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
@@ -41,25 +40,25 @@ public class GPSmanager : MonoBehaviour
 
     IEnumerator Start()
     {
-        Debug.Log("GPS: GPS started");
+        logText.text = ("GPS: GPS started");
 
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
         {
-            Debug.Log("GPS: Device location disabled");
+            logText.text = ("GPS: Device location disabled");
             yield break;
         }
 
 
         // Start service before querying location
-        Input.location.Start(1, 1); //Default accuracy 10m
-        Debug.Log("GPS: Input.location started");
+        Input.location.Start(); //Default accuracy 10m
+        logText.text = ("GPS: Input.location started");
 
         // Wait until service initializes
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
-            Debug.Log("GPS: Waiting location status");
+            logText.text = ("GPS: Waiting location status");
             yield return new WaitForSeconds(1);
             maxWait--;
         }
@@ -67,14 +66,14 @@ public class GPSmanager : MonoBehaviour
         // Service didn't initialize in 20 seconds
         if (maxWait < 1)
         {
-            Debug.Log("GPS: Timed out");
+            logText.text = ("GPS: Timed out");
             yield break;
         }
 
         // Connection has failed
         if (Input.location.status == LocationServiceStatus.Failed)
         {
-            Debug.Log("GPS: Unable to determine device location");
+            logText.text = ("GPS: Unable to determine device location");
             yield break;
         }
         else
@@ -83,7 +82,7 @@ public class GPSmanager : MonoBehaviour
             Debug.Log("GPS: Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
             deviceLatitude = Input.location.lastData.latitude;
             deviceLongitude = Input.location.lastData.longitude;
-            Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
+            deviceCoordText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
         }
 
         // Stop service if there is no need to query location updates continuously
@@ -111,6 +110,11 @@ public class GPSmanager : MonoBehaviour
         brng = (brng + 360) % 360;
         brng = 360 - brng;
         return brng;
+    }
+
+    public void FetchGPS()
+    {
+        StartCoroutine(Start());
     }
 
 }
