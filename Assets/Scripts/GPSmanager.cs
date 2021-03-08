@@ -31,7 +31,7 @@ public class GPSmanager : MonoBehaviour
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
-        Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
+        //Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
 
         //Rotating compass
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
