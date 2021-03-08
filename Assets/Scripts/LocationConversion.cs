@@ -30,10 +30,13 @@ public class LocationConversion : MonoBehaviour
     //Sigyn
     private float sigynX = 22.241855f;
     private float sigynY = 60.438521f;
+    
 
-    //Sigyn
+    //Joutsen
     private float JoutsenX = 22.237032f;
     private float JoutsenY = 60.436393f;
+
+
 
     // Start is called before the first frame update
     void Start()
