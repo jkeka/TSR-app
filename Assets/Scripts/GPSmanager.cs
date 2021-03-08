@@ -14,12 +14,26 @@ public class GPSmanager : MonoBehaviour
 
     public Text deviceCoordText;
     public Text logText;
+    public Text userPosText;
 
     public GameObject compassSimple;
+
+    private LocationConversion locationConversionScript;
 
 
     void Awake()
     {
+        locationConversionScript = GameObject.Find("Converter").GetComponent<LocationConversion>();
+
+        //Kartan keskus
+        //deviceLatitude = 22.2379165f;
+        //deviceLongitude = 60.439048f;
+
+        //Juani
+        //deviceLatitude = 22.254176f;
+        //deviceLongitude = 60.440105f;
+
+
         //Calls the GPS at start
         StartCoroutine(Start());
 
@@ -83,6 +97,9 @@ public class GPSmanager : MonoBehaviour
             deviceLatitude = Input.location.lastData.latitude;
             deviceLongitude = Input.location.lastData.longitude;
             deviceCoordText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
+            Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
+
+            locationConversionScript.userLocation();
         }
 
         // Stop service if there is no need to query location updates continuously

@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class LocationConversion : MonoBehaviour
 {
+    public GameObject userLocationMarker;
+
+    public GameObject joutsenLocationMarker;
+
+
+    private float userPositionX;
+    private float userPositionY;
+
+    private float userTempWidth;
+    private float userTempHeigth;
+
+    public float userX;
+    public float userY;
+
+    //Values
     private float positionX;
     private float positionY;
 
@@ -37,10 +52,15 @@ public class LocationConversion : MonoBehaviour
     private float JoutsenY = 60.436393f;
 
 
+    //Reference to GPS manager
+    private GPSmanager gpsManagerScript;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        gpsManagerScript = GameObject.Find("GPSmanager").GetComponent<GPSmanager>();
+
         widthUnit =  mapWidthGps / mapWidth;
         heigthUnit = mapHeigthGps / mapHeigth;
 
@@ -48,27 +68,53 @@ public class LocationConversion : MonoBehaviour
         //Joutsen location
         tempWidth = JoutsenX - startOffsetGPSX;
         tempHeigth = JoutsenY - startOffsetGPSY;
-        /*
-        Debug.Log("startOffsetX: " + startOffsetGPSX);
-        Debug.Log("startOffsetY: " + startOffsetGPSY);
 
-        Debug.Log("tempWidth: " + sigynX);
-        Debug.Log("tempHeigth: " + sigynY);
-
-        Debug.Log("widthUnit: " + widthUnit);
-        Debug.Log("heigthUnit: " + heigthUnit);
-        */
         positionX = startOffsetX + (tempWidth / widthUnit);
         positionY = startOffsetY + (tempHeigth / heigthUnit);
 
         Debug.Log("Position X: " + positionX);
         Debug.Log("Position Y: " + positionY);
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localPosition = new Vector3(positionX, positionY, 0);
+        joutsenLocationMarker.transform.localPosition = new Vector3(positionX, positionY, 0);
+
+        //UserLocation
+
+
+
+
+
+    }
+
+
+    public void userLocation()
+    {
+
+        //User
+        userX = gpsManagerScript.deviceLatitude;
+        userY = gpsManagerScript.deviceLongitude;
+
+        userTempWidth = userX - startOffsetGPSX;
+        userTempHeigth = userY - startOffsetGPSY;
+
+        userPositionX = startOffsetX + (userTempWidth / widthUnit);
+        userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
+
+        Debug.Log("Device latitude: " + gpsManagerScript.deviceLatitude);
+        Debug.Log("Device longitude: " + gpsManagerScript.deviceLongitude);
+
+        Debug.Log("User Position X: " + userPositionX);
+        Debug.Log("User Position Y: " + userPositionY);
+
+        userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
+
+        gpsManagerScript.userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
 
     }
 }
