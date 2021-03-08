@@ -13,8 +13,8 @@ public class LocationConversion : MonoBehaviour
     private float startOffsetGPSX = 22.211355f;
     private float startOffsetGPSY = 60.429646f;
 
-    private float widthUnit = 0.000012073f;
-    private float heigthUnit = 0.00000597f;
+    private float widthUnit;
+    private float heigthUnit;
 
     private float mapHeigthGps = 0.018804f;
     private float mapWidthGps = 0.053123f;
@@ -25,33 +25,36 @@ public class LocationConversion : MonoBehaviour
     private float tempWidth;
     private float tempHeigth;
 
-    //Examples
+    //Example locations
+
     //Sigyn
     private float sigynX = 22.241855f;
     private float sigynY = 60.438521f;
 
+    //Sigyn
+    private float JoutsenX = 22.237032f;
+    private float JoutsenY = 60.436393f;
+
     // Start is called before the first frame update
     void Start()
     {
-        widthUnit = mapWidth / mapWidthGps;
-        heigthUnit = mapHeigth / mapHeigthGps;
-        //Debug.Log("WidthUnit" + widthUnit);
-        //Debug.Log("HeigthUnit" + heigthUnit);
+        widthUnit =  mapWidthGps / mapWidth;
+        heigthUnit = mapHeigthGps / mapHeigth;
 
-        //Sigyn location
-        tempWidth = sigynX - startOffsetGPSX;
-        tempHeigth = sigynY - startOffsetGPSY;
 
-        Debug.Log("sigynX: " + sigynX);
-        Debug.Log("sigynY: " + sigynY);
-
+        //Joutsen location
+        tempWidth = JoutsenX - startOffsetGPSX;
+        tempHeigth = JoutsenY - startOffsetGPSY;
+        /*
         Debug.Log("startOffsetX: " + startOffsetGPSX);
         Debug.Log("startOffsetY: " + startOffsetGPSY);
 
         Debug.Log("tempWidth: " + sigynX);
         Debug.Log("tempHeigth: " + sigynY);
 
-
+        Debug.Log("widthUnit: " + widthUnit);
+        Debug.Log("heigthUnit: " + heigthUnit);
+        */
         positionX = startOffsetX + (tempWidth / widthUnit);
         positionY = startOffsetY + (tempHeigth / heigthUnit);
 
