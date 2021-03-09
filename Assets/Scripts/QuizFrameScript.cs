@@ -89,14 +89,18 @@ public class QuizFrameScript : MonoBehaviour
         //    shipScores.Add("testString", 1);
         //Debug.Log("testString" + shipScores["testString"]);
 
-
-        if (shipScores.ContainsKey(CoordinateData.locationName))
+        if (CoordinateData.locationName != null)
         {
-            shipScores[CoordinateData.locationName] += 1;
+            if (shipScores.ContainsKey(CoordinateData.locationName))
+            {
+                shipScores[CoordinateData.locationName] += 1;
+                Debug.Log(CoordinateData.locationName + shipScores[CoordinateData.locationName]);
+
+            }
+            else
+                shipScores.Add(CoordinateData.locationName, 1);
         }
         else
-            shipScores.Add(CoordinateData.locationName, 1);
-
-        Debug.Log(CoordinateData.locationName + shipScores[CoordinateData.locationName]);
+            Debug.Log("no location name available");
     }
 }
