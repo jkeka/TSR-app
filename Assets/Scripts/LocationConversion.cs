@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LocationConversion : MonoBehaviour
 {
-    public GameObject userLocationMarker;
+    public Button userLocationMarker;
+    public GameObject confScreen;
 
+    /*
     private float userPositionX;
     private float userPositionY;
 
@@ -34,17 +37,20 @@ public class LocationConversion : MonoBehaviour
 
     private float mapHeigth = 3150f;
     private float mapWidth = 4400f;
-
+    */
     //Reference to GPS manager
     private GPSmanager gpsManagerScript;
 
     void Start()
     {
         gpsManagerScript = GameObject.Find("GPSmanager").GetComponent<GPSmanager>();
-
+        /*
         widthUnit =  mapWidthGps / mapWidth;
         heigthUnit = mapHeigthGps / mapHeigth;
+        */
+        confScreen = GameObject.Find("ConfirmationScreen");
 
+        userLocationMarker.onClick.AddListener(ConfScreen);
 
 
     }
@@ -55,11 +61,15 @@ public class LocationConversion : MonoBehaviour
 
     }
 
-
+    /*
     public void userLocation()
     {
 
         //User
+        widthUnit = mapWidthGps / mapWidth;
+        heigthUnit = mapHeigthGps / mapHeigth;
+
+
         userX = gpsManagerScript.deviceLatitude;
         userY = gpsManagerScript.deviceLongitude;
 
@@ -81,5 +91,13 @@ public class LocationConversion : MonoBehaviour
 
     }
 
+    */
+
+    public void ConfScreen()
+    {
+        RectTransform Pos = confScreen.GetComponent<RectTransform>();
+        Pos.SetSiblingIndex(5);
+        confScreen.SetActive(true);
+    }
 
 }
