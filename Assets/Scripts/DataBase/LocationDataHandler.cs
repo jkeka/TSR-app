@@ -15,9 +15,14 @@ public class LocationDataHandler : MonoBehaviour
 
     DatabaseReference reference;
 
+    private LocationConversion locationConversionScript;
+
 
     private void Start()
     {
+        locationConversionScript = GameObject.Find("Converter").GetComponent<LocationConversion>();
+
+
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         LoadMarkers();
     }
@@ -57,13 +62,16 @@ public class LocationDataHandler : MonoBehaviour
     public void CreateMarker(string name, string latitude, string longitude, string type, string id)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
+        float floatLat = float.Parse(latitude);
+        float floatLon = float.Parse(longitude);
 
-        Button marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as Button;
+        Button marker = Instantiate(locationMarker, new Vector3(ConvertLocationX(floatLon), ConvertLocationY(floatLat), 0), Quaternion.identity) as Button;
 
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = latitude;
         marker.GetComponent<Coordinates>().longitude = longitude;
         marker.GetComponent<Coordinates>().id = id;
+
 
         if (type.Equals("venue"))
         {
@@ -92,5 +100,47 @@ public class LocationDataHandler : MonoBehaviour
 
         markerList.Clear();
 
+    }
+
+    public float ConvertLocationX(float longitude)
+    {
+
+        float startOffsetX = -2200f;
+
+        float startOffsetGPSX = 22.211355f;
+
+        //float mapWidthGps = 0.053123f;
+
+        //float mapWidth = 4400f;
+
+        float widthUnit = 0.000012073f;
+            //mapWidthGps / mapWidth;
+
+        float markerTempWidth = longitude - startOffsetGPSX;
+
+        float markerPositionX = startOffsetX + (markerTempWidth / widthUnit);
+
+        return markerPositionX;
+    }
+
+    public float ConvertLocationY(float latitude)
+    {
+
+        float startOffsetY = -1575f;
+
+        float startOffsetGPSY = 60.429646f;
+
+        //float mapHeigthGps = 0.018804f;
+
+        //float mapHeigth = 3150f;
+
+        float heigthUnit = 0.00000597f;
+            //mapHeigthGps / mapHeigth;
+
+        float markerTempHeigth = latitude - startOffsetGPSY;
+
+        float markerPositionY = startOffsetY + (markerTempHeigth / heigthUnit);
+
+        return markerPositionY;
     }
 }

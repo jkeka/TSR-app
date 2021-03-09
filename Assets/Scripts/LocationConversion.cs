@@ -18,6 +18,9 @@ public class LocationConversion : MonoBehaviour
     public float userX;
     public float userY;
 
+    public float markerX;
+    public float markerY;
+
     //Values
     private float positionX;
     private float positionY;
@@ -52,6 +55,7 @@ public class LocationConversion : MonoBehaviour
     private float JoutsenY = 60.436393f;
 
 
+
     //Reference to GPS manager
     private GPSmanager gpsManagerScript;
 
@@ -83,13 +87,6 @@ public class LocationConversion : MonoBehaviour
     void Update()
     {
         joutsenLocationMarker.transform.localPosition = new Vector3(positionX, positionY, 0);
-
-        //UserLocation
-
-
-
-
-
     }
 
 
@@ -117,4 +114,6 @@ public class LocationConversion : MonoBehaviour
         gpsManagerScript.userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
 
     }
+
+
 }

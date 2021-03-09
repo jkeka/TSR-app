@@ -205,18 +205,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 584e64ecdf079fa439bbc59887409a18, type: 3}
---- !u!114 &35396680 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3728492835952576310, guid: 584e64ecdf079fa439bbc59887409a18,
-    type: 3}
-  m_PrefabInstance: {fileID: 35396679}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c382128eab0564a41b2651b45e20ddf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &54123591
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,10 +766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b98c2cc4e9fa0b49a257b33adde4465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimension: 1
-  dTrans: {fileID: 1447016360}
-  gpsManager: {fileID: 35396680}
-  ARcam: {fileID: 1933354521}
 --- !u!1 &519561847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,10 +1010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b98c2cc4e9fa0b49a257b33adde4465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimension: 0
-  dTrans: {fileID: 1447016360}
-  gpsManager: {fileID: 35396680}
-  ARcam: {fileID: 1933354521}
 --- !u!114 &691653542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,10 +1405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b98c2cc4e9fa0b49a257b33adde4465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimension: 1
-  dTrans: {fileID: 1447016360}
-  gpsManager: {fileID: 0}
-  ARcam: {fileID: 0}
 --- !u!135 &992802591
 SphereCollider:
   m_ObjectHideFlags: 0
