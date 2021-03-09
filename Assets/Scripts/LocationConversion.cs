@@ -6,9 +6,6 @@ public class LocationConversion : MonoBehaviour
 {
     public GameObject userLocationMarker;
 
-    public GameObject joutsenLocationMarker;
-
-
     private float userPositionX;
     private float userPositionY;
 
@@ -22,8 +19,6 @@ public class LocationConversion : MonoBehaviour
     public float markerY;
 
     //Values
-    private float positionX;
-    private float positionY;
 
     private float startOffsetX = -2200f;
     private float startOffsetY = -1575f;
@@ -40,27 +35,9 @@ public class LocationConversion : MonoBehaviour
     private float mapHeigth = 3150f;
     private float mapWidth = 4400f;
 
-    private float tempWidth;
-    private float tempHeigth;
-
-    //Example locations
-
-    //Sigyn
-    private float sigynX = 22.241855f;
-    private float sigynY = 60.438521f;
-    
-
-    //Joutsen
-    private float JoutsenX = 22.237032f;
-    private float JoutsenY = 60.436393f;
-
-
-
     //Reference to GPS manager
     private GPSmanager gpsManagerScript;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         gpsManagerScript = GameObject.Find("GPSmanager").GetComponent<GPSmanager>();
@@ -69,24 +46,13 @@ public class LocationConversion : MonoBehaviour
         heigthUnit = mapHeigthGps / mapHeigth;
 
 
-        //Joutsen location
-        tempWidth = JoutsenX - startOffsetGPSX;
-        tempHeigth = JoutsenY - startOffsetGPSY;
-
-        positionX = startOffsetX + (tempWidth / widthUnit);
-        positionY = startOffsetY + (tempHeigth / heigthUnit);
-
-        Debug.Log("Position X: " + positionX);
-        Debug.Log("Position Y: " + positionY);
-
-
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        joutsenLocationMarker.transform.localPosition = new Vector3(positionX, positionY, 0);
+
     }
 
 

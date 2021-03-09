@@ -15,13 +15,9 @@ public class LocationDataHandler : MonoBehaviour
 
     DatabaseReference reference;
 
-    private LocationConversion locationConversionScript;
-
 
     private void Start()
     {
-        locationConversionScript = GameObject.Find("Converter").GetComponent<LocationConversion>();
-
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         LoadMarkers();
