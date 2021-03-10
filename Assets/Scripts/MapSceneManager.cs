@@ -48,6 +48,7 @@ public class MapSceneManager : MonoBehaviour
     public Button LangButton;
     public Button ConfYesButton;
     public Button ConfNoButton;
+    public Button ARButton;
 
     private int mapSiblingIndex = 4;
     private int siblingIndex = 5;
@@ -153,6 +154,7 @@ public class MapSceneManager : MonoBehaviour
         LangButton.onClick.AddListener(LangClick);
         ConfYesButton.onClick.AddListener(YesClick);
         ConfNoButton.onClick.AddListener(NoClick);
+        ARButton.onClick.AddListener(ARClick);
 
         //menuText.text = "Language";
 
@@ -223,7 +225,7 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Fetch location data from database");
         compassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
-        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");
+        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");    
         //SceneManager.LoadScene("ARScene");
     }
 
@@ -231,6 +233,11 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Confirmation answer no");
         ConfScreen.SetActive(false);
+    }
+
+    void ARClick()
+    {
+        SceneManager.LoadScene("ARScene");
     }
  
 }
