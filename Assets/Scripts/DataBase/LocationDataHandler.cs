@@ -13,6 +13,10 @@ public class LocationDataHandler : MonoBehaviour
     public GameObject mapScreen;
     public static List<Button> markerList = new List<Button>();
 
+    public Text consoleText;
+    public Text consoleText2;
+
+
     DatabaseReference reference;
 
 
@@ -58,10 +62,22 @@ public class LocationDataHandler : MonoBehaviour
     public void CreateMarker(string name, string latitude, string longitude, string type, string id)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
+
+
         float floatLat = float.Parse(latitude);
         float floatLon = float.Parse(longitude);
 
-        Button marker = Instantiate(locationMarker, new Vector3(ConvertLocationX(floatLon), ConvertLocationY(floatLat), 0), Quaternion.identity) as Button;
+        float roundLat = Mathf.Round(floatLat * 1000f) / 1000f;
+        float roundLon = Mathf.Round(floatLon * 1000f) / 1000f;
+
+
+        consoleText.text = ("Markers no converted " + roundLat + " + " + roundLon);
+
+
+        float latConverted = ConvertLocationY(floatLat);
+        float lonConverted = ConvertLocationX(floatLon);
+
+        Button marker = Instantiate(locationMarker, new Vector3(lonConverted, latConverted, 0), Quaternion.identity) as Button;
 
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = latitude;
@@ -82,8 +98,14 @@ public class LocationDataHandler : MonoBehaviour
 
         markerList.Add(marker);
 
+        float roundLatConv = Mathf.Round(latConverted * 1000f) / 1000f;
+        float roundLonConv = Mathf.Round(lonConverted * 1000f) / 1000f;
+
+        consoleText2.text = ("Markers converted " + roundLonConv + " + " + roundLatConv);
 
     }
+
+
 
     public void DestroyMarkers()
     // Destroys existing markers on the map screen any time the location data changes in the database.

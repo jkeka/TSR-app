@@ -65,7 +65,9 @@ public class GPSmanager : MonoBehaviour
 
 
         //Calls the GPS at start
-        StartCoroutine(Start());
+        //StartCoroutine(Start());
+        InvokeRepeating("StartCoroutine(Start())", 2.0f, 5f);
+
 
     }
 
@@ -84,7 +86,8 @@ public class GPSmanager : MonoBehaviour
 
     IEnumerator Start()
     {
-        logText.text = ("GPS: GPS started");
+        //logText.text = ("GPS: GPS under fetching");
+        //userPosText.text = ("GPS: GPS under fetching");
 
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
@@ -189,7 +192,7 @@ public class GPSmanager : MonoBehaviour
 
         userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
 
-        userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
+        //userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
 
     }
 
