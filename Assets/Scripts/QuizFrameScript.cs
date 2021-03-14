@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,13 @@ using TMPro;
 public class QuizFrameScript : MonoBehaviour
 {
     private Button[] buttonArray;
+    public Button nextQuestion;
+    public Button answer;
+    private int index = 0;
+    private int numberOfQuestions = 3;
+    private Color deepBlue = new Color32(33, 43, 83, 255);
+    private Color paleBlue = new Color32(81, 92, 124, 255);
+
 
     /// <summary>
     /// placeholder: (Shipname,score)
@@ -18,14 +26,15 @@ public class QuizFrameScript : MonoBehaviour
     {
         buttonArray = new Button[3];
 
-        for (int i = 0; i <=2; i++)
+        for (int i = 0; i < buttonArray.Length; i++)
         {
             buttonArray[i] = transform.GetChild(i + 1).GetComponent<Button>();
         }
-        transform.GetChild(4).GetComponent<Button>().onClick.AddListener(OnNextQuestionClick);
-        
-        
-        //SetQuestion("press two", 1, "one", "two", "three");
+
+        nextQuestion = gameObject.transform.GetChild(4).GetComponent<Button>();
+
+        GetQuizValues();
+
     }
     /// <summary>
     /// q text, correct answer's index 0-2, three answer texts, Example:
@@ -36,7 +45,40 @@ public class QuizFrameScript : MonoBehaviour
     /// <param name="_answerOne"></param>
     /// <param name="_answerTwo"></param>
     /// <param name="_answerThree"></param>
-    public void SetQuestion(string _question,int _correctIndex,string _answerOne, string _answerTwo, string _answerThree)
+
+    private void GetQuizValues()
+        // Gets target quiz values from quizText dictionary
+    {
+        int count = 0;
+
+        try
+        {
+            foreach (var question in Quiz.quizText)
+            {
+                if (count == index)
+                {
+                    string q = question.Value["q"];
+                    string a1 = question.Value["a1"];
+                    string a2 = question.Value["a2"];
+                    string a3 = question.Value["a3"];
+                    int r = int.Parse(question.Value["r"]) - 1;
+
+                    index++;
+                    SetQuestion(q, r, a1, a2, a3);
+                    return;
+
+                }
+                count++;
+            }
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public void SetQuestion(string _question, int _correctIndex, string _answerOne, string _answerTwo, string _answerThree)
+        // Sets quizz values in UI and adds listener to the option buttons
     {
         transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = _question;
         if (buttonArray.Length != 0)
@@ -48,37 +90,64 @@ public class QuizFrameScript : MonoBehaviour
         else
             Debug.Log("ButtonArray.Length=0");
 
-        for (int i = 0; i <= 2; i++)
+
+        for (int i = 0; i < buttonArray.Length; i++)
         {
-            if (i == _correctIndex)
-                buttonArray[_correctIndex].onClick.AddListener(OnCorrectAnswer);
-            else
-                buttonArray[i].onClick.AddListener(OnWrongAnswer);
+            int j = i;
+            buttonArray[i].onClick.AddListener(delegate { checkAnswer(j, _correctIndex); });
+
         }
     }
 
+    private void checkAnswer(int answer, int correctAnswer)
+        // Checks if the answer user clicked is correct. Changes circle colours to show correct answer and makes nextQuestion button clickable.
+    {
 
-    private void OnCorrectAnswer()
-    {
-        Debug.Log("correct!");
-        //calls for a new fetching of quiz data and reloads the new set of questions
-        AddPoints();
+        if (answer == correctAnswer)
+        {
+            Debug.Log("correct!");
+            buttonArray[answer].transform.GetChild(1).GetComponent<Image>().color = Color.green;
+            AddPoints();
+        }
+        else
+        {
+            Debug.Log("wrong!");
+            buttonArray[answer].transform.GetChild(1).GetComponent<Image>().color = Color.red;
+            buttonArray[correctAnswer].transform.GetChild(1).GetComponent<Image>().color = Color.green;
+        }
+
+        foreach (Button b in buttonArray)
+        {
+            b.onClick.RemoveAllListeners();
+        }
+
+        nextQuestion.onClick.AddListener(OnNextQuestionClick);
+        nextQuestion.GetComponent<Image>().color = deepBlue;
+
     }
-    private void OnWrongAnswer()
-    {
-        Debug.Log("wrong!");
-    }
+
     private void OnNextQuestionClick()
+    //Calls for a new fetching of quiz data and reloads the new set of questions
     {
+
+        foreach (Button b in buttonArray)
+        {
+            b.transform.GetChild(1).GetComponent<Image>().color = deepBlue;
+        }
+
+        GetQuizValues();
+        nextQuestion.onClick.RemoveListener(OnNextQuestionClick);
+        nextQuestion.GetComponent<Image>().color = paleBlue;
+
+        Debug.Log(numberOfQuestions);
+
+        if (index == numberOfQuestions)
+        {
+            nextQuestion.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "End Quiz";
+        }
         Debug.Log("Next question clicked");
-        //calls for a new fetching of quiz data and reloads the new set of questions
+
     }
-
-
-
-
-
-
 
     private void AddPoints()
     {
@@ -103,4 +172,6 @@ public class QuizFrameScript : MonoBehaviour
         else
             Debug.Log("no location name available");
     }
+
+
 }
