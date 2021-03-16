@@ -3756,7 +3756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextQuestion: {fileID: 0}
   answer: {fileID: 0}
-  summaryScreen: {fileID: 0}
+  summaryScreen: {fileID: 1136389431}
 --- !u!114 &4418363618388618574
 MonoBehaviour:
   m_ObjectHideFlags: 0
