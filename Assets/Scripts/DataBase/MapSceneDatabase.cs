@@ -101,8 +101,8 @@ public class MapSceneDatabase : MonoBehaviour
         Button marker = Instantiate(locationMarker, new Vector3(float.Parse(latitude), float.Parse(longitude), 0), Quaternion.identity) as Button;
 
         marker.GetComponent<Coordinates>().locationName = name;
-        marker.GetComponent<Coordinates>().latitude = latitude;
-        marker.GetComponent<Coordinates>().longitude = longitude;
+        marker.GetComponent<Coordinates>().latitude = float.Parse(latitude);
+        marker.GetComponent<Coordinates>().longitude = float.Parse(longitude);
         marker.GetComponent<Coordinates>().id = id;
 
 

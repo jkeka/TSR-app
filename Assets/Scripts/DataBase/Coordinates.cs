@@ -5,11 +5,11 @@ using UnityEngine;
 public class Coordinates : MonoBehaviour
 {
     public string locationName;
-    public string latitude;
-    public string longitude;
+    public float latitude;
+    public float longitude;
     public string id;
 
-    public Coordinates(string id, string locationName, string latitude, string longitude)
+    public Coordinates(string id, string locationName, float latitude, float longitude)
     {
         this.id = id;
         this.locationName = locationName;

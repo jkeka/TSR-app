@@ -80,8 +80,8 @@ public class LocationDataHandler : MonoBehaviour
         Button marker = Instantiate(locationMarker, new Vector3(lonConverted, latConverted, 0), Quaternion.identity) as Button;
 
         marker.GetComponent<Coordinates>().locationName = name;
-        marker.GetComponent<Coordinates>().latitude = latitude;
-        marker.GetComponent<Coordinates>().longitude = longitude;
+        marker.GetComponent<Coordinates>().latitude = floatLat;
+        marker.GetComponent<Coordinates>().longitude = floatLon;
         marker.GetComponent<Coordinates>().id = id;
 
 
