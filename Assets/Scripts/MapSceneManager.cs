@@ -11,7 +11,7 @@ using Firebase.Extensions;
 public class MapSceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public static MapSceneManager Instance;
     //References
     //public Text menuText;
     DatabaseReference reference;
@@ -54,15 +54,15 @@ public class MapSceneManager : MonoBehaviour
     private int siblingIndex = 5;
 
 
-    //Matti: 
-    // WITH SCENE CHANGES GOING BACK AND FORTH
-    // MIGHT NEED A SINGLETON FOR THIS SO IT WONT CREATE MULTIPLE MAPSCENEMANAGERS WHENEVER
-    // THE MAP SCENE IS LOADED
-
 
 
     void Awake()
     {
+        if (Instance != null)
+            Destroy(gameObject);
+        else
+            Instance = this;
+
         string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
         print(deviceCode);
         reference = FirebaseDatabase.DefaultInstance.RootReference;

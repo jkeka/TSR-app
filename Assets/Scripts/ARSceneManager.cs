@@ -9,15 +9,19 @@ public class ARSceneManager : MonoBehaviour
 {
 
     public Button backButton;
-   
+    public static ARSceneManager instance;
 
     void Start()
     {
+        if (instance != null)
+            Destroy(gameObject);
+        else
+            instance = this;
         backButton.onClick.AddListener(ArSceneBackClick);
     }
 
 
-    void ArSceneBackClick()
+    public void ArSceneBackClick()
     {
         Debug.Log("returning from AR scene");
         Debug.Log("return to Map screen");
