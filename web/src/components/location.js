@@ -65,8 +65,8 @@ export default class Location extends Component {
         const ref = this.ref.child(this.state.temp.name)
         let tmpLocations = {...this.state.locations}
         let newObj = {...this.state.temp}
-        newObj.Latitude = newObj.Latitude.toString().replace(".", ',')
-        newObj.Longitude = newObj.Longitude.toString().replace(".", ',')
+        newObj.Latitude = newObj.Latitude.toString()
+        newObj.Longitude = newObj.Longitude.toString()
         newObj.id = new Date().getTime()
         ref.set(newObj)
         tmpLocations[this.state.temp.name] = newObj
@@ -199,9 +199,11 @@ export default class Location extends Component {
 
                 <Form onSubmit={this.handleSubmit}>
                     <label>Latitude:</label>
-                    <input type="text" name="latitude" value={this.state.mapLocation.lat} onChange={this.handleChange}/>
+                    <input type="text" name="latitude" value={this.state.mapLocation.lat} 
+                        onChange={this.handleChange}/>
                     <label>Longitude:</label>
-                    <input type='text' name="longitude" value={this.state.mapLocation.lng} onChange={this.handleChange}/>
+                    <input type='text' name="longitude" value={this.state.mapLocation.lng} 
+                        onChange={this.handleChange} />
                     <label>Zoom:</label>
                     <input type='text' value={this.state.zoom} disabled/>
                     <br/>
@@ -210,7 +212,7 @@ export default class Location extends Component {
                         {this.state.typeDropDown}
                     </select>
                     <label>Name:</label><input type="text" name="name" value={this.state.temp.name}
-                        onChange={this.handleChange}></input>
+                        onChange={this.handleChange} disabled={this.state.selectedLocation}></input>
                     <br/>
                     {this.state.selectedLocation === null ?
                         <Button variant="primary" type="submit">Submit a new Location</Button>

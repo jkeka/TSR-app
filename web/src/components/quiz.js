@@ -169,14 +169,9 @@ export default function Quiz() {
         setTheObject(tmpObj)
     }
 
-    const kill = () => {
-        ref.child('Quiz').child('Baltic Princess').remove()
-    }
-  
     return (
       <div>
         <Form onSubmit={handleSubmit}>
-            <Button size="lg" variant="danger" onClick={() => kill()}>Kill</Button>
             <Form.Control as="select" custom name="location" value={selectedLocation} onChange={handleChange}>
                 {locationDropDown}
             </Form.Control>

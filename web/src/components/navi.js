@@ -16,6 +16,8 @@ export default class Navigation extends Component {
                 <NavLink className="navlink" to="/location">Location</NavLink>
                 <NavLink className="navlink" to="/quiz">Quiz</NavLink>
                 <NavLink className="navlink" to="/reward">Reward</NavLink>
+                <NavLink className="navlink" to="/descriptions">Descriptions</NavLink>
+                <NavLink className="navlink" to="/settings">Settings</NavLink>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
