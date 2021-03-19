@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Globalization;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +13,6 @@ public class LocationDataHandler : MonoBehaviour
     public Button locationMarker;
     public GameObject mapScreen;
     public static List<Button> markerList = new List<Button>();
-
-    public Text consoleText;
-    public Text consoleText2;
-
 
     DatabaseReference reference;
 
@@ -62,17 +59,12 @@ public class LocationDataHandler : MonoBehaviour
     public void CreateMarker(string name, string latitude, string longitude, string type, string id)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
-
-
-        float floatLat = float.Parse(latitude);
-        float floatLon = float.Parse(longitude);
+        
+        float floatLat = float.Parse(latitude, CultureInfo.InvariantCulture);
+        float floatLon = float.Parse(longitude, CultureInfo.InvariantCulture);
 
         float roundLat = Mathf.Round(floatLat * 1000f) / 1000f;
         float roundLon = Mathf.Round(floatLon * 1000f) / 1000f;
-
-
-        consoleText.text = ("Markers no converted " + roundLat + " + " + roundLon);
-
 
         float latConverted = ConvertLocationY(floatLat);
         float lonConverted = ConvertLocationX(floatLon);
@@ -100,9 +92,6 @@ public class LocationDataHandler : MonoBehaviour
 
         float roundLatConv = Mathf.Round(latConverted * 1000f) / 1000f;
         float roundLonConv = Mathf.Round(lonConverted * 1000f) / 1000f;
-
-        consoleText2.text = ("Markers converted " + roundLonConv + " + " + roundLatConv);
-
     }
 
 
