@@ -65,8 +65,8 @@ export default class Location extends Component {
         const ref = this.ref.child(this.state.temp.name)
         let tmpLocations = {...this.state.locations}
         let newObj = {...this.state.temp}
-        newObj.Latitude = newObj.Latitude.toString()
-        newObj.Longitude = newObj.Longitude.toString()
+        newObj.Latitude = newObj.Latitude.toString().replace(/,/g, '.')
+        newObj.Longitude = newObj.Longitude.toString().replace(/,/g, '.')
         newObj.id = new Date().getTime()
         ref.set(newObj)
         tmpLocations[this.state.temp.name] = newObj
