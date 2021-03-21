@@ -96,7 +96,7 @@ public class LocationConversion : MonoBehaviour
     public void ConfScreen()
     {
         RectTransform Pos = confScreen.GetComponent<RectTransform>();
-        Pos.SetSiblingIndex(5);
+        Pos.SetSiblingIndex(6);
         confScreen.SetActive(true);
     }
 
