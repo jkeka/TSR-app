@@ -65,8 +65,8 @@ public class GPSmanager : MonoBehaviour
 
 
         //Calls the GPS at start
-        //StartCoroutine(Start());
-        InvokeRepeating("StartCoroutine(Start())", 2.0f, 5f);
+        StartCoroutine(Start());
+        //InvokeRepeating("StartCoroutine(Start())", 2.0f, 5f);
 
 
     }

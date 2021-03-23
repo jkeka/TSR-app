@@ -13,19 +13,13 @@ public class MapSceneManager : MonoBehaviour
     // Start is called before the first frame update
     public static MapSceneManager Instance;
     //References
-    //public Text menuText;
+
     DatabaseReference reference;
     DataSnapshot snapshot;
     User currentUser;
-    /*
-    //Screens
-    //public GameObject HubScreen;
-    public GameObject LangScreen;
-    public GameObject MapScreen;
-    public GameObject SetScreen;
-    public GameObject SchedScreen;
-    */
-    public GameObject ConfScreen;
+
+
+    public GameObject confScreen;
 
 
     public RectTransform mapScreen;
@@ -33,25 +27,28 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform schedScreen;
     public RectTransform langScreen;
     public RectTransform compassScreen;
+    public RectTransform libraryScreen;
 
     //Buttons
 
     //Language
-    public Button FinnButton;
-    public Button EngButton;
+    public Button finnButton;
+    public Button engButton;
 
     //Navigation
 
-    public Button ScheduleButton;
-    public Button SettingsButton;
-    public Button MapButton;
-    public Button LangButton;
-    public Button ConfYesButton;
-    public Button ConfNoButton;
-    public Button ARButton;
+    public Button scheduleButton;
+    public Button settingsButton;
+    public Button mapButton;
+    public Button langButton;
+    public Button confYesButton;
+    public Button confNoButton;
+    public Button arButton;
+    public Button libraryButton;
+    public Button exitButton;
 
-    private int mapSiblingIndex = 4;
-    private int siblingIndex = 5;
+    private int mapSiblingIndex = 5;
+    private int siblingIndex = 6;
 
 
 
@@ -126,35 +123,27 @@ public class MapSceneManager : MonoBehaviour
     void Start()
     {
 
-        /*
-        //Activates and deactivates screen at start
-        LangScreen.SetActive(true);
-        //HubScreen.SetActive(false);
-        MapScreen.SetActive(false);
-        SetScreen.SetActive(false);
-        SchedScreen.SetActive(false);
-        ConfScreen.SetActive(false);
-      
-    */
+
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
 
 
         //Language clicks
-        FinnButton.onClick.AddListener(FinnClick);
-        EngButton.onClick.AddListener(EngClick);
+        finnButton.onClick.AddListener(FinnClick);
+        engButton.onClick.AddListener(EngClick);
 
         //Navigation clicks
-        ScheduleButton.onClick.AddListener(ScheduleClick);
-        MapButton.onClick.AddListener(MapClick);
-        SettingsButton.onClick.AddListener(SettingsClick);
-        //SchedBackButton.onClick.AddListener(SchedBackClick);
-        //SetBackButton.onClick.AddListener(SetBackClick);
-        LangButton.onClick.AddListener(LangClick);
-        ConfYesButton.onClick.AddListener(YesClick);
-        ConfNoButton.onClick.AddListener(NoClick);
-        ARButton.onClick.AddListener(ARClick);
+        scheduleButton.onClick.AddListener(ScheduleClick);
+        mapButton.onClick.AddListener(MapClick);
+        settingsButton.onClick.AddListener(SettingsClick);
+        libraryButton.onClick.AddListener(LibraryClick);
+
+        langButton.onClick.AddListener(LangClick);
+        confYesButton.onClick.AddListener(YesClick);
+        confNoButton.onClick.AddListener(NoClick);
+        arButton.onClick.AddListener(ARClick);
+        exitButton.onClick.AddListener(ExitClick);
 
         //menuText.text = "Language";
 
@@ -211,6 +200,14 @@ public class MapSceneManager : MonoBehaviour
 
     }
 
+    void LibraryClick()
+    {
+        Debug.Log("Library clicked");
+        libraryScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
+    }
+
     void LangClick()
     {
         Debug.Log("Language selection clicked");
@@ -232,13 +229,19 @@ public class MapSceneManager : MonoBehaviour
     void NoClick()
     {
         Debug.Log("Confirmation answer no");
-        ConfScreen.SetActive(false);
+        confScreen.SetActive(false);
     }
 
     void ARClick()
     {
         SceneManager.LoadScene("ARScene");
     }
- 
+
+    void ExitClick()
+    {
+        Debug.Log("Quit pressed");
+        Application.Quit();
+    }
+
 }
    
