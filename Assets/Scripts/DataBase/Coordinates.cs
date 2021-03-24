@@ -8,13 +8,15 @@ public class Coordinates : MonoBehaviour
     public float latitude;
     public float longitude;
     public string id;
+    public string type;
 
-    public Coordinates(string id, string locationName, float latitude, float longitude)
+    public Coordinates(string id, string locationName, float latitude, float longitude, string type)
     {
         this.id = id;
         this.locationName = locationName;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.type = type;
     }
 
     public override string ToString()
