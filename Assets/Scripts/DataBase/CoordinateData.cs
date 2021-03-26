@@ -9,6 +9,7 @@ public class CoordinateData
     public static float latitude;
     public static float longitude;
     public static string id;
+    public static string type;
 
     public override string ToString()
     {

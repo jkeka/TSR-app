@@ -75,6 +75,7 @@ public class LocationDataHandler : MonoBehaviour
         marker.GetComponent<Coordinates>().latitude = floatLat;
         marker.GetComponent<Coordinates>().longitude = floatLon;
         marker.GetComponent<Coordinates>().id = id;
+        marker.GetComponent<Coordinates>().type = type;
 
 
         if (type.Equals("venue"))

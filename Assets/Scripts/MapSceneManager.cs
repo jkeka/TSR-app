@@ -222,7 +222,8 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Fetch location data from database");
         compassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
-        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");    
+        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");
+        DescriptionDataHandler.LoadDescription(CoordinateData.id, "fi");
         //SceneManager.LoadScene("ARScene");
     }
 
