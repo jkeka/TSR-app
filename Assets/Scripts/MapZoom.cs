@@ -1,26 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapZoom : MonoBehaviour
 {
-    public GameObject map;
+    //public GameObject map;
 
-    private Vector2 scaleChange;
+    public float currentScale;
 
-    private float zoomOutMin = 1;
-    private float zoomOutMax = 8;
+    private float zoomMin = 1;
+    private float zoomMax = 6;
     private float slowDownTime = 0.005f;
+
+    public float difference;
+
+    public Image map;
 
     void Start()
     {
-        scaleChange = new Vector2(1f, 1f);
-    }
+        currentScale = 1;
 
+        //scaleChange = new Vector2(1f, 1f);
+    }
+    /*
     // Update is called once per frame
     void Update()
     {
         
+
+        
+    }
+
+    void Zoom(float difference)
+    {
+        //float multiplier = Mathf.Clamp(difference * slowDownTime, 1, 10);
+        map.transform.localScale = scaleChange * difference;
+        Debug.Log(map.transform.localScale);
+    }
+
+    */
+    void Update()
+    {
+
+
         //Two fingers on screen
         if (Input.touchCount == 2)
         {
@@ -44,17 +67,28 @@ public class MapZoom : MonoBehaviour
             Debug.Log("currentMagnitude " + currentMagnitude);
 
 
-            float difference = currentMagnitude - prevMagnitude;
-            Zoom(difference);
+            difference = currentMagnitude - prevMagnitude;
+
+            Zoom(difference * slowDownTime);
 
         }
-        
+
+
+        //Zoom(Input.GetAxis("Mouse ScrollWheel"));
     }
 
-    void Zoom(float difference)
+    void Zoom(float increment)
     {
-        //float multiplier = Mathf.Clamp(difference * slowDownTime, 1, 10);
-        map.transform.localScale = scaleChange * difference;
-        Debug.Log(map.transform.localScale);
+        currentScale += increment;
+        if (currentScale >= zoomMax)
+        {
+            currentScale = zoomMax;
+        }
+        else if (currentScale <= zoomMin)
+        {
+            currentScale = zoomMin;
+        }
+        map.rectTransform.localScale = new Vector2(currentScale, currentScale);
     }
+
 }

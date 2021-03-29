@@ -2794,7 +2794,7 @@ GameObject:
   - component: {fileID: 475418522}
   - component: {fileID: 475418521}
   m_Layer: 5
-  m_Name: earollArea
+  m_Name: ScrollArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2852,7 +2852,7 @@ MonoBehaviour:
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0.01
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
@@ -3075,7 +3075,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1962072970}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9821624
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5067,7 +5067,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 318.47473}
+  m_AnchoredPosition: {x: 0, y: 326.54437}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.9}
 --- !u!114 &787197968
@@ -5316,6 +5316,7 @@ GameObject:
   - component: {fileID: 848382863}
   - component: {fileID: 848382865}
   - component: {fileID: 848382864}
+  - component: {fileID: 848382866}
   m_Layer: 5
   m_Name: MapAndButtonContainer
   m_TagString: Untagged
@@ -5380,6 +5381,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848382862}
   m_CullTransparentMesh: 0
+--- !u!114 &848382866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848382862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b1b43ab8c9ed44987c9a007e6e9c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startSize: 1
+  minSize: 0.75
+  maxSize: 1
+  zoomRate: 5
+  map: {fileID: 848382864}
 --- !u!1 &863632824
 GameObject:
   m_ObjectHideFlags: 0
