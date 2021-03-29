@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,7 @@ public class DescriptionDataHandler : MonoBehaviour
     public static void LoadDescription(string id, string language)
     // Loads Ship Description data from the database.
     {
-        /*if (CoordinateData.type != "ship")
-        {
-            return;
-        }*/
-
+       
         FirebaseDatabase.DefaultInstance
             .GetReference("Descriptions").Child(id).Child(language)
             .ValueChanged += DescriptionValueChanged;
@@ -36,34 +33,12 @@ public class DescriptionDataHandler : MonoBehaviour
         }
         DataSnapshot snapshot = args.Snapshot;
 
-        if (snapshot.Value == null)
+        if (Description.shipInfo != null)
         {
-            return;
+            Description.shipInfo.Clear();
         }
 
-        Description.info.Clear();
-
-        foreach (DataSnapshot i in snapshot.Children)
-        {
-            Description.info.Add(i.Key, i.Value.ToString());  
-            
-        }
-
-        Debug.Log(Description.ReturnString());
-        /*
-        ShipDescription.id = snapshot.Key;
-        ShipDescription.description = snapshot.Child("description").ToString();
-        ShipDescription.owner = snapshot.Child("owner").ToString();
-        ShipDescription.builder = snapshot.Child("builder").ToString();
-        ShipDescription.launched = snapshot.Child("launched").ToString();
-        ShipDescription.length = snapshot.Child("lenght").ToString();
-        ShipDescription.height = snapshot.Child("height").ToString();
-        ShipDescription.depth = snapshot.Child("depth").ToString();
-        ShipDescription.draft = snapshot.Child("draft").ToString();
-        ShipDescription.tonnage = snapshot.Child("tonnage").ToString();
-        ShipDescription.speed = snapshot.Child("speed").ToString();
-        ShipDescription.shipType = snapshot.Child("shipType").ToString();
-        ShipDescription.status = snapshot.Child("status").ToString();
-        */
+        string s = snapshot.Child("description").Value.ToString();
+        Description.shipInfo = s.Split('.').ToList();
     }
 }
