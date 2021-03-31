@@ -33,6 +33,16 @@ public class DBUser {
     }
 }
 
+/** 
+Functions:
+ToString() - returns deviceCode, set language and locations visited in a string
+SetLanguage(string language) - sets the language with variables like 'fi', 'en'
+GetLanguage() - returns language
+
+
+
+*/
+
 public static class User {
     public static string deviceCode;
     public static string language;
@@ -91,7 +101,7 @@ public static class User {
     }
 
     // Creates a new User if a device with particular device code isn't found from DB
-    public static void CreateUser(string deviceCode)
+    static void CreateUser(string deviceCode)
     {
         Debug.Log("Create User");
         deviceCode = deviceCode;
@@ -101,7 +111,7 @@ public static class User {
         reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json);
     }
 
-    public static void OldUser(DBUser tmpUser)
+    static void OldUser(DBUser tmpUser)
     {
         Debug.Log("Old User");
         Debug.Log(tmpUser.ToString());
