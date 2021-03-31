@@ -98,8 +98,6 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Set system to Finnish language!");
         User.SetLanguage("fi");
-
-        User.AddVisitedLocation("testikohde1");
         
         mapScreen.SetSiblingIndex(siblingIndex);
 

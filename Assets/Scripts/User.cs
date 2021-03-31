@@ -38,9 +38,10 @@ Functions:
 ToString() - returns deviceCode, set language and locations visited in a string
 SetLanguage(string language) - sets the language with variables like 'fi', 'en'
 GetLanguage() - returns language
-
-
-
+InitializeUser(string deviceCode) 
+  - checks if the user exists in the database and if so, gets the data, otherwise creates a new user to DB
+AddVisitedLocation(string newLocation) - adds a location to VisitedLocations (List<string>)
+GetVisitedLocations() - return visitedLocations as List<string> 
 */
 
 public static class User {
