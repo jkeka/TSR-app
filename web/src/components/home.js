@@ -62,7 +62,7 @@ export default class Home extends Component {
                 <button type="submit">Submit</button>
                 </form>
                 <button onClick={() => this.getData()}>Get data</button>
-                <img src={this.state.image} />
+                <img alt="" src={this.state.image} />
             </div>
         )
     }

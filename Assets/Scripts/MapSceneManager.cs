@@ -4,19 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using Firebase;
-using Firebase.Database;
-using Firebase.Extensions;
+using static User;
 
 public class MapSceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static MapSceneManager Instance;
-    //References
-
-    DatabaseReference reference;
-    DataSnapshot snapshot;
-    User currentUser;
 
 
     public GameObject confScreen;
@@ -60,64 +53,9 @@ public class MapSceneManager : MonoBehaviour
         else
             Instance = this;
 
+
         string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
-        print(deviceCode);
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        CheckTheDatabaseForNewUser(deviceCode);
-
-    }
-
-    // Creates a new User if a device with particular device code wasn't found from DB
-    void CreateUser(string deviceCode)
-    {
-        Debug.Log("Create User");
-        User newUser = new User(deviceCode);
-        string json = JsonUtility.ToJson(newUser);
-        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json);
-        currentUser = newUser;
-    }
-
-
-    void OldUser()
-    {
-        Debug.Log("Old User");
-
-    }
-
-    void CheckTheDatabaseForNewUser(string deviceCode)
-    {
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Users").Child(deviceCode)
-            .GetValueAsync().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.Log("Task faulted!");
-                }
-                else if (task.IsCompleted)
-                {
-                    Debug.Log("Task success!");
-                    DataSnapshot snapshot = task.Result;
-                    if (snapshot.Value != null)
-                    {
-                        currentUser = JsonUtility.FromJson<User>(snapshot.GetRawJsonValue());
-                        Debug.Log(snapshot.Value);
-                        Debug.Log(currentUser.ToString());
-                        OldUser();
-                    }
-                    else
-                    {
-                        Debug.Log("forwarding to create user");
-                        CreateUser(deviceCode);
-                    }
-
-
-                }
-                else
-                {
-                    Debug.Log("Something terrible happened during fetching data");
-                }
-            });
+        User.InitializeUser(deviceCode);
     }
 
     void Start()
@@ -159,29 +97,27 @@ public class MapSceneManager : MonoBehaviour
     void FinnClick()
     {
         Debug.Log("Set system to Finnish language!");
-        currentUser.setLanguage("fi");
+        User.SetLanguage("fi");
+
+        User.AddVisitedLocation("testikohde1");
+        
         mapScreen.SetSiblingIndex(siblingIndex);
 
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
-
     }
 
     void EngClick()
     {
         Debug.Log("Set system to English language!");
-        currentUser.setLanguage("en");
+        User.SetLanguage("en");
         mapScreen.SetSiblingIndex(siblingIndex);
-
-
-
     }
 
     void MapClick()
     {
         Debug.Log("Map clicked");
         mapScreen.SetSiblingIndex(siblingIndex);
-
     }
 
     void ScheduleClick()

@@ -16,8 +16,7 @@ export default class User extends Component {
     this.state = {
       deviceCode: '',
       language: '',
-      rewardKey: [''],
-      claimedRewardKey: [''], 
+      visitedLocations: [],
       tempDB: [],
       deviceInputDisabled: false,
       submitOrUpdate: 'Submit'
@@ -91,22 +90,18 @@ export default class User extends Component {
   }
   render() {
     const resultTable = Object.entries(this.state.tempDB).map(([key, value], index) => {
+      const locList = value.visitedLocations.map(loc => <li key={loc}>{loc}</li>)
       return (
         <tr key={index}>
           <td>{key}</td>
           <td>{value.language}</td>
           <td>
             <ul>
-              
+              {locList}
             </ul>
           </td>
           <td>
-            <ul>
-              
-            </ul>
-          </td>
-          <td>
-            <Button onClick={() => this.modifyClicked(key, value.language)}>Modify</Button>
+            {/*<Button onClick={() => this.modifyClicked(key, value.language)}>Modify</Button>*/}
             <Button variant="danger" onClick={() => this.removeDevice(key)}>Remove</Button>
           </td>
         </tr>
@@ -114,7 +109,7 @@ export default class User extends Component {
     })
     return (
       <Container>
-
+      {/* NOT NEEDED FORM FOR ADDING USERS
       <Form onSubmit={this.handleSubmit}>
 
         <Form.Group>
@@ -128,30 +123,25 @@ export default class User extends Component {
           <Form.Control type="text" name="language" value={this.state.language}
             onChange={this.handleChange} />
         </Form.Group>
-
+        
         <Form.Group>
           <Form.Label htmlFor="rewardKey">rewardKey:</Form.Label>
           
           <Button onClick={() => this.addRewardKey()}>+</Button><br/>
         </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="claimedRewardKey">claimedRewardKey:</Form.Label>
-          
-          <Button onClick={() => this.addClaimedRewardKey()}>+</Button><br/>
-        </Form.Group>
-
+        
         <Form.Group>
           <Button variant="primary" type="submit">{this.state.submitOrUpdate}</Button>
         </Form.Group>
       </Form>
+      */}
     
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>device</th>
             <th>lang</th>
-            <th>rewardKey</th>
-            <th>claimedRewardKey</th>
+            <th>visitedLocations</th>
             <th></th>
           </tr>
         </thead>
