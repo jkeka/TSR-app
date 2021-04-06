@@ -90,7 +90,10 @@ export default class User extends Component {
   }
   render() {
     const resultTable = Object.entries(this.state.tempDB).map(([key, value], index) => {
-      const locList = value.visitedLocations.map(loc => <li key={loc}>{loc}</li>)
+      let locList = "No visited locations"
+      if (value.visitedLocations) {
+        locList = value.visitedLocations.map(loc => <li key={loc}>{loc}</li>)
+      }
       return (
         <tr key={index}>
           <td>{key}</td>

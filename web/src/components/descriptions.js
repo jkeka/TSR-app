@@ -136,12 +136,22 @@ export default function Descriptions() {
   useEffect(() => {
     console.log('INPUTS CHANGING')
     setInputList(Object.keys(theTemplate).map(key => {
-      return(
-        <div key={key}>
-          <label>{key}</label>
-          <input type="text" name={key} onChange={handleChange} value={theObject[key]} />
-        </div>
-      )
+      if (key === 'description') {
+        return (
+          <div key={key}>
+            <label>{key}</label>
+            <textarea name={key} onChange={handleChange} value={theObject[key]} rows="10" cols="50" />
+          </div>
+        )
+      } /*else {
+        return(
+          <div key={key}>
+            <label>{key}</label>
+            <input type="text" name={key} onChange={handleChange} value={theObject[key]} />
+          </div>
+        )
+      }*/
+      
     }))
   }, [JSON.stringify(theTemplate), langSelected])
 
