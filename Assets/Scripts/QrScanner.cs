@@ -22,9 +22,14 @@ public class QrScanner : MonoBehaviour
         
         void Start()
     {
+        ARSceneManager.instance.qrButton.onClick.AddListener(StopScan);
+
         var renderer = GetComponent<RawImage>();
         webcamTexture = new WebCamTexture(512, 512);
         renderer.material.mainTexture = webcamTexture;
+
+
+
 
     }
 
@@ -66,9 +71,13 @@ public class QrScanner : MonoBehaviour
 
     private void StopScan()
     {
-        webcamTexture.Stop();
-        scanning = false;
-        StopCoroutine(GetQRCode());
+        if (scanning)
+        {
+            webcamTexture.Stop();
+            scanning = false;
+            StopCoroutine(GetQRCode());
+            transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        }
     }
     public void OnScanClick()
     {
@@ -76,6 +85,7 @@ public class QrScanner : MonoBehaviour
             StopScan();
         else
         {
+            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             qrtext.text = string.Empty;
             QrCode = string.Empty;
             StartCoroutine(GetQRCode());

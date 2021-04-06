@@ -129,7 +129,6 @@ public class EventDataHandler : MonoBehaviour
 
         foreach (Button button in scheduleList)
         {
-            Debug.Log("Hello");
             var eventDate = button.GetComponent<Event>().startTime.Day + "." + button.GetComponent<Event>().startTime.Month;
 
             
