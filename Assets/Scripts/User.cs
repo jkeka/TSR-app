@@ -26,7 +26,7 @@ public class DBUser {
         this.language = lang;
         this.visitedLocations = locsVisited;
     }
-    public string ToString() {
+    public override string ToString() {
         string locations = "";
         visitedLocations.ForEach(item => locations += item);
         return this.deviceCode + ", " + this.language + ", " + locations;
@@ -50,24 +50,27 @@ public static class User {
     public static DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
     public static List<string> visitedLocations;
 
-    public static string ToString()
+    
+
+    public static void InitializeUser(string deviceCodeNow)
     {
-        string locations = "";
-        visitedLocations.ForEach(item => locations += item);
-        return deviceCode + ", " + language + ", " + locations;
-    }
-    public static void SetLanguage(string lang) {
-        Debug.Log("Setting language");
-        language = lang;
-        DBUser tmp = new DBUser(deviceCode, lang, visitedLocations); 
-        string json = JsonUtility.ToJson(tmp);
-        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json);
-    }
-    public static string GetLanguage() {
-        return language;
+        Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth.SignInAnonymouslyAsync().ContinueWith(task => {
+            if (task.IsCanceled) {
+                Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted) {
+                Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            CheckTheDatabaseForNewUser(deviceCodeNow);
+        });
+        
     }
 
-    public static void InitializeUser(string deviceCodeNow) // old CheckTheDatabaseForNewUser
+    public static void CheckTheDatabaseForNewUser(string deviceCodeNow) 
     {
         FirebaseDatabase.DefaultInstance
             .GetReference("Users").Child(deviceCodeNow)
@@ -100,16 +103,32 @@ public static class User {
                 }
         });
     }
+    
 
     // Creates a new User if a device with particular device code isn't found from DB
-    static void CreateUser(string deviceCode)
+    static void CreateUser(string newDeviceCode)
     {
         Debug.Log("Create User");
-        deviceCode = deviceCode;
-        DBUser tmp = new DBUser(deviceCode);
+        DBUser tmp = new DBUser(newDeviceCode);
         string json = JsonUtility.ToJson(tmp);
+        deviceCode = newDeviceCode;
+        visitedLocations = new List<string>();
         Debug.Log(json);
-        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json);
+        reference.Child("Users").Child(newDeviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
+            if(task.IsFaulted) {
+                Debug.Log("Creating user faulted.");
+                Debug.Log(task.Exception);
+            }
+
+            if(task.IsCanceled) {
+                Debug.Log("Cancelled.");
+            }
+
+            if(!task.IsFaulted && !task.IsCanceled) {
+                Debug.Log("Completed creating the user.");
+            }
+        });
+        
     }
 
     static void OldUser(DBUser tmpUser)
@@ -126,11 +145,56 @@ public static class User {
         visitedLocations.Add(newLocation);
         DBUser tmp = new DBUser(deviceCode, language, visitedLocations);
         string json = JsonUtility.ToJson(tmp);
-        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json);
+        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
+            if(task.IsFaulted) {
+                Debug.Log("Adding location faulted.");
+                Debug.Log(task.Exception);
+            }
+
+            if(task.IsCanceled) {
+                Debug.Log("Cancelled.");
+            }
+
+            if(!task.IsFaulted && !task.IsCanceled) {
+                Debug.Log("Completed adding the location.");
+            }
+        });;
     }
 
     public static List<string> GetVisitedLocations()
     {
         return visitedLocations;
+    }
+    
+    public new static string ToString()
+    {
+        string locations = "";
+        visitedLocations.ForEach(item => locations += item);
+        return deviceCode + ", " + language + ", " + locations;
+    }
+    public static void SetLanguage(string lang) {
+        Debug.Log("Setting language");
+        language = lang;
+        DBUser tmp = new DBUser(deviceCode, lang, visitedLocations); 
+        Debug.Log(deviceCode + lang + visitedLocations);
+        Debug.Log(tmp.ToString());
+        string json = JsonUtility.ToJson(tmp);
+        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
+            if(task.IsFaulted) {
+                Debug.Log("Setting language faulted.");
+                Debug.Log(task.Exception);
+            }
+
+            if(task.IsCanceled) {
+                Debug.Log("Cancelled.");
+            }
+
+            if(!task.IsFaulted && !task.IsCanceled) {
+                Debug.Log("Completed setting language.");
+            }
+        });;
+    }
+    public static string GetLanguage() {
+        return language;
     }
 }
