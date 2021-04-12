@@ -21,6 +21,7 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform langScreen;
     public RectTransform compassScreen;
     public RectTransform libraryScreen;
+    public RectTransform glossaryScreen;
 
     //Buttons
 
@@ -39,9 +40,10 @@ public class MapSceneManager : MonoBehaviour
     public Button arButton;
     public Button libraryButton;
     public Button exitButton;
+    public Button closeButton;
 
     private int mapSiblingIndex = 5;
-    private int siblingIndex = 6;
+    private int siblingIndex = 8;
 
 
 
@@ -82,6 +84,7 @@ public class MapSceneManager : MonoBehaviour
         confNoButton.onClick.AddListener(NoClick);
         arButton.onClick.AddListener(ARClick);
         exitButton.onClick.AddListener(ExitClick);
+        closeButton.onClick.AddListener(CloseClick);
 
         //menuText.text = "Language";
 
@@ -176,6 +179,13 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Quit pressed");
         Application.Quit();
+    }
+
+    void CloseClick()
+    {
+        Debug.Log("Description closed");
+        glossaryScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
     }
 
 }
