@@ -9,10 +9,27 @@ public class PanZoom : MonoBehaviour
     public float zoomMax = 500;
     private float zoomSlow = 0.01f;
 
+    public RectTransform map;
+    public float mapWidth;
+    public float mapHeigth;
+
+    public float cameraSize;
+
+    public float cameraWidth;
+    public float cameraHeight;
+
+    public float cameraPositionX;
+    public float cameraPositionY;
+
+    public float cameraBoundXRight;
+    public float cameraBoundXLeft;
+    public float cameraBoundYTop;
+    public float cameraBoundYBot;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
 
 
     }
@@ -20,6 +37,9 @@ public class PanZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //Zooming and moving the camera
+
         if (Input.GetMouseButtonDown(0))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -52,6 +72,44 @@ public class PanZoom : MonoBehaviour
         void Zoom(float increment)
         {
             Camera.main.orthographicSize = Camera.main.orthographicSize - increment;
+        }
+
+        //Boundaries
+
+        cameraSize = Camera.main.orthographicSize;
+
+        cameraHeight = cameraSize * 2;
+        cameraWidth = cameraHeight * 0.5625f;
+
+        mapHeigth = map.sizeDelta.y / 2;
+        mapWidth = map.sizeDelta.x / 2;
+
+        cameraPositionX = transform.position.x;
+        cameraPositionY = transform.position.y;
+
+        cameraBoundYTop = cameraPositionY + (cameraHeight / 2);
+        cameraBoundYBot = (-cameraPositionY - (-cameraHeight / 2)) * -1;
+
+        cameraBoundXRight = cameraPositionX + (cameraWidth / 2);
+        cameraBoundXLeft = (-cameraPositionX - (-cameraWidth / 2)) * -1;
+
+
+        if (cameraBoundYTop > mapHeigth)
+        {
+            Debug.Log("OutOfBounds Y top");
+        }
+        else if ((cameraBoundYBot < -mapHeigth))
+        {
+            Debug.Log("OutOfBounds Y bot");
+        }
+
+        if (cameraBoundXRight > mapWidth)
+        {
+            Debug.Log("OutOfBounds X right");
+        }
+        else if ((cameraBoundXLeft < -mapWidth))
+        {
+            Debug.Log("OutOfBounds x left");
         }
 
     }

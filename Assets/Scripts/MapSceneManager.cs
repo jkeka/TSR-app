@@ -23,6 +23,9 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
 
+    public GameObject screens;
+    //public List<GameObject> screensList = new List<GameObject>();
+
     //Buttons
 
     //Language
@@ -63,6 +66,7 @@ public class MapSceneManager : MonoBehaviour
     void Start()
     {
 
+        screens.SetActive(true);
 
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -99,6 +103,8 @@ public class MapSceneManager : MonoBehaviour
     }
     void FinnClick()
     {
+        screens.SetActive(false);
+
         Debug.Log("Set system to Finnish language!");
         User.SetLanguage("fi");
         
@@ -110,6 +116,8 @@ public class MapSceneManager : MonoBehaviour
 
     void EngClick()
     {
+        screens.SetActive(false);
+
         Debug.Log("Set system to English language!");
         User.SetLanguage("en");
         mapScreen.SetSiblingIndex(siblingIndex);
@@ -117,12 +125,17 @@ public class MapSceneManager : MonoBehaviour
 
     void MapClick()
     {
+        screens.SetActive(false);
+
         Debug.Log("Map clicked");
         mapScreen.SetSiblingIndex(siblingIndex);
+
     }
 
     void ScheduleClick()
     {
+        screens.SetActive(true);
+
         Debug.Log("Schedule clicked");
         schedScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -131,6 +144,8 @@ public class MapSceneManager : MonoBehaviour
 
     void SettingsClick()
     {
+        screens.SetActive(true);
+
         Debug.Log("Settings clicked");
         setScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -139,6 +154,8 @@ public class MapSceneManager : MonoBehaviour
 
     void LibraryClick()
     {
+        screens.SetActive(true);
+
         Debug.Log("Library clicked");
         libraryScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -147,6 +164,7 @@ public class MapSceneManager : MonoBehaviour
 
     void LangClick()
     {
+
         Debug.Log("Language selection clicked");
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -175,7 +193,7 @@ public class MapSceneManager : MonoBehaviour
         SceneManager.LoadScene("ARScene");
     }
 
-    void ExitClick()
+    public void ExitClick()
     {
         Debug.Log("Quit pressed");
         Application.Quit();
