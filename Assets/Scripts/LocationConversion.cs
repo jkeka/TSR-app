@@ -47,7 +47,7 @@ public class LocationConversion : MonoBehaviour
     void Start()
     {
         gpsManagerScript = GameObject.Find("GPSmanager").GetComponent<GPSmanager>();
-        mapZoomScript = GameObject.Find("MapAndButtonContainer").GetComponent<MapZoom>();
+        //mapZoomScript = GameObject.Find("MapAndButtonContainer").GetComponent<MapZoom>();
 
         /*
         widthUnit =  mapWidthGps / mapWidth;
@@ -58,7 +58,7 @@ public class LocationConversion : MonoBehaviour
         userLocationMarker.onClick.AddListener(ConfScreen);
 
         //userLocationMarker.image.rectTransform.sizeDelta = new Vector2(200, 200);
-        buttonSize = userLocationMarker.image.rectTransform.sizeDelta;
+        //buttonSize = userLocationMarker.image.rectTransform.sizeDelta;
 
 
     }
@@ -67,8 +67,8 @@ public class LocationConversion : MonoBehaviour
     void Update()
     {
  
-        userLocationMarker.image.rectTransform.sizeDelta = new Vector2(100, 100) * mapZoomScript.currentScale;
-        Debug.Log(mapZoomScript.currentScale);
+        //userLocationMarker.image.rectTransform.sizeDelta = new Vector2(100, 100) * mapZoomScript.currentScale;
+        //Debug.Log(mapZoomScript.currentScale);
 
     }
 

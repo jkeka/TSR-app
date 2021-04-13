@@ -26,7 +26,7 @@ public class MapZoom2 : MonoBehaviour
         scrollWheel = Input.GetAxis("Mouse ScrollWheel");
 
         //ChangeZoom(Input.GetAxis("Mouse ScrollWheel"));
-        Debug.Log("fsdfs" + scrollWheel);
+        //Debug.Log("fsdfs" + scrollWheel);
 
         /*
         if (scrollWheel != 0)

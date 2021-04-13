@@ -19,6 +19,8 @@ public class GPSmanager : MonoBehaviour
     public GameObject compassSimple;
     public GameObject userLocationMarker;
 
+    private bool isGpsOn = false;
+
     //User location
 
     private float userPositionX;
@@ -93,6 +95,7 @@ public class GPSmanager : MonoBehaviour
         if (!Input.location.isEnabledByUser)
         {
             logText.text = ("GPS: Device location disabled");
+            Debug.Log("GPS: Device location disabled");
             yield break;
         }
 
@@ -100,12 +103,14 @@ public class GPSmanager : MonoBehaviour
         // Start service before querying location
         Input.location.Start(); //Default accuracy 10m
         logText.text = ("GPS: Input.location started");
+        Debug.Log("GPS: Input.location started");
 
         // Wait until service initializes
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
             logText.text = ("GPS: Waiting location status");
+            Debug.Log("GPS: Waiting location status");
             yield return new WaitForSeconds(1);
             maxWait--;
         }
@@ -114,13 +119,17 @@ public class GPSmanager : MonoBehaviour
         if (maxWait < 1)
         {
             logText.text = ("GPS: Timed out");
+            Debug.Log("GPS: Timed out");
             yield break;
+
         }
 
         // Connection has failed
         if (Input.location.status == LocationServiceStatus.Failed)
         {
             logText.text = ("GPS: Unable to determine device location");
+            Debug.Log("GPS: Unable to determine device location");
+
             yield break;
         }
         else
@@ -132,7 +141,12 @@ public class GPSmanager : MonoBehaviour
             deviceCoordText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
             Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
 
-            UserLocation();
+            isGpsOn = true;
+
+            if (isGpsOn == true)
+            {
+                InvokeRepeating("UserLocation", 0, 3);
+            }
         }
 
         // Stop service if there is no need to query location updates continuously
@@ -184,11 +198,14 @@ public class GPSmanager : MonoBehaviour
         userPositionX = startOffsetX + (userTempWidth / widthUnit);
         userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
 
-        Debug.Log("Device latitude: " + deviceLatitude);
-        Debug.Log("Device longitude: " + deviceLongitude);
+        //Debug.Log("Device latitude: " + deviceLatitude);
+        //Debug.Log("Device longitude: " + deviceLongitude);
 
-        Debug.Log("User Position X: " + userPositionX);
-        Debug.Log("User Position Y: " + userPositionY);
+        //Debug.Log("User Position X: " + userPositionX);
+        //Debug.Log("User Position Y: " + userPositionY);
+
+        Debug.Log("Fetching location");
+
 
         userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
 
