@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 public class LibraryScript : MonoBehaviour
 {
-    public string[] paths = { "Assets/Data/joutsen.json", "Assets/Data/sailing.json" };
+    public string[] files = {"joutsen.json", "sailing.json" };
     public Dictionary<string, string> yearsDict = new Dictionary<string, string>();
 
     public List<Button> glossaryList = new List<Button>();
@@ -23,11 +23,11 @@ public class LibraryScript : MonoBehaviour
 
     void Start()
     {
-        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(paths[0]); });
-        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(paths[1]); });
+        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(files[0]); });
+        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(files[1]); });
     }
 
-    private void LoadGlossary(string path)
+    private void LoadGlossary(string file)
     // Loads the selected glossary data on screen
     {
 
@@ -36,6 +36,7 @@ public class LibraryScript : MonoBehaviour
             ClearGlossary();
         }
 
+        string path = Path.Combine(Application.streamingAssetsPath, file);
         RectTransform pos = glossaryScreen.GetComponent<RectTransform>();
         pos.SetSiblingIndex(8);
 
