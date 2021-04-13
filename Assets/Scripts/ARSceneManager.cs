@@ -33,8 +33,7 @@ public class ARSceneManager : MonoBehaviour
 
     public void QRscannerToggle()
     {
-        Debug.Log(qrScannerScreen.activeSelf+" Ashelf");
-        Debug.Log(qrScannerScreen.activeInHierarchy + "hieromarcy");
+      
         qrScannerScreen.SetActive(!qrScannerScreen.activeSelf);
     }
     private void OnDisable()
