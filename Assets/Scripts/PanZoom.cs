@@ -97,19 +97,30 @@ public class PanZoom : MonoBehaviour
         if (cameraBoundYTop > mapHeigth)
         {
             Debug.Log("OutOfBounds Y top");
+            //Camera.main.orthographicSize = cameraSize - 1;
+            transform.position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
         }
         else if ((cameraBoundYBot < -mapHeigth))
         {
             Debug.Log("OutOfBounds Y bot");
+            //Camera.main.orthographicSize = cameraSize - 1;
+            transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
+
         }
 
         if (cameraBoundXRight > mapWidth)
         {
             Debug.Log("OutOfBounds X right");
+            //Camera.main.orthographicSize = cameraSize - 1;
+            transform.position = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
+
         }
         else if ((cameraBoundXLeft < -mapWidth))
         {
             Debug.Log("OutOfBounds x left");
+            //Camera.main.orthographicSize = cameraSize - 1;
+            transform.position = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+
         }
 
     }
