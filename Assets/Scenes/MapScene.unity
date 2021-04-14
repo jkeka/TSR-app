@@ -2784,9 +2784,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88bd0fdc61b07a459266c211af2d499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paths:
-  - Assets/Data/joutsen.json
-  - Assets/Data/sailing.json
+  files:
+  - joutsen.json
+  - sailing.json
+  joutsen: {fileID: 4900000, guid: 83b36e0d8f417244c90ac2f3b858c174, type: 3}
+  sailing: {fileID: 4900000, guid: fa456d8358786d64e84c1f8bcd47d130, type: 3}
   glossaryList: []
   suuretPurjeLaivat: {fileID: 1368612483}
   purjehdusTunnissa: {fileID: 652375585}
@@ -3874,8 +3876,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1962072971}
   m_HandleRect: {fileID: 1962072970}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999727
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6180,7 +6182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00005340576, y: 581.59216}
+  m_AnchoredPosition: {x: 0.00005340576, y: 581.5922}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.1, y: 0.9}
 --- !u!114 &718126976
@@ -6849,7 +6851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 326.54434}
+  m_AnchoredPosition: {x: 0, y: 326.54453}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.9}
 --- !u!114 &787197968
@@ -10560,10 +10562,17 @@ MonoBehaviour:
   zoomMin: 300
   zoomMax: 500
   map: {fileID: 1218679791}
-  mapWidthBoundary: 0
-  mapHeigthBoundary: 0
+  mapWidth: 0
+  mapHeigth: 0
+  cameraSize: 0
   cameraWidth: 0
   cameraHeight: 0
+  cameraPositionX: 0
+  cameraPositionY: 0
+  cameraBoundXRight: 0
+  cameraBoundXLeft: 0
+  cameraBoundYTop: 0
+  cameraBoundYBot: 0
 --- !u!1 &1333751487
 GameObject:
   m_ObjectHideFlags: 0
@@ -11570,7 +11579,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932507971}
   m_HandleRect: {fileID: 1932507970}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

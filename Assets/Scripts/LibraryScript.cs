@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,9 @@ using Newtonsoft.Json;
 
 public class LibraryScript : MonoBehaviour
 {
-    public string[] files = {"joutsen.json", "sailing.json" };
+    public TextAsset joutsen;
+    public TextAsset sailing;
+
     public Dictionary<string, string> yearsDict = new Dictionary<string, string>();
 
     public List<Button> glossaryList = new List<Button>();
@@ -23,12 +24,12 @@ public class LibraryScript : MonoBehaviour
 
     void Start()
     {
-        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(files[0]); });
-        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(files[1]); });
+        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(joutsen.text); });
+        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(sailing.text); });
     }
 
     private void LoadGlossary(string file)
-    // Loads the selected glossary data on screen
+    // Loads the selected glossary data on screen.
     {
 
         if (glossaryList != null)
@@ -36,20 +37,13 @@ public class LibraryScript : MonoBehaviour
             ClearGlossary();
         }
 
-        string path = Path.Combine(Application.streamingAssetsPath, file);
         RectTransform pos = glossaryScreen.GetComponent<RectTransform>();
         pos.SetSiblingIndex(8);
-
-        StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
-        Dictionary<string, string> glossary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        reader.Close();
-
+        Dictionary<string, string> glossary = JsonConvert.DeserializeObject<Dictionary<string, string>>(file);
+       
         string previousKey = "*";
         bool years = false;
-        //int x = 485;
-        //int y = 550;
-
+        
         foreach (KeyValuePair<string, string> entry in glossary)
         {
             if (entry.Key.StartsWith("1"))
@@ -88,7 +82,7 @@ public class LibraryScript : MonoBehaviour
     }
 
     public void ClearGlossary()
-    // Destroys existing schedule button on the schedule screen any time the schedule data changes in the database.
+    // Clears glossary of the previous data.
     {
 
         for (int i = 0; i < glossaryList.Count; i++)
