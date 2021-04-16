@@ -22,7 +22,7 @@ public class KeyWord : MonoBehaviour
         var child = descriptionScreen.transform.GetChild(0).transform.GetChild(0);
         child.GetComponent<TMPro.TextMeshProUGUI>().text = description;
         RectTransform Pos = descriptionScreen.GetComponent<RectTransform>();
-        Pos.SetSiblingIndex(8);
+        Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
 
     }
     

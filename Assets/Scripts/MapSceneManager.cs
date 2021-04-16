@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using UnityEngine.Events;
+
+using Firebase.Database;
 
 using static User;
 
@@ -13,8 +17,8 @@ public class MapSceneManager : MonoBehaviour
 
 
     public GameObject confScreen;
-
-
+    public GameObject errorMessage;
+   
     public RectTransform mapScreen;
     public RectTransform setScreen;
     public RectTransform schedScreen;
@@ -22,6 +26,7 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform compassScreen;
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
+    
 
     public GameObject screens;
     //public List<GameObject> screensList = new List<GameObject>();
@@ -46,7 +51,7 @@ public class MapSceneManager : MonoBehaviour
     public Button closeButton;
 
     private int mapSiblingIndex = 5;
-    private int siblingIndex = 8;
+    public static int siblingIndex = 8;
 
 
 
@@ -58,20 +63,25 @@ public class MapSceneManager : MonoBehaviour
         else
             Instance = this;
 
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
 
-        string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
-        User.InitializeUser(deviceCode);
+        StartCoroutine(CheckConnection(isConnected =>
+        {
+            string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
+            User.InitializeUser(deviceCode);
+
+        }
+        ));
+
     }
 
     void Start()
     {
-
+        
         screens.SetActive(true);
 
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
-
-
 
         //Language clicks
         finnButton.onClick.AddListener(FinnClick);
@@ -99,8 +109,44 @@ public class MapSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
     }
+    IEnumerator CheckConnection(UnityAction<bool> action)
+    // Checks if connection is available. If not, displays a warning screen. Only creates user once connection is established.
+    {
+        UnityWebRequest request = new UnityWebRequest("http://google.com");
+        //request.timeout = 2;
+        yield return request.SendWebRequest();
+
+        if (request.isNetworkError)
+        {
+            errorMessage.SetActive(true);
+            errorMessage.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Error! Check internet connection!";      
+            Debug.Log("Error. Check internet connection!");
+
+            bool connected = false;
+
+            while (connected == false)
+            {
+                yield return new WaitForSecondsRealtime(2);
+                request = new UnityWebRequest("http://google.com");
+                yield return request.SendWebRequest();
+
+                if (!request.isNetworkError)
+                {
+                    connected = true;
+                    errorMessage.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Internet connection established!";
+                    errorMessage.GetComponent<Image>().color = new Color32(71, 219, 69, 200);
+                    yield return new WaitForSecondsRealtime(2);
+                    errorMessage.SetActive(false);
+                }
+            }
+        }
+
+        Debug.Log("Connected to internet!");    
+        action(true);
+    }
+
     void FinnClick()
     {
         screens.SetActive(false);

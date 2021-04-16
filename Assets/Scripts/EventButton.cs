@@ -30,7 +30,7 @@ public class EventButton : MonoBehaviour
                 var child = confScreen.transform.GetChild(0).transform.GetChild(0);
                 child.GetComponent<TMPro.TextMeshProUGUI>().text = "Navigate to " + locationName + "?";
                 RectTransform Pos = confScreen.GetComponent<RectTransform>();
-                Pos.SetSiblingIndex(8);
+                Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
                 confScreen.SetActive(true);
 
                 CoordinateData.locationName = button.GetComponent<Coordinates>().locationName;
