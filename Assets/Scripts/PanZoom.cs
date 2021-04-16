@@ -5,8 +5,8 @@ using UnityEngine;
 public class PanZoom : MonoBehaviour
 {
     Vector3 touchStart;
-    public float zoomMin = 300;
-    public float zoomMax = 500;
+    public float zoomMin = 100;
+    public float zoomMax = 480;
     private float zoomSlow = 0.01f;
 
     public RectTransform map;
@@ -29,8 +29,8 @@ public class PanZoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
+        zoomMin = 100;
+        zoomMax = 480;
 
     }
 
@@ -71,7 +71,7 @@ public class PanZoom : MonoBehaviour
 
         void Zoom(float increment)
         {
-            Camera.main.orthographicSize = Camera.main.orthographicSize - increment;
+            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomMin, zoomMax);
         }
 
         //Boundaries
@@ -96,13 +96,13 @@ public class PanZoom : MonoBehaviour
 
         if (cameraBoundYTop > mapHeigth)
         {
-            Debug.Log("OutOfBounds Y top");
+            //Debug.Log("OutOfBounds Y top");
             //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
         }
         else if ((cameraBoundYBot < -mapHeigth))
         {
-            Debug.Log("OutOfBounds Y bot");
+            //Debug.Log("OutOfBounds Y bot");
             //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
 
@@ -110,14 +110,14 @@ public class PanZoom : MonoBehaviour
 
         if (cameraBoundXRight > mapWidth)
         {
-            Debug.Log("OutOfBounds X right");
+            //Debug.Log("OutOfBounds X right");
             //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
 
         }
         else if ((cameraBoundXLeft < -mapWidth))
         {
-            Debug.Log("OutOfBounds x left");
+            //Debug.Log("OutOfBounds x left");
             //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
 

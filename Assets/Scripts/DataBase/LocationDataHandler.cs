@@ -8,17 +8,20 @@ using Firebase;
 using Firebase.Database;
 
 
-public class LocationDataHandler : MonoBehaviour 
+public class LocationDataHandler : MonoBehaviour
 {
     public Button locationMarker;
     public GameObject mapScreen;
     public static List<Button> markerList = new List<Button>();
+
+    private PanZoom panZoomScript;
 
     DatabaseReference reference;
 
 
     private void Start()
     {
+        panZoomScript = FindObjectOfType<PanZoom>();
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         LoadMarkers();
@@ -59,7 +62,7 @@ public class LocationDataHandler : MonoBehaviour
     public void CreateMarker(string name, string latitude, string longitude, string type, string id)
     // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
     {
-        
+
         float floatLat = float.Parse(latitude, CultureInfo.InvariantCulture);
         float floatLon = float.Parse(longitude, CultureInfo.InvariantCulture);
 
@@ -113,16 +116,19 @@ public class LocationDataHandler : MonoBehaviour
     public float ConvertLocationX(float longitude)
     {
 
-        float startOffsetX = -2200f;
+        //float startOffsetX = -2200f;
+        float startOffsetX = -(panZoomScript.mapWidth / 2);
 
-        float startOffsetGPSX = 22.211355f;
+        float startOffsetGPSX = 22.224010346708628f;
 
-        //float mapWidthGps = 0.053123f;
+        //float mapWidthGps = 0.054132385680159f;
+        float mapWidthGps = 22.278142732388787f - 22.224010346708628f;
 
-        //float mapWidth = 4400f;
+        float mapWidth = panZoomScript.mapWidth;
 
-        float widthUnit = 0.000012073f;
-            //mapWidthGps / mapWidth;
+        //float widthUnit = 0.000012073f;
+        float widthUnit = mapWidthGps / panZoomScript.mapWidth;
+
 
         float markerTempWidth = longitude - startOffsetGPSX;
 
@@ -134,16 +140,25 @@ public class LocationDataHandler : MonoBehaviour
     public float ConvertLocationY(float latitude)
     {
 
-        float startOffsetY = -1575f;
+        //float startOffsetY = -1575f;
+        float startOffsetY = -(panZoomScript.mapHeigth / 2);
 
-        float startOffsetGPSY = 60.429646f;
+        float startOffsetGPSY = 60.4306495777899f;
 
-        //float mapHeigthGps = 0.018804f;
+        // Top right 60.45733392077009, 22.278142732388787
+        // Top left 60.45733392077009, 22.224010346708628
 
-        //float mapHeigth = 3150f;
+        //Bot right 60.4306495777899, 22.278142732388787
+        //Bot left 60.4306495777899, 22.224010346708628
 
-        float heigthUnit = 0.00000597f;
-            //mapHeigthGps / mapHeigth;
+
+        //float mapHeigthGps = 0.02668434298019f;
+        float mapHeigthGps = 60.45733392077009f - 60.4306495777899f;
+
+        float mapHeigth = panZoomScript.mapHeigth;
+
+        //float heigthUnit = 0.00000597f;
+        float heigthUnit = mapHeigthGps / panZoomScript.mapHeigth;
 
         float markerTempHeigth = latitude - startOffsetGPSY;
 
