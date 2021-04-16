@@ -10,6 +10,8 @@ public class ARSceneManager : MonoBehaviour
 
     public Button backButton;
     public Button qrButton;
+    public Button otherButton;
+
     public static ARSceneManager instance;
     public GameObject qrScannerScreen;
 
@@ -33,8 +35,10 @@ public class ARSceneManager : MonoBehaviour
 
     public void QRscannerToggle()
     {
-      
+
         qrScannerScreen.SetActive(!qrScannerScreen.activeSelf);
+        otherButton.gameObject.SetActive(!qrScannerScreen.activeSelf);
+       // qrButton.gameObject.SetActive(!qrScannerScreen.activeSelf);
     }
     private void OnDisable()
     {

@@ -10,6 +10,13 @@ public class SpeechBubble : MonoBehaviour
     Transform child;
     int count = 0;
 
+
+    //SailorInteraction
+    public delegate void AnimTrigger(int i);
+    public AnimTrigger QV;
+    public bool test;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,21 +24,39 @@ public class SpeechBubble : MonoBehaviour
         child = bubble.transform.GetChild(0);
         ClickTextBubble();
         bubble.onClick.AddListener(ClickTextBubble);
+       
     }
 
     void ClickTextBubble()
     // Changes bubble text content when clicked.
     {
-        Debug.Log(Description.shipInfo.Count);
-        
-        if (count == Description.shipInfo.Count - 1) 
+        if (test)
         {
-            bubble.onClick.RemoveListener(ClickTextBubble);
-            count = 0;
-            quizScreen.transform.SetSiblingIndex(1);
-            return;
+            if (QV != null)
+                QV(2);
         }
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[count];
-        count++;
+        else
+        {
+            Debug.Log(Description.shipInfo.Count);
+            if (QV != null)
+                QV(2);
+
+
+            if (count == Description.shipInfo.Count - 1)
+            {
+                bubble.onClick.RemoveListener(ClickTextBubble);
+                count = 0;
+                quizScreen.transform.SetSiblingIndex(1);
+
+                ARSceneManager.instance.qrButton.gameObject.SetActive(true);
+
+                return;
+            }
+
+
+
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[count];
+            count++;
+        }
     }
 }

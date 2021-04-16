@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class SailorFaceScript : MonoBehaviour
 {
+    public SpeechBubble speechBubble;
+
+ 
+
     private float faceRate=0.6f;
     private int faceIndex;
     private GameObject[] faceList;
     public Animator animator;
     private string currentBool="Talking";
+    float talkTimer = 6.66f;
+    //private IEnumerator talkRoutine;
+
     private void Start()
     {
         faceList = new GameObject[4];
@@ -16,10 +23,12 @@ public class SailorFaceScript : MonoBehaviour
         {
             faceList[i] = transform.GetChild(i).gameObject;
         }
+        speechBubble.QV += ChangeToEmote;
 
+        //talkRoutine = ChangeFace();
         StartCoroutine(ChangeFace());
-        Emote(0);
-        ChangeToEmote(2);
+        //Emote(0);
+        //ChangeToEmote(2);
     }
 
     /// <summary>
@@ -32,7 +41,7 @@ public class SailorFaceScript : MonoBehaviour
         switch (index)
         {
             case 0:
-                trigger = "Greet";
+                trigger = "Salute";
                 break;
             case 1:
                 trigger = "Wave";
@@ -53,7 +62,7 @@ public class SailorFaceScript : MonoBehaviour
         switch (index)
         {
             case 0:
-                trigger = "Greeting";
+                trigger = "Saluting";
                 break;
             case 1:
                 trigger = "Waving";
@@ -65,12 +74,17 @@ public class SailorFaceScript : MonoBehaviour
         animator.SetBool(currentBool, false);
         currentBool = trigger;
         animator.SetBool(trigger,true);
+        Emote(0);
+        Debug.Log("changetoCalled");
+        StopCoroutine(ChangeFace());
+        talkTimer = 5.5f;
+        StartCoroutine(ChangeFace());
     }
     
 
     public IEnumerator ChangeFace()
     {
-        while (true)
+        while (talkTimer >= 0f)
         {
             faceRate = Random.Range(0.1f, 0.6f);
 
@@ -80,7 +94,19 @@ public class SailorFaceScript : MonoBehaviour
                 item.SetActive(false);
             }
             faceList[faceIndex].SetActive(true);
+            talkTimer -= faceRate;
             yield return new WaitForSeconds(faceRate);
         }
+        foreach (var item in faceList)
+        {
+            item.SetActive(false);
+        }
+        faceList[0].SetActive(true);
+        yield return null;
+        //StopCoroutine();
+    }
+    private void OnDisable()
+    {
+        speechBubble.QV -= ChangeToEmote;
     }
 }

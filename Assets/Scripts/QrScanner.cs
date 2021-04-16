@@ -52,9 +52,18 @@ public class QrScanner : MonoBehaviour
                     if (!string.IsNullOrEmpty(QrCode))
                     {
                         Debug.Log("DECODED TEXT FROM QR: " + QrCode);
-                        qrtext.text = QrCode;
                         currentQRcode = QrCode;
-                        StopScan();
+
+                        if (!User.visitedLocations.Contains(currentQRcode))
+                        {
+                            User.AddVisitedLocation(currentQRcode);
+                            qrtext.text = QrCode;
+                        }
+                        else
+                        {
+                            qrtext.text = "Already Visited";
+                        }
+                            StopScan();
                         break;
                     }
                 }
@@ -81,6 +90,7 @@ public class QrScanner : MonoBehaviour
     }
     public void OnScanClick()
     {
+        //ARSceneManager.instance.qrButton.gameObject.SetActive(true);
         if (scanning)
             StopScan();
         else
