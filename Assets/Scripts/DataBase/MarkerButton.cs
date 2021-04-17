@@ -10,6 +10,8 @@ public class MarkerButton : MonoBehaviour
 {  
     public Button button;
     public GameObject confScreen;
+    private MapSceneManager mapSceneManagerScript;
+
 
     public static float destinationLatitude;
     public static float destinationLongitude;
@@ -17,13 +19,22 @@ public class MarkerButton : MonoBehaviour
     private void Start()
     {
         confScreen = GameObject.Find("ConfirmationScreen");
+        mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
+
         button.onClick.AddListener(MarkerClick);            
     }
 
     public void MarkerClick()
         //Sets confirmationscreen visible and writes text to confirmation textbox. Also adds the location data to Coordinatedata class
 
-    {      
+    {
+        mapSceneManagerScript.screens.SetActive(true);
+        for (int i = 0; i < mapSceneManagerScript.screenObjects.Count; i++)
+        {
+            mapSceneManagerScript.screenObjects[i].SetActive(false);
+        }
+
+
         string locationName = gameObject.GetComponent<Coordinates>().locationName;
         var child = confScreen.transform.GetChild(0).transform.GetChild(0);
         child.GetComponent<TMPro.TextMeshProUGUI>().text = "Matkataanko kohteeseen " + locationName + "?";

@@ -20,9 +20,12 @@ public class GPSmanager : MonoBehaviour
     public GameObject compassSimple;
     public GameObject userLocationMarker;
 
-    private bool isGpsOn = false;
+    public bool isGpsOn = false;
 
     //User location
+
+    private PanZoom panZoomScript;
+
 
     private float userPositionX;
     private float userPositionY;
@@ -37,21 +40,31 @@ public class GPSmanager : MonoBehaviour
     public float markerY;
 
     //Values
-
+    /*
     private float startOffsetX = -2200f;
     private float startOffsetY = -1575f;
 
     private float startOffsetGPSX = 22.211355f;
     private float startOffsetGPSY = 60.429646f;
+    */
+    private float startOffsetX;
+    private float startOffsetY;
+
+    private float startOffsetGPSX;
+    private float startOffsetGPSY;
 
     private float widthUnit;
     private float heigthUnit;
 
+    private float mapHeigthGps;
+    private float mapWidthGps;
+    /*
     private float mapHeigthGps = 0.018804f;
     private float mapWidthGps = 0.053123f;
 
     private float mapHeigth = 3150f;
     private float mapWidth = 4400f;
+    */
 
     //Permission
     GameObject dialog = null;
@@ -66,6 +79,10 @@ public class GPSmanager : MonoBehaviour
         //Juani
         //deviceLatitude = 22.254176f;
         //deviceLongitude = 60.440105f;
+
+        panZoomScript = FindObjectOfType<PanZoom>();
+
+        isGpsOn = false;
 
         //Ask permission for location
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
@@ -153,6 +170,7 @@ public class GPSmanager : MonoBehaviour
             Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
 
             isGpsOn = true;
+            userPosText.text = "Gps on";
 
             if (isGpsOn == true)
             {
@@ -192,6 +210,82 @@ public class GPSmanager : MonoBehaviour
         StartCoroutine(Start());
     }
 
+
+    public void UserLocation()
+    {
+
+        //float widthUnit = 0.000012073f;
+        widthUnit = mapWidthGps / panZoomScript.mapWidth;
+
+        //float heigthUnit = 0.00000597f;
+        heigthUnit = mapHeigthGps / panZoomScript.mapHeigth;
+
+        //float mapWidthGps = 0.054132385680159f;
+        mapWidthGps = 22.278142732388787f - 22.224010346708628f;
+
+        //float mapHeigthGps = 0.02668434298019f;
+        mapHeigthGps = 60.45733392077009f - 60.4306495777899f;
+
+        //float startOffsetX = -2200f;
+        startOffsetX = -(panZoomScript.mapWidth / 2);
+
+        startOffsetGPSX = 22.224010346708628f;
+
+        //float startOffsetY = -1575f;
+        startOffsetY = -(panZoomScript.mapHeigth / 2);
+
+        startOffsetGPSY = 60.4306495777899f;
+
+
+
+        userX = deviceLatitude;
+        userY = deviceLongitude;
+
+        userTempWidth = userX - startOffsetGPSX;
+        userTempHeigth = userY - startOffsetGPSY;
+
+        userPositionX = startOffsetX + (userTempWidth / widthUnit);
+        userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
+
+
+        Debug.Log("Device latitude: " + deviceLatitude);
+        Debug.Log("Device longitude: " + deviceLongitude);
+
+        Debug.Log("User Position X: " + userPositionX);
+        Debug.Log("User Position Y: " + userPositionY);
+
+        userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
+
+        userPosText.text = ("User Position X: " + userPositionX + " User Position Y: " + userPositionY);
+
+    }
+    /*
+    public float ConvertLocationX(float longitude)
+    {
+
+        float mapWidth = panZoomScript.mapWidth;
+
+        float markerTempWidth = longitude - startOffsetGPSX;
+
+        float markerPositionX = startOffsetX + (markerTempWidth / widthUnit);
+
+        return markerPositionX;
+    }
+
+    public float ConvertLocationY(float latitude)
+    {
+
+        float mapHeigth = panZoomScript.mapHeigth;
+
+        float markerTempHeigth = latitude - startOffsetGPSY;
+
+        float markerPositionY = startOffsetY + (markerTempHeigth / heigthUnit);
+
+        return markerPositionY;
+    }
+    */
+
+    /*
     public void UserLocation()
     {
 
@@ -223,5 +317,5 @@ public class GPSmanager : MonoBehaviour
         //userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
 
     }
-
+    */
 }

@@ -27,7 +27,10 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
     //public RectTransform instructionScreen;
-    
+
+    public List<GameObject> screenObjects = new List<GameObject>();
+
+    //public RectTransform instructionScreen;
 
     public GameObject screens;
     //public List<GameObject> screensList = new List<GameObject>();
@@ -81,6 +84,11 @@ public class MapSceneManager : MonoBehaviour
     {
         
         screens.SetActive(true);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(true);
+        }
 
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -228,6 +236,12 @@ public class MapSceneManager : MonoBehaviour
         mapScreen.SetSiblingIndex(mapSiblingIndex);
         QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");
         DescriptionDataHandler.LoadDescription(CoordinateData.id, "fi");
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(true);
+        }
+
         //SceneManager.LoadScene("ARScene");
     }
 
@@ -235,6 +249,13 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Confirmation answer no");
         schedScreen.SetSiblingIndex(siblingIndex);
+
+        screens.SetActive(false);
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(true);
+        }
+
     }
 
     void ARClick()
