@@ -29,6 +29,29 @@ public class PanZoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Boundaries
+
+        cameraSize = Camera.main.orthographicSize;
+
+        cameraHeight = cameraSize * 2;
+        cameraWidth = cameraHeight * 0.5625f;
+
+        mapHeigth = map.sizeDelta.y / 2;
+        mapWidth = map.sizeDelta.x / 2;
+
+
+
+        cameraPositionX = transform.position.x;
+        cameraPositionY = transform.position.y;
+
+        cameraBoundYTop = cameraPositionY + (cameraHeight / 2);
+        cameraBoundYBot = (-cameraPositionY - (-cameraHeight / 2)) * -1;
+
+        cameraBoundXRight = cameraPositionX + (cameraWidth / 2);
+        cameraBoundXLeft = (-cameraPositionX - (-cameraWidth / 2)) * -1;
+
+
+
         zoomMin = 100;
         zoomMax = 480;
 
@@ -73,25 +96,6 @@ public class PanZoom : MonoBehaviour
         {
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomMin, zoomMax);
         }
-
-        //Boundaries
-
-        cameraSize = Camera.main.orthographicSize;
-
-        cameraHeight = cameraSize * 2;
-        cameraWidth = cameraHeight * 0.5625f;
-
-        mapHeigth = map.sizeDelta.y / 2;
-        mapWidth = map.sizeDelta.x / 2;
-
-        cameraPositionX = transform.position.x;
-        cameraPositionY = transform.position.y;
-
-        cameraBoundYTop = cameraPositionY + (cameraHeight / 2);
-        cameraBoundYBot = (-cameraPositionY - (-cameraHeight / 2)) * -1;
-
-        cameraBoundXRight = cameraPositionX + (cameraWidth / 2);
-        cameraBoundXLeft = (-cameraPositionX - (-cameraWidth / 2)) * -1;
 
 
         if (cameraBoundYTop > mapHeigth)

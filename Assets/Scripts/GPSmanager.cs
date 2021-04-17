@@ -39,6 +39,11 @@ public class GPSmanager : MonoBehaviour
     public float markerX;
     public float markerY;
 
+    //Map
+    public RectTransform map;
+    public float mapWidth;
+    public float mapHeigth;
+
     //Values
     /*
     private float startOffsetX = -2200f;
@@ -82,6 +87,8 @@ public class GPSmanager : MonoBehaviour
 
         panZoomScript = FindObjectOfType<PanZoom>();
 
+
+
         isGpsOn = false;
 
         //Ask permission for location
@@ -94,6 +101,7 @@ public class GPSmanager : MonoBehaviour
         //Calls the GPS at start
         StartCoroutine(Start());
 
+        UserLocation();
 
     }
 
@@ -103,14 +111,15 @@ public class GPSmanager : MonoBehaviour
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
+        /*
         if (isGpsOn == true)
         {
             UserLocation();
 
         }
-
-        Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
-        logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
+        */
+        //Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
+        //logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
 
 
         //Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
@@ -214,104 +223,97 @@ public class GPSmanager : MonoBehaviour
 
     public void UserLocation()
     {
+        mapHeigth = map.sizeDelta.y / 2;
+        mapWidth = map.sizeDelta.x / 2;
 
-        widthUnit = mapWidthGps / panZoomScript.mapWidth;
+        //userX = deviceLatitude;
+        //userY = deviceLongitude;
 
-        heigthUnit = mapHeigthGps / panZoomScript.mapHeigth;
+        userY = 60.43966f;
+        userX = 22.25441f;
 
-        mapWidthGps = 22.278142732388787f - 22.224010346708628f;
-
-        mapHeigthGps = 60.45733392077009f - 60.4306495777899f;
-
-        startOffsetX = -(panZoomScript.mapWidth / 2);
-
-        startOffsetGPSX = 22.224010346708628f;
-
-        startOffsetY = -(panZoomScript.mapHeigth / 2);
-
-        startOffsetGPSY = 60.4306495777899f;
+        Debug.Log("User Position X: " + userX);
+        Debug.Log("User Position Y: " + userY);
 
 
+        float userLatConverted = ConvertUserLocationY(userY);
+        float userLonConverted = ConvertUserLocationX(userX);
 
-        userX = deviceLatitude;
-        userY = deviceLongitude;
+        //Debug.Log("userLonConverted: " + userLonConverted);
+        //Debug.Log("userLatConverted: " + userLatConverted);
 
-        userTempWidth = userX - startOffsetGPSX;
-        userTempHeigth = userY - startOffsetGPSY;
+        Debug.Log("mapHeigth gps " + mapHeigth);
+        Debug.Log("mapWidth gps " + mapWidth);
 
-        userPositionX = startOffsetX + (userTempWidth / widthUnit);
-        userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
-
-        /*
-        Debug.Log("Device latitude: " + deviceLatitude);
-        Debug.Log("Device longitude: " + deviceLongitude);
-
-        Debug.Log("User Position X: " + userPositionX);
-        Debug.Log("User Position Y: " + userPositionY);
-        */
-
-        userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
+        userLocationMarker.transform.localPosition = new Vector3(userLonConverted, userLatConverted, 0);
 
         userPosText.text = ("User Position X: " + userPositionX + " User Position Y: " + userPositionY);
 
+        // Top right 60.45733392077009, 22.278142732388787
+        // Top left 60.45733392077009, 22.224010346708628
+
+        //Bot right 60.4306495777899, 22.278142732388787
+        //Bot left 60.4306495777899, 22.224010346708628
+
+
     }
-    /*
-    public float ConvertLocationX(float longitude)
+    public float ConvertUserLocationX(float longitude)
     {
 
-        float mapWidth = panZoomScript.mapWidth;
+        //float startOffsetX = -2200f;
+        float startOffsetX = -(mapWidth / 2);
 
-        float markerTempWidth = longitude - startOffsetGPSX;
+        Debug.Log("startOffsetX: " + startOffsetX);
+        Debug.Log("mapWidth gps: " + mapWidth);
 
-        float markerPositionX = startOffsetX + (markerTempWidth / widthUnit);
 
-        return markerPositionX;
+        float startOffsetGPSX = 22.22401f;
+
+        //float mapWidthGps = 0.054132385680159f;
+        float mapWidthGps = 22.27814f - 22.22401f;
+
+
+        //float widthUnit = 0.000012073f;
+        float widthUnit = mapWidthGps / mapWidth;
+
+        Debug.Log("widthUnit: " + widthUnit);
+
+
+        float userTempWidth = longitude - startOffsetGPSX;
+
+        Debug.Log("userTempWidth: " + userTempWidth);
+
+
+        float userPositionX = startOffsetX + (userTempWidth / widthUnit);
+
+        //Debug.Log("userPositionX: " + userPositionX);
+
+        return userPositionX;
     }
 
-    public float ConvertLocationY(float latitude)
+    public float ConvertUserLocationY(float latitude)
     {
 
-        float mapHeigth = panZoomScript.mapHeigth;
+        //float startOffsetY = -1575f;
+        float startOffsetY = -(mapHeigth / 2);
 
-        float markerTempHeigth = latitude - startOffsetGPSY;
+        float startOffsetGPSY = 60.43064f;
 
-        float markerPositionY = startOffsetY + (markerTempHeigth / heigthUnit);
+        //float mapHeigthGps = 0.02668434298019f;
+        float mapHeigthGps = 60.45733f - 60.43064f;
 
-        return markerPositionY;
+
+        //float heigthUnit = 0.00000597f;
+        float heigthUnit = mapHeigthGps / mapHeigth;
+
+        float userTempHeigth = latitude - startOffsetGPSY;
+
+        float userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
+
+        //Debug.Log("userPositionY: " + userPositionY);
+
+
+        return userPositionY;
     }
-    */
-
-    /*
-    public void UserLocation()
-    {
-
-        //User
-        widthUnit = mapWidthGps / mapWidth;
-        heigthUnit = mapHeigthGps / mapHeigth;
-
-
-        userY = deviceLatitude;
-        userX = deviceLongitude;
-
-        userTempWidth = userX - startOffsetGPSX;
-        userTempHeigth = userY - startOffsetGPSY;
-
-        userPositionX = startOffsetX + (userTempWidth / widthUnit);
-        userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
-
-        //Debug.Log("Device latitude: " + deviceLatitude);
-        //Debug.Log("Device longitude: " + deviceLongitude);
-
-        //Debug.Log("User Position X: " + userPositionX);
-        //Debug.Log("User Position Y: " + userPositionY);
-
-        Debug.Log("Fetching location");
-
-
-        userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
-
-        //userPosText.text = ("User Position X: " + userPositionX + "            User Position Y: " + userPositionY);
-
-    }
-    */
+    
 }

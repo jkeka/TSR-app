@@ -69,6 +69,9 @@ public class LocationDataHandler : MonoBehaviour
         float roundLat = Mathf.Round(floatLat * 1000f) / 1000f;
         float roundLon = Mathf.Round(floatLon * 1000f) / 1000f;
 
+        Debug.Log("FLoatLat " + floatLat);
+        Debug.Log("FLoatLon " + floatLon);
+
         float latConverted = ConvertLocationY(floatLat);
         float lonConverted = ConvertLocationX(floatLon);
 
@@ -119,10 +122,10 @@ public class LocationDataHandler : MonoBehaviour
         //float startOffsetX = -2200f;
         float startOffsetX = -(panZoomScript.mapWidth / 2);
 
-        float startOffsetGPSX = 22.224010346708628f;
+        float startOffsetGPSX = 22.22401f;
 
         //float mapWidthGps = 0.054132385680159f;
-        float mapWidthGps = 22.278142732388787f - 22.224010346708628f;
+        float mapWidthGps = 22.27814f - 22.22401f;
 
         float mapWidth = panZoomScript.mapWidth;
 
@@ -143,7 +146,7 @@ public class LocationDataHandler : MonoBehaviour
         //float startOffsetY = -1575f;
         float startOffsetY = -(panZoomScript.mapHeigth / 2);
 
-        float startOffsetGPSY = 60.4306495777899f;
+        float startOffsetGPSY = 60.43064f;
 
         // Top right 60.45733392077009, 22.278142732388787
         // Top left 60.45733392077009, 22.224010346708628
@@ -153,7 +156,7 @@ public class LocationDataHandler : MonoBehaviour
 
 
         //float mapHeigthGps = 0.02668434298019f;
-        float mapHeigthGps = 60.45733392077009f - 60.4306495777899f;
+        float mapHeigthGps = 60.45733f - 60.43064f;
 
         float mapHeigth = panZoomScript.mapHeigth;
 
