@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 
 public class GPSmanager : MonoBehaviour
 {
@@ -52,7 +53,8 @@ public class GPSmanager : MonoBehaviour
     private float mapHeigth = 3150f;
     private float mapWidth = 4400f;
 
-
+    //Permission
+    GameObject dialog = null;
 
     void Awake()
     {
@@ -65,10 +67,15 @@ public class GPSmanager : MonoBehaviour
         //deviceLatitude = 22.254176f;
         //deviceLongitude = 60.440105f;
 
+        //Ask permission for location
+        if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
+        {
+            Permission.RequestUserPermission(Permission.FineLocation);
+            dialog = new GameObject();
+        }
 
         //Calls the GPS at start
         StartCoroutine(Start());
-        //InvokeRepeating("StartCoroutine(Start())", 2.0f, 5f);
 
 
     }
@@ -78,6 +85,10 @@ public class GPSmanager : MonoBehaviour
 
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
+
+        Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
+        logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
+
 
         //Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
 
