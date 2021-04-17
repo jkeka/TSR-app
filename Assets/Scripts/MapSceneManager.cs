@@ -26,6 +26,7 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform compassScreen;
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
+    //public RectTransform instructionScreen;
     
 
     public GameObject screens;
@@ -49,6 +50,7 @@ public class MapSceneManager : MonoBehaviour
     public Button libraryButton;
     public Button exitButton;
     public Button closeButton;
+    public Button instructionButton;
 
     private int mapSiblingIndex = 5;
     public static int siblingIndex = 8;
@@ -63,7 +65,7 @@ public class MapSceneManager : MonoBehaviour
         else
             Instance = this;
 
-        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
 
         StartCoroutine(CheckConnection(isConnected =>
         {
@@ -99,6 +101,7 @@ public class MapSceneManager : MonoBehaviour
         arButton.onClick.AddListener(ARClick);
         exitButton.onClick.AddListener(ExitClick);
         closeButton.onClick.AddListener(CloseClick);
+        instructionButton.onClick.AddListener(InstructionClick);
 
         //menuText.text = "Language";
 
@@ -250,6 +253,13 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Description closed");
         glossaryScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
+    }
+
+    void InstructionClick()
+    {
+        Debug.Log("Instruction clicked");
+        //instructionScreen.SetSiblingIndex(siblingIndex);
+        //mapScreen.SetSiblingIndex(mapSiblingIndex);
     }
 
 }

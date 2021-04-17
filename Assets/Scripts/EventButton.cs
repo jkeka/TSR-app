@@ -20,18 +20,19 @@ public class EventButton : MonoBehaviour
 
     {
         string venueID = gameObject.GetComponent<Event>().venueId;
-       
-        foreach (Button button in MapSceneDatabase.markerList)
-        {
             
+        foreach (Button button in LocationDataHandler.markerList)
+        {
+            Debug.Log(venueID + " " + button.GetComponent<Coordinates>().id);
+                     
             if (venueID == button.GetComponent<Coordinates>().id)
             {
+                
                 string locationName = button.GetComponent<Coordinates>().locationName;
                 var child = confScreen.transform.GetChild(0).transform.GetChild(0);
                 child.GetComponent<TMPro.TextMeshProUGUI>().text = "Navigate to " + locationName + "?";
                 RectTransform Pos = confScreen.GetComponent<RectTransform>();
                 Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
-                confScreen.SetActive(true);
 
                 CoordinateData.locationName = button.GetComponent<Coordinates>().locationName;
                 CoordinateData.latitude = button.GetComponent<Coordinates>().latitude;
