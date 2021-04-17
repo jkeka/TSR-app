@@ -103,6 +103,12 @@ public class GPSmanager : MonoBehaviour
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
+        if (isGpsOn == true)
+        {
+            UserLocation();
+
+        }
+
         Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
         logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
 
@@ -170,12 +176,7 @@ public class GPSmanager : MonoBehaviour
             Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
 
             isGpsOn = true;
-            userPosText.text = "Gps on";
 
-            if (isGpsOn == true)
-            {
-                InvokeRepeating("UserLocation", 0, 3);
-            }
         }
 
         // Stop service if there is no need to query location updates continuously
@@ -214,24 +215,18 @@ public class GPSmanager : MonoBehaviour
     public void UserLocation()
     {
 
-        //float widthUnit = 0.000012073f;
         widthUnit = mapWidthGps / panZoomScript.mapWidth;
 
-        //float heigthUnit = 0.00000597f;
         heigthUnit = mapHeigthGps / panZoomScript.mapHeigth;
 
-        //float mapWidthGps = 0.054132385680159f;
         mapWidthGps = 22.278142732388787f - 22.224010346708628f;
 
-        //float mapHeigthGps = 0.02668434298019f;
         mapHeigthGps = 60.45733392077009f - 60.4306495777899f;
 
-        //float startOffsetX = -2200f;
         startOffsetX = -(panZoomScript.mapWidth / 2);
 
         startOffsetGPSX = 22.224010346708628f;
 
-        //float startOffsetY = -1575f;
         startOffsetY = -(panZoomScript.mapHeigth / 2);
 
         startOffsetGPSY = 60.4306495777899f;
@@ -247,12 +242,13 @@ public class GPSmanager : MonoBehaviour
         userPositionX = startOffsetX + (userTempWidth / widthUnit);
         userPositionY = startOffsetY + (userTempHeigth / heigthUnit);
 
-
+        /*
         Debug.Log("Device latitude: " + deviceLatitude);
         Debug.Log("Device longitude: " + deviceLongitude);
 
         Debug.Log("User Position X: " + userPositionX);
         Debug.Log("User Position Y: " + userPositionY);
+        */
 
         userLocationMarker.transform.localPosition = new Vector3(userPositionX, userPositionY, 0);
 
