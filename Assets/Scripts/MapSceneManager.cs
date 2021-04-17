@@ -234,7 +234,7 @@ public class MapSceneManager : MonoBehaviour
     void NoClick()
     {
         Debug.Log("Confirmation answer no");
-        confScreen.SetActive(false);
+        schedScreen.SetSiblingIndex(siblingIndex);
     }
 
     void ARClick()
