@@ -16,10 +16,10 @@ PlayerSettings:
   productName: TSR app
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.28595585, g: 0.8133575, b: 0.9622642, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.5229619, g: 0.62276214, b: 0.9811321, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
+  m_SplashScreenOverlayOpacity: 0.5
   m_SplashScreenAnimation: 0
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 0
@@ -40,10 +40,8 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
-  - logo: {fileID: 21300000, guid: 5b8cefc9e62c1704994c897da4277c64, type: 3}
-    duration: 2
-  - logo: {fileID: 21300000, guid: 4798f6e7d4456f7409144146e27471a3, type: 3}
-    duration: 2
+  - logo: {fileID: 21300000, guid: bc1d8840a9642c2468b5aa16bb55b48f, type: 3}
+    duration: 3
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
@@ -174,8 +172,8 @@ PlayerSettings:
   applicationIdentifier: {}
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 24
-  AndroidTargetSdkVersion: 29
+  AndroidMinSdkVersion: 28
+  AndroidTargetSdkVersion: 30
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
