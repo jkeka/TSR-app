@@ -123,7 +123,7 @@ export default function Descriptions() {
     setLocDropDown([<option key='0'>Select location</option>, Object.entries(locations).map(([key, value]) => {
       return <option key={value.id}>{key}, {value.id}</option>
     })])
-  }, [SelectedTypeChanged])
+  }, [SelectedTypeChanged, locations])
 
   useEffect(() => {
     if (selectedType === 'ship') {
@@ -143,15 +143,15 @@ export default function Descriptions() {
             <textarea name={key} onChange={handleChange} value={theObject[key]} rows="10" cols="50" />
           </div>
         )
-      } /*else {
-        return(
+      } else {
+        return null/*(
           <div key={key}>
             <label>{key}</label>
             <input type="text" name={key} onChange={handleChange} value={theObject[key]} />
           </div>
         )
-      }*/
-      
+      */}
+        
     }))
   }, [JSON.stringify(theTemplate), langSelected])
 

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,6 +35,86 @@ public class DBUser {
     }
 }
 
+public class Location {
+    public string id;
+    public Location(string newId) {
+        this.id = newId;
+    }
+}
+
+public class Locs : IEnumerable
+{
+    private Location[] _location;
+    public Locs(Location[] pArray)
+    {
+        _location = new Location[pArray.Length];
+
+        for (int i = 0; i < pArray.Length; i++)
+        {
+            _location[i] = pArray[i];
+        }
+    }
+
+// Implementation for the GetEnumerator method.
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+       return (IEnumerator) GetEnumerator();
+    }
+
+    public LocsEnum GetEnumerator()
+    {
+        return new LocsEnum(_location);
+    }
+}
+
+public class LocsEnum : IEnumerator
+{
+    public Location[] _location;
+
+    // Enumerators are positioned before the first element
+    // until the first MoveNext() call.
+    int position = -1;
+
+    public LocsEnum(Location[] list)
+    {
+        _location = list;
+    }
+
+    public bool MoveNext()
+    {
+        position++;
+        return (position < _location.Length);
+    }
+
+    public void Reset()
+    {
+        position = -1;
+    }
+
+    object IEnumerator.Current
+    {
+        get
+        {
+            return Current;
+        }
+    }
+
+    public Location Current
+    {
+        get
+        {
+            try
+            {
+                return _location[position];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw new InvalidOperationException();
+            }
+        }
+    }
+}
+
 /** 
 Functions:
 ToString() - returns deviceCode, set language and locations visited in a string
@@ -49,11 +131,12 @@ public static class User {
     public static string language;
     public static DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
     public static List<string> visitedLocations;
-
+    public static List<Location> locationArray = new List<Location>();
     
 
     public static void InitializeUser(string deviceCodeNow)
     {
+        GetLocations();
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.SignInAnonymouslyAsync().ContinueWith(task => {
             if (task.IsCanceled) {
@@ -139,26 +222,56 @@ public static class User {
         visitedLocations = tmpUser.visitedLocations;
     }
 
-    public static void AddVisitedLocation(string newLocation)
-    {
+    public static bool AddVisitedLocation(string newLocation)
+    {   
         Debug.Log("Adding Location");
-        visitedLocations.Add(newLocation);
-        DBUser tmp = new DBUser(deviceCode, language, visitedLocations);
-        string json = JsonUtility.ToJson(tmp);
-        reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
-            if(task.IsFaulted) {
-                Debug.Log("Adding location faulted.");
-                Debug.Log(task.Exception);
-            }
+        foreach (Location loc in locationArray) {
+            if (loc.id == newLocation) {
+                Debug.Log("Location id matches!");
+                visitedLocations.Add(newLocation);
+                DBUser tmp = new DBUser(deviceCode, language, visitedLocations);
+                string json = JsonUtility.ToJson(tmp);
 
-            if(task.IsCanceled) {
-                Debug.Log("Cancelled.");
-            }
+                reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
+                    if(!task.IsFaulted && !task.IsCanceled) 
+                    {
+                        Debug.Log("Completed adding the location.");
+                    } 
+                        else 
+                    {
+                        Debug.Log("Adding location faulted.");
+                        Debug.Log(task.Exception);
+                    }
 
-            if(!task.IsFaulted && !task.IsCanceled) {
-                Debug.Log("Completed adding the location.");
+                });
+                return true;
             }
-        });;
+        }
+        return false;
+    }
+
+    public static void GetLocations()
+    {
+        FirebaseDatabase.DefaultInstance
+            .GetReference("Location")
+            .GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    if (snapshot.Value != null)
+                    {
+                        foreach (DataSnapshot ds in snapshot.Children) {
+                            Location x = JsonUtility.FromJson<Location>(ds.GetRawJsonValue());
+                            locationArray.Add(x);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("Something terrible happened during fetching location data");
+                }
+        });
     }
 
     public static List<string> GetVisitedLocations()
