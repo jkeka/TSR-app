@@ -223,8 +223,8 @@ public class GPSmanager : MonoBehaviour
 
     public void UserLocation()
     {
-        mapHeigth = map.sizeDelta.y / 2;
-        mapWidth = map.sizeDelta.x / 2;
+        mapHeigth = map.sizeDelta.y;
+        mapWidth = map.sizeDelta.x;
 
         //userX = deviceLatitude;
         //userY = deviceLongitude;

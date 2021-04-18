@@ -36,8 +36,8 @@ public class PanZoom : MonoBehaviour
         cameraHeight = cameraSize * 2;
         cameraWidth = cameraHeight * 0.5625f;
 
-        mapHeigth = map.sizeDelta.y / 2;
-        mapWidth = map.sizeDelta.x / 2;
+        mapHeigth = map.sizeDelta.y;
+        mapWidth = map.sizeDelta.x;
 
 
 
