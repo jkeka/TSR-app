@@ -40,8 +40,6 @@ public class PanZoom : MonoBehaviour
         mapWidth = map.sizeDelta.x;
 
 
-
-
         zoomMin = 100;
         zoomMax = 480;
 

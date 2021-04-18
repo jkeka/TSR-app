@@ -13,9 +13,12 @@ public class GPSmanager : MonoBehaviour
     public float destinationLatitude;
     public float destinationLongitude;
 
+    private int userLocationTimes = 0;
+
     public Text deviceCoordText;
     public Text logText;
     public Text userPosText;
+    public Text debugText;
 
     public GameObject compassSimple;
     public GameObject userLocationMarker;
@@ -44,14 +47,7 @@ public class GPSmanager : MonoBehaviour
     public float mapWidth;
     public float mapHeigth;
 
-    //Values
-    /*
-    private float startOffsetX = -2200f;
-    private float startOffsetY = -1575f;
 
-    private float startOffsetGPSX = 22.211355f;
-    private float startOffsetGPSY = 60.429646f;
-    */
     private float startOffsetX;
     private float startOffsetY;
 
@@ -63,13 +59,7 @@ public class GPSmanager : MonoBehaviour
 
     private float mapHeigthGps;
     private float mapWidthGps;
-    /*
-    private float mapHeigthGps = 0.018804f;
-    private float mapWidthGps = 0.053123f;
 
-    private float mapHeigth = 3150f;
-    private float mapWidth = 4400f;
-    */
 
     //Permission
     GameObject dialog = null;
@@ -77,16 +67,11 @@ public class GPSmanager : MonoBehaviour
     void Awake()
     {
 
-        //Kartan keskus
-        //deviceLatitude = 22.2379165f;
-        //deviceLongitude = 60.439048f;
-
         //Juani
         //deviceLatitude = 22.254176f;
         //deviceLongitude = 60.440105f;
 
         panZoomScript = FindObjectOfType<PanZoom>();
-
 
 
         isGpsOn = false;
@@ -98,8 +83,8 @@ public class GPSmanager : MonoBehaviour
             dialog = new GameObject();
         }
 
-        //Calls the GPS at start
-        StartCoroutine(Start());
+        //Call gps
+        StartCoroutine(GetLocation());
 
         //UserLocation();
 
@@ -112,11 +97,10 @@ public class GPSmanager : MonoBehaviour
         destinationLongitude = MarkerButton.destinationLongitude;
 
         
-        if (isGpsOn == true)
-        {
-            UserLocation();
+    
+        //UserLocation();
 
-        }
+        
         
         //Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
         //logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
@@ -129,31 +113,38 @@ public class GPSmanager : MonoBehaviour
         compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, Input.compass.magneticHeading + bearing), 100f);
     }
 
-    IEnumerator Start()
+    IEnumerator GetLocation()
     {
         //logText.text = ("GPS: GPS under fetching");
         //userPosText.text = ("GPS: GPS under fetching");
+
+        if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
+        {
+            Permission.RequestUserPermission(Permission.FineLocation);
+            Permission.RequestUserPermission(Permission.CoarseLocation);
+        }
 
         // First, check if user has location service enabled
         if (!Input.location.isEnabledByUser)
         {
             logText.text = ("GPS: Device location disabled");
-            Debug.Log("GPS: Device location disabled");
+            //Debug.Log("GPS: Device location disabled");
+            //yield return new WaitForSeconds(3);
             yield break;
         }
 
 
         // Start service before querying location
-        Input.location.Start(); //Default accuracy 10m
+        Input.location.Start(0.1f, 0.1f); //Accuracy and update distance
         logText.text = ("GPS: Input.location started");
-        Debug.Log("GPS: Input.location started");
+        //Debug.Log("GPS: Input.location started");
 
         // Wait until service initializes
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
             logText.text = ("GPS: Waiting location status");
-            Debug.Log("GPS: Waiting location status");
+            //Debug.Log("GPS: Waiting location status");
             yield return new WaitForSeconds(1);
             maxWait--;
         }
@@ -162,7 +153,7 @@ public class GPSmanager : MonoBehaviour
         if (maxWait < 1)
         {
             logText.text = ("GPS: Timed out");
-            Debug.Log("GPS: Timed out");
+            //Debug.Log("GPS: Timed out");
             yield break;
 
         }
@@ -171,20 +162,21 @@ public class GPSmanager : MonoBehaviour
         if (Input.location.status == LocationServiceStatus.Failed)
         {
             logText.text = ("GPS: Unable to determine device location");
-            Debug.Log("GPS: Unable to determine device location");
+            //Debug.Log("GPS: Unable to determine device location");
 
             yield break;
         }
         else
         {
             // Access granted and location value could be retrieved
-            Debug.Log("GPS: Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
+            //Debug.Log("GPS: Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
             deviceLatitude = Input.location.lastData.latitude;
             deviceLongitude = Input.location.lastData.longitude;
             deviceCoordText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
-            Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
+            //Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
+            //logText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
 
-            isGpsOn = true;
+            UserLocation();
 
         }
 
@@ -215,25 +207,31 @@ public class GPSmanager : MonoBehaviour
         return brng;
     }
 
-    public void FetchGPS()
-    {
-        StartCoroutine(Start());
-    }
 
+    public void FetchGps()
+    {
+        StartCoroutine(GetLocation());
+
+    }
 
     public void UserLocation()
     {
+        userLocationTimes++;
+
+        debugText.text = ("UserLocation() called " + userLocationTimes + " times.");
         mapHeigth = map.sizeDelta.y;
         mapWidth = map.sizeDelta.x;
 
-        userX = deviceLatitude;
-        userY = deviceLongitude;
+        userY = deviceLatitude;
+        userX = deviceLongitude;
 
         //userY = 60.43966f;
         //userX = 22.25441f;
 
         Debug.Log("User Position X: " + userX);
         Debug.Log("User Position Y: " + userY);
+
+        logText.text = ("UserLocation(): deviceLatitude " + userX + " deviceLongitude " + userY);
 
 
         float userLatConverted = ConvertUserLocationY(userY);
@@ -247,7 +245,7 @@ public class GPSmanager : MonoBehaviour
 
         userLocationMarker.transform.localPosition = new Vector3(userLonConverted, userLatConverted, 0);
 
-        userPosText.text = ("User Position X: " + userPositionX + " User Position Y: " + userPositionY);
+        userPosText.text = ("Converted user Position X: " + userLonConverted + " User Position Y: " + userLatConverted);
 
         // Top right 60.45733392077009, 22.278142732388787
         // Top left 60.45733392077009, 22.224010346708628
