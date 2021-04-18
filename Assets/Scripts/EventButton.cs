@@ -37,6 +37,8 @@ public class EventButton : MonoBehaviour
                 CoordinateData.locationName = button.GetComponent<Coordinates>().locationName;
                 CoordinateData.latitude = button.GetComponent<Coordinates>().latitude;
                 CoordinateData.longitude = button.GetComponent<Coordinates>().longitude;
+                CoordinateData.id = button.GetComponent<Coordinates>().id;
+                CoordinateData.type = button.GetComponent<Coordinates>().type;
 
                 Debug.Log("Event button");
 

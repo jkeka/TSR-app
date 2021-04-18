@@ -248,15 +248,16 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Fetch location data from database");
         compassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
-        QuizDataHandler.LoadQuizz(CoordinateData.id, "fi");
-        DescriptionDataHandler.LoadDescription(CoordinateData.id, "fi");
+
+        if (CoordinateData.type == "ship")
+        {
+            DescriptionDataHandler.LoadDescription(CoordinateData.id, "fi");
+        }       
 
         for (int i = 0; i < screenObjects.Count; i++)
         {
             screenObjects[i].SetActive(true);
         }
-
-        //SceneManager.LoadScene("ARScene");
     }
 
     void NoClick()
