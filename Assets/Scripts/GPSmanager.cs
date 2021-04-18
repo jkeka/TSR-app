@@ -101,7 +101,7 @@ public class GPSmanager : MonoBehaviour
         //Calls the GPS at start
         StartCoroutine(Start());
 
-        UserLocation();
+        //UserLocation();
 
     }
 
@@ -111,13 +111,13 @@ public class GPSmanager : MonoBehaviour
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
-        /*
+        
         if (isGpsOn == true)
         {
             UserLocation();
 
         }
-        */
+        
         //Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
         //logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
 
@@ -226,11 +226,11 @@ public class GPSmanager : MonoBehaviour
         mapHeigth = map.sizeDelta.y;
         mapWidth = map.sizeDelta.x;
 
-        //userX = deviceLatitude;
-        //userY = deviceLongitude;
+        userX = deviceLatitude;
+        userY = deviceLongitude;
 
-        userY = 60.43966f;
-        userX = 22.25441f;
+        //userY = 60.43966f;
+        //userX = 22.25441f;
 
         Debug.Log("User Position X: " + userX);
         Debug.Log("User Position Y: " + userY);
@@ -242,8 +242,8 @@ public class GPSmanager : MonoBehaviour
         //Debug.Log("userLonConverted: " + userLonConverted);
         //Debug.Log("userLatConverted: " + userLatConverted);
 
-        Debug.Log("mapHeigth gps " + mapHeigth);
-        Debug.Log("mapWidth gps " + mapWidth);
+        //Debug.Log("mapHeigth gps " + mapHeigth);
+        //Debug.Log("mapWidth gps " + mapWidth);
 
         userLocationMarker.transform.localPosition = new Vector3(userLonConverted, userLatConverted, 0);
 
@@ -263,8 +263,8 @@ public class GPSmanager : MonoBehaviour
         //float startOffsetX = -2200f;
         float startOffsetX = -(mapWidth / 2);
 
-        Debug.Log("startOffsetX: " + startOffsetX);
-        Debug.Log("mapWidth gps: " + mapWidth);
+        //Debug.Log("startOffsetX: " + startOffsetX);
+        //Debug.Log("mapWidth gps: " + mapWidth);
 
 
         float startOffsetGPSX = 22.22401f;
@@ -276,12 +276,12 @@ public class GPSmanager : MonoBehaviour
         //float widthUnit = 0.000012073f;
         float widthUnit = mapWidthGps / mapWidth;
 
-        Debug.Log("widthUnit: " + widthUnit);
+        //Debug.Log("widthUnit: " + widthUnit);
 
 
         float userTempWidth = longitude - startOffsetGPSX;
 
-        Debug.Log("userTempWidth: " + userTempWidth);
+        //Debug.Log("userTempWidth: " + userTempWidth);
 
 
         float userPositionX = startOffsetX + (userTempWidth / widthUnit);

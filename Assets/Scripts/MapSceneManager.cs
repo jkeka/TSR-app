@@ -15,6 +15,10 @@ public class MapSceneManager : MonoBehaviour
     // Start is called before the first frame update
     public static MapSceneManager Instance;
 
+    public bool isFirstTime;
+
+    public GameObject instructionCanvas;
+    public GameObject bottomBar;
 
     public GameObject confScreen;
     public GameObject errorMessage;
@@ -26,11 +30,8 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform compassScreen;
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
-    //public RectTransform instructionScreen;
 
     public List<GameObject> screenObjects = new List<GameObject>();
-
-    //public RectTransform instructionScreen;
 
     public GameObject screens;
     //public List<GameObject> screensList = new List<GameObject>();
@@ -82,7 +83,10 @@ public class MapSceneManager : MonoBehaviour
 
     void Start()
     {
-        
+        isFirstTime = true;
+
+        bottomBar.SetActive(false);
+        instructionCanvas.SetActive(false);
         screens.SetActive(true);
 
         for (int i = 0; i < screenObjects.Count; i++)
@@ -166,6 +170,16 @@ public class MapSceneManager : MonoBehaviour
         User.SetLanguage("fi");
         
         mapScreen.SetSiblingIndex(siblingIndex);
+
+        if (isFirstTime == true)
+        {
+            instructionCanvas.SetActive(true);
+
+        }
+
+        bottomBar.SetActive(true);
+        
+
 
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
@@ -279,8 +293,7 @@ public class MapSceneManager : MonoBehaviour
     void InstructionClick()
     {
         Debug.Log("Instruction clicked");
-        //instructionScreen.SetSiblingIndex(siblingIndex);
-        //mapScreen.SetSiblingIndex(mapSiblingIndex);
+        instructionCanvas.SetActive(true);
     }
 
 }
