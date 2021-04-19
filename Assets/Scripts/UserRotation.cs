@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UserRotation : MonoBehaviour
 {
-    Gyroscope m_Gyro;
+    public Gyroscope m_Gyro;
     public Text gyroText;
 
     void Start()

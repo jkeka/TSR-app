@@ -19,8 +19,10 @@ public class GPSmanager : MonoBehaviour
     public Text logText;
     public Text userPosText;
     public Text debugText;
+    public Text bearingText;
 
     public GameObject compassSimple;
+    public GameObject compassBottom;
     public GameObject userLocationMarker;
 
     public bool isGpsOn = false;
@@ -60,6 +62,9 @@ public class GPSmanager : MonoBehaviour
     private float mapHeigthGps;
     private float mapWidthGps;
 
+    //Gyroscope
+    private UserRotation userRotationScript;
+
 
     //Permission
     GameObject dialog = null;
@@ -72,6 +77,7 @@ public class GPSmanager : MonoBehaviour
         //deviceLongitude = 60.440105f;
 
         panZoomScript = FindObjectOfType<PanZoom>();
+        userRotationScript = FindObjectOfType<UserRotation>();
 
 
         isGpsOn = false;
@@ -96,12 +102,12 @@ public class GPSmanager : MonoBehaviour
         destinationLatitude = MarkerButton.destinationLatitude;
         destinationLongitude = MarkerButton.destinationLongitude;
 
-        
-    
+
+
         //UserLocation();
 
-        
-        
+
+
         //Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
         //logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
 
@@ -109,8 +115,16 @@ public class GPSmanager : MonoBehaviour
         //Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
 
         //Rotating compass
+        float magneticHeading = Input.compass.magneticHeading;
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
-        compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, Input.compass.magneticHeading + bearing), 100f);
+        //compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, userRotationScript.m_Gyro.attitude.eulerAngles.z + bearing), 100f);
+        compassSimple.transform.rotation = Quaternion.Euler(0, 0, -magneticHeading + bearing);
+
+        //Compass bottom part rotates same direction as phone/user is heading
+        //compassBottom.transform.rotation = Quaternion.Euler(0, 0, userRotationScript.m_Gyro.attitude.eulerAngles.z);
+        //bearingText.text = ("Bearing - magneticHeading: " + (magneticHeading + bearing));
+        bearingText.text = ("magneticHeading: " + magneticHeading);
+
     }
 
     IEnumerator GetLocation()
