@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Table, Container } from 'react-bootstrap'
+import { Button, Table, Container } from 'react-bootstrap'
 import firebase from '../services/firebase'
 
 export default class User extends Component {
@@ -16,7 +16,8 @@ export default class User extends Component {
       visitedLocations: [],
       tempDB: [],
       deviceInputDisabled: false,
-      submitOrUpdate: 'Submit'
+      submitOrUpdate: 'Submit',
+      authed: false
     }
   }
   componentDidMount() {
@@ -29,6 +30,13 @@ export default class User extends Component {
         console.log('fetch failed')
       }
     })
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+      this.setState({authed: true})
+    } else {
+      // No user is signed in.
+    }
   }
   modifyClicked(key, language) {
     console.log(language)
@@ -99,48 +107,27 @@ export default class User extends Component {
       )
     })
     return (
-      <Container>
-      {/* NOT NEEDED FORM FOR ADDING USERS
-      <Form onSubmit={this.handleSubmit}>
-
-        <Form.Group>
-          <Form.Label htmlFor="device">deviceCode:</Form.Label>
-          <Form.Control type="text" name="deviceCode" value={this.state.deviceCode}
-            onChange={this.handleChange} disabled={this.state.deviceInputDisabled ? "disabled" : ""} />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label htmlFor="language">language:</Form.Label>
-          <Form.Control type="text" name="language" value={this.state.language}
-            onChange={this.handleChange} />
-        </Form.Group>
-        
-        <Form.Group>
-          <Form.Label htmlFor="rewardKey">rewardKey:</Form.Label>
-          
-          <Button onClick={() => this.addRewardKey()}>+</Button><br/>
-        </Form.Group>
-        
-        <Form.Group>
-          <Button variant="primary" type="submit">{this.state.submitOrUpdate}</Button>
-        </Form.Group>
-      </Form>
-      */}
-    
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>device</th>
-            <th>lang</th>
-            <th>visitedLocations</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {resultTable}
-        </tbody>
-      </Table>
-    </Container>
+      <div>
+        {this.state.authed ?
+        <Container>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>device</th>
+                <th>lang</th>
+                <th>visitedLocations</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {resultTable}
+            </tbody>
+          </Table>
+        </Container>
+        :
+        <p>Please log in</p>
+            }
+      </div>
     )
   }
 }

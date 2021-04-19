@@ -1,218 +1,194 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import firebase from '../services/firebase'
-import { Button, Form } from 'react-bootstrap'
-
-const shipTemplate = {
-  owner: '',
-  builder: '',
-  launched: 0,
-  description: '',
-  length: 0,
-  beam: 0,
-  height: 0,
-  depth: 0,
-  draft: 0,
-  tonnage:0,
-  status: '',
-  speed: 0,
-  shiptype: ''
-}
-const boothTemplate = {
-  description: '',
-  another_field: ''
-}
+import { Button } from 'react-bootstrap'
 
 const defaultTypes = ['ship', 'booth', 'venue', 'restaurant']
+const defaultLanguages = ['fi', 'en', 'se']
 
-export default function Descriptions() {
-  const ref = firebase.database().ref()
-  const [allLocations, setAllLocations] = useState({})
-  const [locations, setLocations] = useState({default: {id: ''}})
-  const [AllLocationsChanged, setAllLocationsChanged] = useState(false)
-  const [SelectedTypeChanged, setSelectedTypeChanged] = useState(false)
-
-  const [locationDropDown, setLocDropDown] = useState([<option key='0'>Select location</option>])
-  const [selectedLocation, setSelectedLocation] = useState(undefined)
-  const [theLocation, setTheLocation] = useState(undefined)
-
-  const typeDropDown = defaultTypes.map(type => <option key={type}>{type}</option>)
-  const [selectedType, setType] = useState(defaultTypes[0])
-
-  const [descriptions, setDescriptions] = useState({})
-
-  const [inputList, setInputList] = useState([])
-
-  const [langSelected, setLanguage] = useState('en')
-  const langDropDown = ['en', 'fi', 'se'].map(l => <option key={l}>{l}</option>)
-  const [showForm, setShowForm] = useState(false)
-  const [theObject, setTheObject] = useState({})
-  let copy = {}
-  const [theTemplate, setTheTemplate] = useState(shipTemplate)
-
-  const handleChange = (e) => {
-    console.log(e.target.name)
-    switch(e.target.name) {
-      case 'location':
-        const locId = parseInt(e.target.value.substring(e.target.value.length - 13))
-        let searchedLoc = {}
-        Object.entries(locations).forEach(loc => {
-          if(loc[1].id === locId) {
-            searchedLoc = locations[loc[0]]
-          }
-        })
-
-        console.log(searchedLoc)
-        setTheLocation(searchedLoc)
-        setSelectedLocation(e.target.value)
-        const theLocData = Object.entries(descriptions).find(([key, value]) => parseInt(key) === locId)
-        if (theLocData && theLocData[1][langSelected]) {
-          copy = theLocData[1][langSelected]
-          setTheObject(theLocData[1][langSelected])
-        }
-        setShowForm(true)
-        break
-      case 'type':
-        setType(e.target.value)
-        setSelectedTypeChanged(!SelectedTypeChanged)
-        break
-      case 'language':
-        const theLocDat = Object.entries(descriptions).find(([key, value]) => parseInt(key) === theLocation.id)
-        let langValue = e.target.value.slice(0)
-        if (theLocDat && theLocDat[1][langValue]) {
-          copy = theLocDat[1][langValue]
-          setTheObject(theLocDat[1][langValue])
-        }
-        setLanguage(e.target.value)
-        break
-      default:
-        let tmpObj = {...copy}
-        let target = e.target.name.slice(0)
-        let value = e.target.value.slice(0)
-        tmpObj[target] = value
-        copy = tmpObj
-        console.log(copy, tmpObj)
-        setTheObject(copy)
+export default class Descriptions extends Component {
+  constructor(props) {
+    super(props)
+    this.ref = firebase.database().ref()
+    this.handleChange = this.handleChange.bind(this)
+    this.findDescription = this.findDescription.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      locations: {},
+      descriptions: {},
+      selectedType: defaultTypes[0],
+      selectedLanguage: defaultLanguages[0],
+      locationSelected: '',
+      selectedLocations: {},
+      description: '',
+      showForm: false,
+      authed: false
     }
   }
-
-  // Fetches data when component mounts
-  useEffect(() => {
-    ref.child("Location").once('value', (snapshot) => {
+  componentDidMount() {
+    this.ref.child("Location").once('value', (snapshot) => {
       if (snapshot.val() !== null) {
         console.log('locations found')
-        setAllLocations(snapshot.val())
-        setAllLocationsChanged(true)
+        this.setState({
+          locations: snapshot.val(),
+          selectedLocations: Object.values(snapshot.val()).filter((value) => value.type === this.state.selectedType),
+          locationSelected: Object.values(snapshot.val()).filter((value) => value.type === this.state.selectedType)[0].id
+        })
       } else {
         console.log('no locations found')
       }
     })
-  }, [ref])
-
-  // Filters the data based on type selected
-  useEffect(() => {
-    let locs = Object.fromEntries(Object.entries(allLocations)
-      .filter(([key, value]) => value.type === selectedType))
-    console.log(locs)
-    setLocations(locs)
-    setSelectedTypeChanged(!setSelectedTypeChanged)
-  }, [AllLocationsChanged, selectedType])
-
-  // Sets the dropdown menu for different locations based on type
-  useEffect(() => {
-    setLocDropDown([<option key='0'>Select location</option>, Object.entries(locations).map(([key, value]) => {
-      return <option key={value.id}>{key}, {value.id}</option>
-    })])
-  }, [SelectedTypeChanged, locations])
-
-  useEffect(() => {
-    if (selectedType === 'ship') {
-      setTheTemplate(shipTemplate)
-    } else {
-      setTheTemplate(boothTemplate)
-    }
-  }, [selectedType, langSelected])
-
-  useEffect(() => {
-    console.log('INPUTS CHANGING')
-    setInputList(Object.keys(theTemplate).map(key => {
-      if (key === 'description') {
-        return (
-          <div key={key}>
-            <label>{key}</label>
-            <textarea name={key} onChange={handleChange} value={theObject[key]} rows="10" cols="50" />
-          </div>
-        )
+    this.ref.child("Descriptions").once('value', (snapshot) => {
+      if (snapshot.val() !== null) {
+        console.log('descriptions found')
+        this.setState({descriptions: snapshot.val()})
+        this.initializeDescription()
       } else {
-        return null/*(
-          <div key={key}>
-            <label>{key}</label>
-            <input type="text" name={key} onChange={handleChange} value={theObject[key]} />
-          </div>
-        )
-      */}
-        
-    }))
-  }, [JSON.stringify(theTemplate), langSelected])
+        console.log('no descriptions found')
+      }
+    })
+    const user = firebase.auth().currentUser;
 
-  useEffect(() => {
-    console.log('THE OBJECT CHANGING')
-  }, [JSON.stringify(theObject)])
-
-  useEffect(() => {
-      ref.child("Descriptions").once('value', (snapshot) => {
-        if (snapshot.val() !== null) {
-          console.log(snapshot.val())
-          setDescriptions(snapshot.val())
-        } else {
-          console.log('no descriptions found')
-        }
-      })
-  }, [JSON.stringify(descriptions), ref])
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(theLocation)
-    console.log(langSelected)
-    ref.child('Descriptions').child(theLocation.id).child(langSelected).set(theObject)
-    let tmpDescriptions = {...descriptions}
-    tmpDescriptions[theLocation.id][langSelected] = theObject
-    setDescriptions(tmpDescriptions)
+    if (user) {
+      this.setState({authed: true})
+    } else {
+      // No user is signed in.
+    }
   }
+  initializeDescription() {
+    let desc = this.findDescription(this.state.selectedLanguage, this.state.locationSelected.toString())
+    this.setState({description: desc, showForm: true})
+  }
+  handleChange(e) {
+    switch (e.target.name) {
+      case 'type':
+        let desc3 = this.findDescription(this.state.selectedLanguage,
+          Object.values(this.state.locations).filter((value) => value.type === e.target.value)[0].id,
+          Object.values(this.state.locations).filter((value) => value.type === e.target.value)[0].id)
+        this.setState({
+          selectedType: e.target.value,
+          selectedLocations: Object.values(this.state.locations).filter((value) => value.type === e.target.value),
+          locationSelected: Object.values(this.state.locations).filter((value) => value.type === e.target.value)[0].id,
+          description: desc3
+        })
+        break
+      case 'location':
+        console.log(e.target.value)
+        const str = e.target.value
+        const locId = str.substring(str.length - 14, str.length - 1)
+        const newLoc = Object.values(this.state.locations).find((value) => value.id.toString() === locId)
+        let desc2 = this.findDescription(this.state.selectedLanguage, newLoc.id.toString(), newLoc.id.toString())
+        this.setState({
+          locationSelected: newLoc.id,
+          description: desc2
+        })
+        break
+      case 'language':
+        let desc = this.findDescription(e.target.value, this.state.locationSelected.toString())
+        this.setState({selectedLanguage: e.target.value, description: desc})
+        break
+      case 'desc':
+        this.setState({description: e.target.value})
+        break
+      default:
+        console.log('error with switch')
+    }
+  }
+  findDescription(lang, key, location = this.state.locationSelected) {
+    const desc = Object.entries(this.state.descriptions).find(([key, desc]) => {
+      return key === location.toString()
+    })
+    let result = ''
+    if (desc && desc[1][lang]) {
+      result = desc[1][lang].description
+    }
+    return result
+  }
+  handleSubmit() {
+    if (window.confirm("Submit the data?")) {
 
-  return (
-    <div>
-      <h1>Descriptions</h1>
-      <p>Object to be sent to DB under {theLocation !== undefined ? theLocation.id : 'not chosen'} {'->'} {langSelected}:<br/>
-        {JSON.stringify(theObject)}</p>
-      <Form onSubmit={handleSubmit}>
-        <Form.Control as="select" custom name="type" value={selectedType} onChange={handleChange}>
-            {typeDropDown}
-        </Form.Control>
-        <Form.Control as="select" custom name="location" value={selectedLocation} onChange={handleChange}>
-            {locationDropDown}
-        </Form.Control>
-        {showForm ? 
+      console.log('Descriptions', this.state.locationSelected, this.state.selectedLanguage)
+      this.ref.child('Descriptions').child(this.state.locationSelected)
+        .child(this.state.selectedLanguage).set(this.state.description)
+      let tmpDescriptions = {...this.state.descriptions}
+      tmpDescriptions[this.state.locationSelected] = [this.state.selectedLanguage]
+      tmpDescriptions[this.state.locationSelected][this.state.selectedLanguage] = this.state.description
+      
+      this.setState({descriptions: tmpDescriptions})
+    }
+  }
+  render() {
+    let descTable = Object.entries(this.state.descriptions).map(([key, value]) => {
+      let loc = Object.values(this.state.locations).find(loc => loc.id.toString() === key.toString())
+      return (
+        <tr key={key}>
+          <td>{key}</td>
+          <td>{loc.name}</td>
+          <td>{loc.type}</td>
+          <td>{value.fi ? 'Yes' : 'No'}</td>
+          <td>{value.en ? 'Yes' : 'No'}</td>
+          <td>{value.se ? 'Yes' : 'No'}</td>
+        </tr>
+      )
+    })
+    return (
+      <div>
+        {this.state.authed ?
         <div>
-        <h2>{theLocation.name}</h2>
+          {this.state.showForm ?
+          <div>
+          <div style={{fontSize: "small"}}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Fi</th>
+                  <th>En</th>
+                  <th>Se</th>
+                </tr>
+              </thead>
+              <tbody>
+                {descTable}
+              </tbody>
+            </table>
+          </div>
+          <hr/>
+          <select name="type" value={this.state.selectedType} onChange={this.handleChange}>
+              {defaultTypes.map(type => <option key={type}>{type}</option>)}
+          </select>
+          
+          {this.state.selectedLocations[0] ?
+          <>
+          <select name="location" value={this.state.locationSelected.id} onChange={this.handleChange}>
+              {this.state.selectedLocations.map(loc => <option key={loc.id}>{`${loc.name} (${loc.id})`}</option>)}
+          </select>
+          <select name="language" value={this.state.selectedLanguage} onChange={this.handleChange}>
+              {defaultLanguages.map(lang => <option key={lang}>{lang}</option>)}
+          </select>
+          </>
+          : ''}
+          <br/>
+          {this.state.description !== '' ?
+          <textarea name="desc" rows="10" cols="80" value={this.state.description} onChange={this.handleChange}/>
+          :
+          <textarea name="desc" rows="10" cols="60" value={this.state.description} 
+            placeholder="No description found." onChange={this.handleChange}></textarea>
+          }
+          
+          <br/>
+          <Button onClick={() => this.handleSubmit()}>Submit</Button>
 
-        <Form.Group>
-          <Form.Control as="select" custom name="language" value={langSelected} onChange={handleChange}>
-            {langDropDown}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group>
-          {inputList}
-        </Form.Group>
-
-        <Form.Group>
-          <Button variant="primary" type="submit">Submit</Button>
-        </Form.Group>
         </div>
-        : 'Select a location'}
-      </Form>
+        :
+        <p>Loading...</p>
+        }
+      </div>
+      :
+      <p>Please log in</p>}
     </div>
-  )
+      
+    )
+  }
 }

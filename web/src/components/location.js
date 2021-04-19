@@ -20,7 +20,9 @@ export default class Location extends Component {
             mapLocation: DefaultLocation,
             zoom: DefaultZoom,
             defaultLocation: DefaultLocation,
-            selectedLocation: null
+            selectedLocation: null,
+            mapLoaded: false,
+            authed: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -49,15 +51,22 @@ export default class Location extends Component {
                 this.setState(
                     {
                         locations: snapshot.val(),
-                        typeDropDown: tmpDropDown    
+                        typeDropDown: tmpDropDown,
+                        mapLoaded: true    
                     })       
                 console.log(snapshot.val())
             } else {
                 console.log('no locations found')
-                this.setState({typeDropDown: tmpDropDown})
+                this.setState({typeDropDown: tmpDropDown, mapLoaded: true })
             }
         })
-        
+        const user = firebase.auth().currentUser;
+
+        if (user) {
+        this.setState({authed: true})
+        } else {
+        // No user is signed in.
+        }
     }
     handleSubmit(event) {
         event.preventDefault()
@@ -175,6 +184,8 @@ export default class Location extends Component {
         
         return (
             <div>
+            {this.state.authed ?
+            <div>
                 <table style={{border: "1px solid black", float: "right"}}>
                     <tr>
                         <th colSpan='2'>Object to be sent to DB</th>
@@ -222,6 +233,7 @@ export default class Location extends Component {
                     
                 </Form>
                 
+                {this.state.mapLoaded ? 
                 <MapPicker 
                     defaultLocation={this.state.defaultLocation}
                     zoom={this.state.zoom}
@@ -230,6 +242,8 @@ export default class Location extends Component {
                     onChangeZoom={this.handleChangeZoom}
                     apiKey='AIzaSyBrVmDD28eMPJ3QGoJfBiml1QQdvB0EUuU'
                 />
+                : ''}
+                
                 
                 <Table striped bordered hover>
                     <thead>
@@ -246,6 +260,10 @@ export default class Location extends Component {
                         {fetchedLocs}
                     </tbody>
                 </Table>
+            </div>
+            :
+            <p>Please log in</p>}
+                    
             </div>
         )
     }
