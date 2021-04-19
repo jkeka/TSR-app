@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../../services/firebase'
-import { Button, Form, Container, Table, Row } from 'react-bootstrap'
+import { Button, Form, Container, Table, Row, Col } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 
 export default class Event extends Component {
@@ -15,6 +15,8 @@ export default class Event extends Component {
     this.setStartTime = this.setStartTime.bind(this)
     this.setEndTime = this.setEndTime.bind(this)
     this.fillStuff = this.fillStuff.bind(this)
+    this.editEvent = this.editEvent.bind(this)
+    this.resetForm = this.resetForm.bind(this)
     this.state = { 
       events: {},
       venues: {},
@@ -26,7 +28,9 @@ export default class Event extends Component {
       eventSe: '',
       descFi: '',
       descEn: '',
-      descSe: ''
+      descSe: '',
+      selectedEvent: '',
+      id: ''
     }
   }
   componentDidMount() {
@@ -48,11 +52,10 @@ export default class Event extends Component {
     this.ref.child('Location').on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         for (const [key, value] of Object.entries(snapshot.val())) {
+          // Adding only locations with type venue to the venue list
           if (value.type === 'venue') {
-            console.log(key)
             tmpVenues[key] = (snapshot.val()[key])
           }
-          console.log(tmpVenues)
           this.setState({venues: tmpVenues, venue: Object.keys(this.state.venues)[0]})
         }
         
@@ -114,7 +117,10 @@ export default class Event extends Component {
   handleSubmit(event) {
     console.log('handleSubmit')
     event.preventDefault()
-    const newId = new Date().getTime()
+    let newId = new Date().getTime()
+    if (this.state.id !== '') {
+      newId = this.state.id
+    }
     const venueId = this.state.venues[this.state.venue].id
     const newEvent = { 
       id: newId,
@@ -176,17 +182,65 @@ export default class Event extends Component {
         descEn: copy, descSe: copy
     })
   }
+  editEvent(key) {
+    console.log(key)
+    const eventToEdit = Object.values(this.state.events).find(event => event.id.toString() === key)
+    console.log(eventToEdit)
+    console.log(this.state.venues)
+    const tmpVenue = Object.values(this.state.venues).find(venue => venue.id.toString() === key)
+    const tmpStartDate = new Date(eventToEdit.startTime)
+    const tmpEndDate = new Date(eventToEdit.endTime)
+    this.setState({
+      selectedEvent: key,
+      startTime: tmpStartDate,
+      endTime: tmpEndDate,
+      id: eventToEdit.id,
+      eventFi: eventToEdit.translations.fi.event,
+      descFi: eventToEdit.translations.fi.desc,
+      eventEn: eventToEdit.translations.en.event,
+      descEn: eventToEdit.translations.en.desc,
+      eventSe: eventToEdit.translations.se.event,
+      descSe: eventToEdit.translations.se.desc,
+      venue: tmpVenue
+    })
+  }
+  resetForm() {
+    this.setState({
+      selectedEvent: '',
+      startTime: '',
+      endTime: '',
+      id: '',
+      eventFi: '',
+      descFi: '',
+      eventEn: '',
+      descEn: '',
+      eventSe: '',
+      descSe: ''
+    })
+  }
   render() {
     const events = Object.entries(this.state.events).map(([key, value], index) => {
       return (
         <tr key={index}>
           <td>{key}</td>
-          <td>{value.translations.en.event}</td>
+          <td>{value.translations.fi.event}</td>
           <td>{value.venueId}</td>
           <td>{new Date(value.startTime).toLocaleString()}</td>
           <td>{new Date(value.endTime).toLocaleString()}</td>
           <td>
+            {this.state.selectedEvent === '' ?
+            <Button variant="info" onClick={() => this.editEvent(key)}>Edit</Button>
+            : ''
+            }
+            
+            {this.state.selectedEvent === key ? 
+            <>
             <Button variant="danger" onClick={() => this.removeEvent(key)}>Remove</Button>
+            <Button variant="info" onClick={() => this.resetForm()} 
+              style={{marginLeft: "1em"}}>Cancel</Button>
+            </>
+            : ''
+            }
           </td>
         </tr>
       )
@@ -199,7 +253,9 @@ export default class Event extends Component {
     return (
       <Container>
         
+        <a href="#addEvent">Add event</a>
         <h1>{this.title}</h1>
+        
         <Table>
           <thead>
             <tr>
@@ -216,7 +272,7 @@ export default class Event extends Component {
           </tbody>
         </Table>
         <hr/>
-        <h1>Add Event</h1>
+        <h1 id="addEvent">Add Event</h1>
         <Button variant="success" size="lg" onClick={() => this.fillStuff()}>Fill</Button>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>
@@ -239,14 +295,17 @@ export default class Event extends Component {
             {venueDropDown}
           </Form.Control>
           <hr/>
-          <Form.Label>Select start time</Form.Label>
           <Row>
+            <Col>
+            <Form.Label>Select start time</Form.Label>
+            <br/>
             <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.startTime} onChange={date => this.setStartTime(date)} />
-          </Row>
-          <hr/>
-          <Form.Label>Select end time</Form.Label>
-          <Row>
+            </Col>
+            <Col>
+            <Form.Label>Select end time</Form.Label>
+            <br/>
             <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.endTime} onChange={date => this.setEndTime(date)} />
+            </Col>
           </Row>
           <hr/>
           <Form.Group>

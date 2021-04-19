@@ -9,10 +9,7 @@ export default class User extends Component {
     
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.removeClaimedReward = this.removeClaimedReward.bind(this)
     this.modifyClicked = this.modifyClicked.bind(this)
-    this.addRewardKey = this.addRewardKey.bind(this)
-    this.addClaimedRewardKey = this.addClaimedRewardKey.bind(this)
     this.state = {
       deviceCode: '',
       language: '',
@@ -32,12 +29,6 @@ export default class User extends Component {
         console.log('fetch failed')
       }
     })
-  }
-  addRewardKey() {
-  
-  }
-  addClaimedRewardKey() {
-
   }
   modifyClicked(key, language) {
     console.log(language)
@@ -78,21 +69,18 @@ export default class User extends Component {
     event.preventDefault() 
   }
   removeDevice(device) {
-    console.log(device)
-    const ref = this.ref.child(device)
-    ref.remove()
-  }
-  removeReward(index) {
-
-  }
-  removeClaimedReward(key) {
-
+    if (window.confirm("Really remove?")) {
+      console.log(device)
+      const ref = this.ref.child(device)
+      ref.remove()
+    }
   }
   render() {
     const resultTable = Object.entries(this.state.tempDB).map(([key, value], index) => {
       let locList = "No visited locations"
       if (value.visitedLocations) {
-        locList = value.visitedLocations.map(loc => <li key={loc}>{loc}</li>)
+        console.log(value.visitedLocations)
+        locList = Object.values(value.visitedLocations).map(loc => <li key={loc}>{loc}</li>)
       }
       return (
         <tr key={index}>
