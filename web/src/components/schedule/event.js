@@ -63,10 +63,17 @@ export default class Event extends Component {
         console.log('locations fetch failed or nothing to fetch')
       }
     })
-    this.setState({
-      startTime: tmpStartDate,
-      endTime: tmpEndDate,
-    })
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+      this.setState({
+        authed: true,
+        startTime: tmpStartDate,
+        endTime: tmpEndDate
+      })
+    } else {
+      // No user is signed in.
+    }
   }
   setStartTime(date) {
     this.setState({startTime: date})
@@ -251,6 +258,8 @@ export default class Event extends Component {
         )
       })
     return (
+      <div>
+        {this.state.authed ?
       <Container>
         
         <a href="#addEvent">Add event</a>
@@ -329,7 +338,10 @@ export default class Event extends Component {
         </Form>
         
       </Container>
-        
+        :
+        <p>Please log in</p>
+            }
+      </div>
     )
   }
 }
