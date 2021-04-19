@@ -295,8 +295,6 @@ public static class User {
         Debug.Log("Setting language");
         language = lang;
         DBUser tmp = new DBUser(deviceCode, lang, visitedLocations); 
-        Debug.Log(deviceCode + lang + visitedLocations);
-        Debug.Log(tmp.ToString());
         string json = JsonUtility.ToJson(tmp);
         reference.Child("Users").Child(deviceCode).SetRawJsonValueAsync(json).ContinueWith((task) => { 
             if(task.IsFaulted) {
