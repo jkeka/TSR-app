@@ -52,6 +52,7 @@ export default class Home extends Component {
                 <h1>
                    {this.title} 
                 </h1>
+                {/**
                 <form method="post" enctype="multipart/form-data" onSubmit={this.submitData}>
                 <label for="imageUpload">Choose a profile picture:</label>
                 <br/>
@@ -62,7 +63,7 @@ export default class Home extends Component {
                 <button type="submit">Submit</button>
                 </form>
                 <button onClick={() => this.getData()}>Get data</button>
-                <img alt="" src={this.state.image} />
+                <img alt="" src={this.state.image} /> */}
             </div>
         )
     }

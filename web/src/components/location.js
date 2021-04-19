@@ -166,7 +166,7 @@ export default class Location extends Component {
                     </td>
                     :
                     <td>
-                        <Button onClick={() => this.modifyLocation(value)}>Modify</Button>
+                        <Button onClick={() => this.modifyLocation(value)}>Edit</Button>
                     </td>
                     }
                 </tr>

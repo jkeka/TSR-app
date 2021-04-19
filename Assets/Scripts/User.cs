@@ -225,6 +225,12 @@ public static class User {
     public static bool AddVisitedLocation(string newLocation)
     {   
         Debug.Log("Adding Location");
+        foreach (string loc in visitedLocations) {
+            if (loc.Equals(newLocation)) {
+                Debug.Log("Location already visited");
+                return false;
+            }
+        }
         foreach (Location loc in locationArray) {
             if (loc.id == newLocation) {
                 Debug.Log("Location id matches!");
