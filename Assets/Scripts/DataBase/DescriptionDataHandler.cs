@@ -33,12 +33,22 @@ public class DescriptionDataHandler : MonoBehaviour
         }
         DataSnapshot snapshot = args.Snapshot;
 
+        if (!snapshot.HasChild("description"))
+        {
+            return;
+        }
+
         if (Description.shipInfo != null)
         {
             Description.shipInfo.Clear();
         }
 
+        string[] separator = new string[] {"\n\n"};
+
         string s = snapshot.Child("description").Value.ToString();
-        Description.shipInfo = s.Split('.').ToList();
+        Description.shipInfo = s.Split(separator, StringSplitOptions.None).ToList();
+        string lastLine = s.Split(separator, StringSplitOptions.None).Last();
+        Description.shipInfo.Add(lastLine);
+       
     }
 }
