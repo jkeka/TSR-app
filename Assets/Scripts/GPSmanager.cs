@@ -39,6 +39,9 @@ public class GPSmanager : MonoBehaviour
     private float userTempWidth;
     private float userTempHeigth;
 
+    private float latitudeTolerance = 0.00039f;
+    private float longitudeTolerance = 0.00012f;
+
     public float userX;
     public float userY;
 
@@ -70,15 +73,19 @@ public class GPSmanager : MonoBehaviour
     //Permission
     GameObject dialog = null;
 
+    private MapSceneManager mapSceneManagerScript;
+
+
     void Awake()
     {
 
-        //Juani
-        //deviceLatitude = 22.254176f;
-        //deviceLongitude = 60.440105f;
+        
+        deviceLatitude = 99.9999f;
+        deviceLongitude = 99.9999f;
 
         panZoomScript = FindObjectOfType<PanZoom>();
         userRotationScript = FindObjectOfType<UserRotation>();
+        mapSceneManagerScript = FindObjectOfType<MapSceneManager>();
 
         //Compass
         Input.compass.enabled = true;
@@ -97,19 +104,8 @@ public class GPSmanager : MonoBehaviour
 
 
 
-
-
-        //UserLocation();
-
     }
 
-    void Start()
-    {
-        /*
-        //Every two second call function to set last location data to variables
-        InvokeRepeating("GetLastCoordinates", 2, 2);
-        */
-    }
 
     void Update()
     {
@@ -131,8 +127,53 @@ public class GPSmanager : MonoBehaviour
 
         bearingText.text = ("magneticHeading: " + magneticHeading);
 
+
+        //-----------------------------
+        
+        //If user get near destination
+        if (deviceLatitude > (destinationLatitude - latitudeTolerance) && deviceLatitude < (destinationLatitude + latitudeTolerance))
+        {
+            if (deviceLongitude > (destinationLongitude - longitudeTolerance) && deviceLongitude < (destinationLongitude + longitudeTolerance))
+            {
+                logText.text = "Paamaara saavutettu";
+                mapSceneManagerScript.infoClick();
+                /*
+                Debug.Log("deviceLatitude " + deviceLatitude);
+                Debug.Log("deviceLongitude " + deviceLongitude);
+                Debug.Log("destinationLatitude - latitudeTolerance " + (destinationLatitude - latitudeTolerance));
+                Debug.Log("destinationLongitude - longitudeTolerance " + (destinationLongitude - longitudeTolerance));
+                */
+            }
+        }
+        
+        /*
+        //Just to test that if user is near Juanis place
+        if (deviceLatitude > (22.254176f - latitudeTolerance) && deviceLatitude < (22.254176f + latitudeTolerance))
+        {
+            if (deviceLongitude > (60.440105f - longitudeTolerance) && deviceLongitude < (60.440105f + longitudeTolerance))
+            {
+                logText.text = "Harakanpesa saavutettu";
+                mapSceneManagerScript.infoClick();
+
+            }
+        }
+        */
+
+        //Bruno tarkka 60.44118, 22.24897
+
+        //Vasen ala 60.44112, 22.24883
+        //Vasen yla 60.44124, 22.24883
+        //Oikea yla 60.44124, 22.24922
+        //Oikea ala 60.44112, 22.24922
+
+        //22.1234... on länsi-itä-suunta eli latitude
+        //60.1234... on pohjois-etelä-suunta eli longitude
+
+        //Juani
+        //deviceLatitude = 22.254176f;
+        //deviceLongitude = 60.440105f;
     }
-        IEnumerator GetLocation()
+    IEnumerator GetLocation()
     {
         //logText.text = ("GPS: GPS under fetching");
         //userPosText.text = ("GPS: GPS under fetching");
@@ -328,18 +369,7 @@ public class GPSmanager : MonoBehaviour
 
         return userPositionY;
     }
-    /*
-    public void FetchGps()
-    {
-        StartCoroutine(GetLocation());
 
-    }
-    */
-    public void GetLastCoordinates()
-    {
-        deviceLatitude = Input.location.lastData.latitude;
-        deviceLongitude = Input.location.lastData.longitude;
 
-    }
 
 }

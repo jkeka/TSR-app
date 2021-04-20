@@ -38,7 +38,7 @@ public class LibraryScript : MonoBehaviour
         }
 
         RectTransform pos = glossaryScreen.GetComponent<RectTransform>();
-        pos.SetSiblingIndex(8);
+        pos.SetSiblingIndex(11);
         Dictionary<string, string> glossary = JsonConvert.DeserializeObject<Dictionary<string, string>>(file);
        
         string previousKey = "*";

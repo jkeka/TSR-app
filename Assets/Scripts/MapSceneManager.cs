@@ -292,7 +292,7 @@ public class MapSceneManager : MonoBehaviour
 
     }
 
-    void infoClick()
+    public void infoClick()
     {
         Debug.Log("Moved to infoScreen");
         sailor.SetActive(true);
