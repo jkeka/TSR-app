@@ -27,6 +27,7 @@ public class SailorFaceScript : MonoBehaviour
 
         //talkRoutine = ChangeFace();
         StartCoroutine(ChangeFace());
+
         //Emote(0);
         //ChangeToEmote(2);
     }

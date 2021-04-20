@@ -17,6 +17,8 @@ public class MapSceneManager : MonoBehaviour
 
     public bool isFirstTime;
 
+    public GameObject sailor;
+
     public GameObject instructionCanvas;
     public GameObject bottomBar;
 
@@ -91,6 +93,9 @@ public class MapSceneManager : MonoBehaviour
     {
         isFirstTime = true;
 
+        sailor.SetActive(false);
+
+
         bottomBar.SetActive(false);
         instructionCanvas.SetActive(false);
         screens.SetActive(true);
@@ -133,7 +138,12 @@ public class MapSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        //Always deactivate 3D sailor if infoScreen is not chosen
+        if (infoScreen.GetSiblingIndex() != siblingIndex)
+        {
+            sailor.SetActive(false);
+        }
+
     }
     IEnumerator CheckConnection(UnityAction<bool> action)
     // Checks if connection is available. If not, displays a warning screen. Only creates user once connection is established.
@@ -285,6 +295,7 @@ public class MapSceneManager : MonoBehaviour
     void infoClick()
     {
         Debug.Log("Moved to infoScreen");
+        sailor.SetActive(true);
         infoScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
     }
