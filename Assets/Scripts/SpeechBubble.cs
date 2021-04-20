@@ -49,6 +49,7 @@ public class SpeechBubble : MonoBehaviour
                 quizScreen.transform.SetSiblingIndex(1);
 
                 ARSceneManager.instance.qrButton.gameObject.SetActive(true);
+                ARSceneManager.instance.virtualPassButton.gameObject.SetActive(true);
 
                 return;
             }
