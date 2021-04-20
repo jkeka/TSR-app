@@ -103,6 +103,14 @@ public class GPSmanager : MonoBehaviour
 
     }
 
+    void Start()
+    {
+        /*
+        //Every two second call function to set last location data to variables
+        InvokeRepeating("GetLastCoordinates", 2, 2);
+        */
+    }
+
     void Update()
     {
 
@@ -110,20 +118,10 @@ public class GPSmanager : MonoBehaviour
         destinationLongitude = MarkerButton.destinationLongitude;
 
 
-
-        //UserLocation();
-
-
-
-        //Debug.Log("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
-        //logText.text = ("GPS: Location: Lat: " + Input.location.lastData.latitude + " Lon: " + Input.location.lastData.longitude + " Alt: " + Input.location.lastData.altitude + " Horiz accur.: " + Input.location.lastData.horizontalAccuracy + " Timestamp: " + Input.location.lastData.timestamp);
-
-
-        //Debug.Log("HaettuLat " + destinationLatitude + " HaettuLong " + destinationLongitude);
-
         //Rotating compass
         float magneticHeading = Input.compass.magneticHeading;
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
+
         //Compass always points to north
         compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, magneticHeading), 0.05f);
 
@@ -131,12 +129,6 @@ public class GPSmanager : MonoBehaviour
         destinationPointer.transform.rotation = Quaternion.Slerp(destinationPointer.transform.rotation, Quaternion.Euler(0, 0, magneticHeading + bearing), 0.05f);
         //destinationPointer.transform.rotation = Quaternion.Euler(0, 0, magneticHeading + bearing);
 
-
-        //compassSimple.transform.rotation = Quaternion.Euler(0, 0, magneticHeading);
-
-        //Compass bottom part rotates same direction as phone/user is heading
-        //compassBottom.transform.rotation = Quaternion.Euler(0, 0, userRotationScript.m_Gyro.attitude.eulerAngles.z);
-        //bearingText.text = ("Bearing - magneticHeading: " + (magneticHeading + bearing));
         bearingText.text = ("magneticHeading: " + magneticHeading);
 
     }
@@ -162,7 +154,7 @@ public class GPSmanager : MonoBehaviour
 
 
         // Start service before querying location
-        Input.location.Start(0.1f, 0.1f); //Accuracy and update distance
+        Input.location.Start(5f, 5f); //Accuracy and update distance
         logText.text = ("GPS: Input.location started");
         //Debug.Log("GPS: Input.location started");
 
@@ -201,14 +193,15 @@ public class GPSmanager : MonoBehaviour
             deviceLongitude = Input.location.lastData.longitude;
             deviceCoordText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
             //Debug.Log("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
-            //logText.text = ("deviceLatitude " + deviceLatitude + " deviceLongitude " + deviceLongitude);
 
             UserLocation();
 
         }
 
+        StartCoroutine(GetLocation());
+
         // Stop service if there is no need to query location updates continuously
-        Input.location.Stop();
+        //Input.location.Stop();
     }
 
 
@@ -235,11 +228,6 @@ public class GPSmanager : MonoBehaviour
     }
 
 
-    public void FetchGps()
-    {
-        StartCoroutine(GetLocation());
-
-    }
 
     public void UserLocation()
     {
@@ -340,5 +328,18 @@ public class GPSmanager : MonoBehaviour
 
         return userPositionY;
     }
-    
+    /*
+    public void FetchGps()
+    {
+        StartCoroutine(GetLocation());
+
+    }
+    */
+    public void GetLastCoordinates()
+    {
+        deviceLatitude = Input.location.lastData.latitude;
+        deviceLongitude = Input.location.lastData.longitude;
+
+    }
+
 }
