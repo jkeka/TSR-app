@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class VirtualPassScript : MonoBehaviour
 {
+    
     private int[] testArray;
     public void OnEnable()
     {
@@ -35,4 +36,4 @@ public class VirtualPassScript : MonoBehaviour
         }
     }
 
-}
+} 

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SpeechBubble : MonoBehaviour
 {
     public Button bubble;
-    GameObject quizScreen;
+    public Button qrButton;
     Transform child;
     int count = 0;
 
@@ -21,11 +21,10 @@ public class SpeechBubble : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        quizScreen = GameObject.Find("QuizScreen");
-        child = bubble.transform.GetChild(0);
-        ClickTextBubble();
-        bubble.onClick.AddListener(ClickTextBubble);
        
+        child = bubble.transform.GetChild(0);
+        bubble.onClick.AddListener(ClickTextBubble);
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
     }
 
     void ClickTextBubble()
@@ -49,9 +48,8 @@ public class SpeechBubble : MonoBehaviour
                 {
                     bubble.onClick.RemoveListener(ClickTextBubble);
                     count = 0;
-                    quizScreen.transform.SetSiblingIndex(1);
-
-                    ARSceneManager.instance.qrButton.gameObject.SetActive(true);
+                    
+                    qrButton.gameObject.SetActive(true);
 
                     return;
                 }

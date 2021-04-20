@@ -13,6 +13,8 @@ public class QrScanner : MonoBehaviour
     string QrCode = string.Empty;
     //public AudioSource beepSound;
     public TextMeshProUGUI qrtext;
+    public Button qrScanner;
+    public RectTransform qrScreen;
     private bool scanning;
 
     /// <summary>
@@ -22,19 +24,20 @@ public class QrScanner : MonoBehaviour
         
         void Start()
     {
-        ARSceneManager.instance.qrButton.onClick.AddListener(StopScan);
+        qrScanner.onClick.AddListener(OnScanClick);
 
         var renderer = GetComponent<RawImage>();
         webcamTexture = new WebCamTexture(512, 512);
         renderer.material.mainTexture = webcamTexture;
-
-
-
-
     }
 
     IEnumerator GetQRCode()
     {
+        if(qrScreen.GetSiblingIndex() != MapSceneManager.siblingIndex)
+        {
+            StopScan();
+        }
+
         IBarcodeReader barCodeReader = new BarcodeReader();
         webcamTexture.Play();
         scanning = true;
@@ -85,7 +88,8 @@ public class QrScanner : MonoBehaviour
             webcamTexture.Stop();
             scanning = false;
             StopCoroutine(GetQRCode());
-            transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            //transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            Debug.Log("QR-scanning stopped!");
         }
     }
     public void OnScanClick()
@@ -95,10 +99,11 @@ public class QrScanner : MonoBehaviour
             StopScan();
         else
         {
-            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            //transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
             qrtext.text = string.Empty;
             QrCode = string.Empty;
             StartCoroutine(GetQRCode());
+            Debug.Log("Scanning QR-code!");
         }
     }
 

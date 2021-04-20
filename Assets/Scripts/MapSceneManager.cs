@@ -30,7 +30,10 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform compassScreen;
     public RectTransform libraryScreen;
     public RectTransform glossaryScreen;
-
+    public RectTransform infoScreen;
+    public RectTransform qrScannerScreen;
+    public RectTransform virtualPassScreen;
+   
     public List<GameObject> screenObjects = new List<GameObject>();
 
     public GameObject screens;
@@ -55,9 +58,12 @@ public class MapSceneManager : MonoBehaviour
     public Button exitButton;
     public Button closeButton;
     public Button instructionButton;
+    public Button qrButton;
+    public Button virtualPassButton;
+    public Button backButton;
 
     private int mapSiblingIndex = 5;
-    public static int siblingIndex = 8;
+    public static int siblingIndex = 11;
 
 
 
@@ -110,10 +116,13 @@ public class MapSceneManager : MonoBehaviour
         langButton.onClick.AddListener(LangClick);
         confYesButton.onClick.AddListener(YesClick);
         confNoButton.onClick.AddListener(NoClick);
-        arButton.onClick.AddListener(ARClick);
+        arButton.onClick.AddListener(infoClick);
         exitButton.onClick.AddListener(ExitClick);
         closeButton.onClick.AddListener(CloseClick);
         instructionButton.onClick.AddListener(InstructionClick);
+        qrButton.onClick.AddListener(QRScreenClick);
+        virtualPassButton.onClick.AddListener(VirtualPassClick);
+        backButton.onClick.AddListener(QRScreenClick);
 
         //menuText.text = "Language";
 
@@ -273,9 +282,11 @@ public class MapSceneManager : MonoBehaviour
 
     }
 
-    void ARClick()
+    void infoClick()
     {
-        SceneManager.LoadScene("ARScene");
+        Debug.Log("Moved to infoScreen");
+        infoScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
     }
 
     public void ExitClick()
@@ -295,6 +306,21 @@ public class MapSceneManager : MonoBehaviour
     {
         Debug.Log("Instruction clicked");
         instructionCanvas.SetActive(true);
+    }
+
+    void QRScreenClick()
+    {
+        Debug.Log("Moved to QR Screen");
+        qrScannerScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+    }
+
+    void VirtualPassClick()
+    {
+        Debug.Log("Moved to Virtual Pass");
+        virtualPassScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
     }
 
 }
