@@ -21,6 +21,7 @@ public class GPSmanager : MonoBehaviour
     public Text debugText;
     public Text bearingText;
 
+    public GameObject destinationPointer;
     public GameObject compassSimple;
     public GameObject compassBottom;
     public GameObject userLocationMarker;
@@ -64,7 +65,7 @@ public class GPSmanager : MonoBehaviour
 
     //Gyroscope
     private UserRotation userRotationScript;
-
+    Compass compass;
 
     //Permission
     GameObject dialog = null;
@@ -79,6 +80,8 @@ public class GPSmanager : MonoBehaviour
         panZoomScript = FindObjectOfType<PanZoom>();
         userRotationScript = FindObjectOfType<UserRotation>();
 
+        //Compass
+        Input.compass.enabled = true;
 
         isGpsOn = false;
 
@@ -91,6 +94,10 @@ public class GPSmanager : MonoBehaviour
 
         //Call gps
         StartCoroutine(GetLocation());
+
+
+
+
 
         //UserLocation();
 
@@ -117,8 +124,15 @@ public class GPSmanager : MonoBehaviour
         //Rotating compass
         float magneticHeading = Input.compass.magneticHeading;
         float bearing = CalculateAngle(deviceLatitude, deviceLongitude, destinationLatitude, destinationLongitude);
-        //compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, userRotationScript.m_Gyro.attitude.eulerAngles.z + bearing), 100f);
-        compassSimple.transform.rotation = Quaternion.Euler(0, 0, -magneticHeading + bearing);
+        //Compass always points to north
+        compassSimple.transform.rotation = Quaternion.Slerp(compassSimple.transform.rotation, Quaternion.Euler(0, 0, magneticHeading), 0.05f);
+
+        //Pointer to destination
+        destinationPointer.transform.rotation = Quaternion.Slerp(destinationPointer.transform.rotation, Quaternion.Euler(0, 0, magneticHeading + bearing), 0.05f);
+        //destinationPointer.transform.rotation = Quaternion.Euler(0, 0, magneticHeading + bearing);
+
+
+        //compassSimple.transform.rotation = Quaternion.Euler(0, 0, magneticHeading);
 
         //Compass bottom part rotates same direction as phone/user is heading
         //compassBottom.transform.rotation = Quaternion.Euler(0, 0, userRotationScript.m_Gyro.attitude.eulerAngles.z);
@@ -126,8 +140,7 @@ public class GPSmanager : MonoBehaviour
         bearingText.text = ("magneticHeading: " + magneticHeading);
 
     }
-
-    IEnumerator GetLocation()
+        IEnumerator GetLocation()
     {
         //logText.text = ("GPS: GPS under fetching");
         //userPosText.text = ("GPS: GPS under fetching");
