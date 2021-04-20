@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,33 +31,39 @@ public class SpeechBubble : MonoBehaviour
     void ClickTextBubble()
     // Changes bubble text content when clicked.
     {
-        if (test)
+        try
         {
-            if (QV != null)
-                QV(2);
-        }
-        else
-        {
-            Debug.Log(Description.shipInfo.Count);
-            if (QV != null)
-                QV(2);
-
-
-            if (count == Description.shipInfo.Count - 1)
+            if (test)
             {
-                bubble.onClick.RemoveListener(ClickTextBubble);
-                count = 0;
-                quizScreen.transform.SetSiblingIndex(1);
-
-                ARSceneManager.instance.qrButton.gameObject.SetActive(true);
-
-                return;
+                if (QV != null)
+                    QV(2);
             }
+            else
+            {
+                Debug.Log(Description.shipInfo.Count);
+                if (QV != null)
+                    QV(2);
 
 
+                if (count == Description.shipInfo.Count - 1)
+                {
+                    bubble.onClick.RemoveListener(ClickTextBubble);
+                    count = 0;
+                    quizScreen.transform.SetSiblingIndex(1);
 
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[count];
-            count++;
+                    ARSceneManager.instance.qrButton.gameObject.SetActive(true);
+
+                    return;
+                }
+
+                child.GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[count];
+                count++;
+            }
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log(e);
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hups, tästä kohteesta puuttuu esittelyteksti!";
         }
     }
 }
