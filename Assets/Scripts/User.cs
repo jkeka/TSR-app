@@ -28,6 +28,7 @@ public class DBUser {
         this.language = lang;
         this.visitedLocations = locsVisited;
     }
+
     public override string ToString() {
         string locations = "";
         visitedLocations.ForEach(item => locations += item);
@@ -37,8 +38,10 @@ public class DBUser {
 
 public class Location {
     public string id;
-    public Location(string newId) {
+    public string name;
+    public Location(string newId, string name) {
         this.id = newId;
+        this.name = name;
     }
 }
 
@@ -169,8 +172,16 @@ public static class User {
                     DataSnapshot snapshot = task.Result;
                     if (snapshot.Value != null)
                     {
+                        Debug.Log(snapshot.GetRawJsonValue());
+                        Debug.Log(snapshot.Child("visitedLocations").GetRawJsonValue());
+
                         DBUser tmpUser = JsonUtility.FromJson<DBUser>(snapshot.GetRawJsonValue());
-                        Debug.Log(snapshot.Value);
+                        Debug.Log(tmpUser.deviceCode);
+                        Debug.Log(tmpUser.language);
+                        Debug.Log(tmpUser.visitedLocations.Count);
+                        foreach( var x in tmpUser.visitedLocations) {
+                            Debug.Log( x.ToString());
+                        }
                         deviceCode = deviceCodeNow;
                         OldUser(tmpUser);
                     }
@@ -222,13 +233,13 @@ public static class User {
         visitedLocations = tmpUser.visitedLocations;
     }
 
-    public static bool AddVisitedLocation(string newLocation)
+    public static string AddVisitedLocation(string newLocation)
     {   
         Debug.Log("Adding Location");
         foreach (string loc in visitedLocations) {
             if (loc.Equals(newLocation)) {
                 Debug.Log("Location already visited");
-                return false;
+                return "Location already visited";
             }
         }
         foreach (Location loc in locationArray) {
@@ -250,10 +261,10 @@ public static class User {
                     }
 
                 });
-                return true;
+                return loc.name;
             }
         }
-        return false;
+        return "Location not found from database";
     }
 
     public static void GetLocations()
