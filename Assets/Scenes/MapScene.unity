@@ -4209,8 +4209,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1962072971}
   m_HandleRect: {fileID: 1962072970}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9943364
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6579,7 +6579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00005340576, y: 581.59204}
+  m_AnchoredPosition: {x: 0.00005340576, y: 581.5921}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.1, y: 0.9}
 --- !u!114 &718126976
@@ -12239,7 +12239,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 599271083}
   m_HandleRect: {fileID: 599271082}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12894,7 +12894,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1932507970}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9943364
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14791,7 +14791,6 @@ MonoBehaviour:
     type: 3}
   virtualPassLocations: []
   virtualPassButton: {fileID: 2037486847}
-  backButton: {fileID: 1078523374}
   testList: []
 --- !u!114 &1668666989
 MonoBehaviour:
@@ -16916,6 +16915,7 @@ MonoBehaviour:
   qrtext: {fileID: 532004141}
   qrScanner: {fileID: 1919161213}
   qrScreen: {fileID: 899310409}
+  cameraImage: {fileID: 1919161212}
   currentQRcode: 
 --- !u!114 &1919161212
 MonoBehaviour:
@@ -16930,7 +16930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.42745098}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39607844}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

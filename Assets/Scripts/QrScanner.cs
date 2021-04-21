@@ -16,6 +16,7 @@ public class QrScanner : MonoBehaviour
     public TextMeshProUGUI qrtext;
     public Button qrScanner;
     public RectTransform qrScreen;
+    public RawImage cameraImage;
     private bool scanning;
 
     /// <summary>
@@ -27,7 +28,8 @@ public class QrScanner : MonoBehaviour
     {
         qrScanner.onClick.AddListener(OnScanClick);
 
-        var renderer = GetComponent<RawImage>();
+        //var renderer = GetComponent<RawImage>();
+        var renderer = cameraImage;
         webcamTexture = new WebCamTexture(512, 512);
         renderer.material.mainTexture = webcamTexture;
     }
@@ -45,9 +47,11 @@ public class QrScanner : MonoBehaviour
             if(qrScreen.GetSiblingIndex() != MapSceneManager.siblingIndex)
             {
                 StopScan();
-                break;              
+                break;
             }
-           
+
+
+
             try
             {
                 snap.SetPixels32(webcamTexture.GetPixels32());
