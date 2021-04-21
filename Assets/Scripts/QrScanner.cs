@@ -10,6 +10,7 @@ using ZXing;
 public class QrScanner : MonoBehaviour
 {
     WebCamTexture webcamTexture;
+    Coroutine routine = null;
     string QrCode = string.Empty;
     //public AudioSource beepSound;
     public TextMeshProUGUI qrtext;
@@ -33,11 +34,7 @@ public class QrScanner : MonoBehaviour
 
     IEnumerator GetQRCode()
     {
-        if(qrScreen.GetSiblingIndex() != MapSceneManager.siblingIndex)
-        {
-            StopScan();
-        }
-
+       
         IBarcodeReader barCodeReader = new BarcodeReader();
         webcamTexture.Play();
         scanning = true;
@@ -45,6 +42,12 @@ public class QrScanner : MonoBehaviour
         var snap = new Texture2D(webcamTexture.width, webcamTexture.height, TextureFormat.ARGB32, false);
         while (string.IsNullOrEmpty(QrCode))
         {
+            if(qrScreen.GetSiblingIndex() != MapSceneManager.siblingIndex)
+            {
+                StopScan();
+                break;              
+            }
+           
             try
             {
                 snap.SetPixels32(webcamTexture.GetPixels32());
@@ -75,7 +78,7 @@ public class QrScanner : MonoBehaviour
             {
                 Debug.LogWarning(ex.Message);
                 //qrtext.text = ex.Message;
-                StopScan();
+                StopScan();             
             }
             yield return null;
         }
@@ -87,8 +90,8 @@ public class QrScanner : MonoBehaviour
         {
             webcamTexture.Stop();
             scanning = false;
-            StopCoroutine(GetQRCode());
-            //transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            StopCoroutine(routine);
+            transform.GetChild(0).gameObject.SetActive(true);
             Debug.Log("QR-scanning stopped!");
         }
     }
@@ -99,10 +102,10 @@ public class QrScanner : MonoBehaviour
             StopScan();
         else
         {
-            //transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
             qrtext.text = string.Empty;
             QrCode = string.Empty;
-            StartCoroutine(GetQRCode());
+            routine = StartCoroutine(GetQRCode());
             Debug.Log("Scanning QR-code!");
         }
     }
