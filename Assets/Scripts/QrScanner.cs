@@ -19,6 +19,8 @@ public class QrScanner : MonoBehaviour
     public RawImage cameraImage;
     private bool scanning;
 
+
+
     /// <summary>
     /// current/last recorded qr code
     /// </summary>
@@ -26,7 +28,9 @@ public class QrScanner : MonoBehaviour
         
         void Start()
     {
-        qrScanner.onClick.AddListener(OnScanClick);
+
+
+            qrScanner.onClick.AddListener(OnScanClick);
 
         //var renderer = GetComponent<RawImage>();
         var renderer = cameraImage;
