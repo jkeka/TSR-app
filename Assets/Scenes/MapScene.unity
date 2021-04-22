@@ -1591,8 +1591,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 300124526}
   m_HandleRect: {fileID: 300124525}
   m_Direction: 3
-  m_Value: 1.0000002
-  m_Size: 0.5990362
+  m_Value: 0.9999998
+  m_Size: 0.59903616
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4333,7 +4333,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1962072970}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.98758835
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6613,7 +6613,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00005340576, y: 570.3821}
+  m_AnchoredPosition: {x: 0.00005340576, y: 581.5923}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.1, y: 0.9}
 --- !u!114 &718126976
@@ -7401,7 +7401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 318.735}
+  m_AnchoredPosition: {x: 0, y: 324.99945}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.9}
 --- !u!114 &787197968
@@ -12243,6 +12243,7 @@ MonoBehaviour:
   qrButton: {fileID: 1054184422}
   virtualPassButton: {fileID: 2037486847}
   backButton: {fileID: 1078523374}
+  speechBubble: {fileID: 1559583822}
 --- !u!1 &1340358308
 GameObject:
   m_ObjectHideFlags: 0
@@ -12355,7 +12356,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 599271083}
   m_HandleRect: {fileID: 599271082}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -13009,8 +13010,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932507971}
   m_HandleRect: {fileID: 1932507970}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9875884
+  m_Value: 0
+  m_Size: 0.999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13644,59 +13645,6 @@ Transform:
   - {fileID: 1757743325}
   m_Father: {fileID: 2100769013}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1503334587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1503334589}
-  - component: {fileID: 1503334588}
-  m_Layer: 0
-  m_Name: ArSceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1503334588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1503334587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa79fb6cf05dd2a438eb448e6bd77881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backButton: {fileID: 947659873}
-  qrButton: {fileID: 1054184422}
-  virtualPassButton: {fileID: 2037486847}
-  qrScannerScreen: {fileID: 1228774044}
-  virtualPassScreen: {fileID: 1668666986}
-  textPrefab: {fileID: 709365880804475585, guid: 1dae2c7353135ad48af63a33749538f1,
-    type: 3}
-  pooledTextPrefabs: []
-  poolSize: 13
-  shouldExpand: 0
---- !u!4 &1503334589
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1503334587}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 131.02603, y: 218.97789, z: -324.0457}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1511706605
 GameObject:
@@ -14337,9 +14285,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7636460467226347263, guid: d8d44e976a7782a4eb2f13772805d80f,
         type: 3}
+      propertyPath: screen
+      value: 
+      objectReference: {fileID: 1374262343}
+    - target: {fileID: 7636460467226347263, guid: d8d44e976a7782a4eb2f13772805d80f,
+        type: 3}
       propertyPath: qrButton
       value: 
       objectReference: {fileID: 1054184422}
+    - target: {fileID: 7636460467226347263, guid: d8d44e976a7782a4eb2f13772805d80f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636460467226347263, guid: d8d44e976a7782a4eb2f13772805d80f,
+        type: 3}
+      propertyPath: infoScreen
+      value: 
+      objectReference: {fileID: 1228774045}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8d44e976a7782a4eb2f13772805d80f, type: 3}
 --- !u!224 &1559583817 stripped
@@ -14403,6 +14366,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7245b62fd26a1c41af33b73085e1610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1559583822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7636460467226347260, guid: d8d44e976a7782a4eb2f13772805d80f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1559583816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559583818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1591374197

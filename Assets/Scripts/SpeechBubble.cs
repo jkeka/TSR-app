@@ -8,8 +8,11 @@ public class SpeechBubble : MonoBehaviour
 {
     public Button bubble;
     public Button qrButton;
+    public RectTransform infoScreen;
+    Coroutine routine = null;
     Transform child;
-    int count = 0;
+    public static int count = 0;
+    private bool isEnabled = false;
 
 
     //SailorInteraction
@@ -27,7 +30,7 @@ public class SpeechBubble : MonoBehaviour
         child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
     }
 
-    void ClickTextBubble()
+    public void ClickTextBubble()
     // Changes bubble text content when clicked.
     {
         try
@@ -47,10 +50,12 @@ public class SpeechBubble : MonoBehaviour
                 if (count == Description.shipInfo.Count - 1)
                 {
                     bubble.onClick.RemoveListener(ClickTextBubble);
-                    count = 0;
+                    count = 1;
                     
                     qrButton.gameObject.SetActive(true);
-
+                    Description.shipInfo.Clear();
+                    Debug.Log(Description.shipInfo);
+                    //routine = StartCoroutine(ResetBubble());
                     return;
                 }
 
@@ -64,4 +69,32 @@ public class SpeechBubble : MonoBehaviour
             child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hups, tästä kohteesta puuttuu esittelyteksti!";
         }
     }
+
+    private void OnDisable()
+    {
+        bubble.onClick.RemoveAllListeners();
+        bubble.onClick.AddListener(ClickTextBubble);
+        Debug.Log("Disabled");
+    }
+
+    IEnumerator ResetBubble()
+    // Resets button listener and text after quitting infoscreen.
+    {
+        bool reset = false;
+
+        while(reset == false)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            if (infoScreen.GetSiblingIndex() != MapSceneManager.siblingIndex || !infoScreen.gameObject.activeSelf )
+            {
+                reset = true;
+                bubble.onClick.AddListener(ClickTextBubble);
+                child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
+                StopCoroutine(routine);
+                Debug.Log("speechbubble reset!");
+            }      
+        }        
+    }
+
+
 }

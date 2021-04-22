@@ -63,6 +63,8 @@ public class MapSceneManager : MonoBehaviour
     public Button qrButton;
     public Button virtualPassButton;
     public Button backButton;
+    public Button speechBubble;
+    
 
     private int mapSiblingIndex = 5;
     public static int siblingIndex = 11;
@@ -277,6 +279,8 @@ public class MapSceneManager : MonoBehaviour
         {
             screenObjects[i].SetActive(true);
         }
+
+        //speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[0];
     }
 
     void NoClick()
@@ -298,6 +302,16 @@ public class MapSceneManager : MonoBehaviour
         sailor.SetActive(true);
         infoScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
+        
+        if (SpeechBubble.count == 0)
+        {
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
+        }
+        else
+        {
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[0];
+            SpeechBubble.count = 1;
+        }
     }
 
     public void ExitClick()
@@ -324,6 +338,7 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Moved to QR Screen");
         qrScannerScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
+        qrButton.gameObject.SetActive(false);
     }
 
     void VirtualPassClick()
