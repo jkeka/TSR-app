@@ -9,10 +9,10 @@ public class SpeechBubble : MonoBehaviour
     public Button bubble;
     public Button qrButton;
     public RectTransform infoScreen;
-    Coroutine routine = null;
+    //Coroutine routine = null;
     Transform child;
     public static int count = 0;
-    private bool isEnabled = false;
+   
 
 
     //SailorInteraction
@@ -46,6 +46,7 @@ public class SpeechBubble : MonoBehaviour
                 if (QV != null)
                     QV(2);
 
+               
 
                 if (count == Description.shipInfo.Count - 1)
                 {
@@ -68,16 +69,19 @@ public class SpeechBubble : MonoBehaviour
             Debug.Log(e);
             child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hups, tästä kohteesta puuttuu esittelyteksti!";
         }
+        catch (ArgumentOutOfRangeException e)
+        {
+            Debug.Log(e);
+        }
     }
 
     private void OnDisable()
     {
         bubble.onClick.RemoveAllListeners();
         bubble.onClick.AddListener(ClickTextBubble);
-        Debug.Log("Disabled");
     }
 
-    IEnumerator ResetBubble()
+    /*IEnumerator ResetBubble()
     // Resets button listener and text after quitting infoscreen.
     {
         bool reset = false;
@@ -94,7 +98,7 @@ public class SpeechBubble : MonoBehaviour
                 Debug.Log("speechbubble reset!");
             }      
         }        
-    }
+    }*/
 
 
 }

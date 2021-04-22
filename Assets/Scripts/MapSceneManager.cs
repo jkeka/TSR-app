@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -298,19 +299,35 @@ public class MapSceneManager : MonoBehaviour
 
     public void infoClick()
     {
-        Debug.Log("Moved to infoScreen");
-        sailor.SetActive(true);
-        infoScreen.SetSiblingIndex(siblingIndex);
-        mapScreen.SetSiblingIndex(mapSiblingIndex);
-        
-        if (SpeechBubble.count == 0)
+            
+        if (CoordinateData.type == "ship")
         {
-            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
+            sailor.SetActive(true);
+            infoScreen.SetSiblingIndex(siblingIndex);
+            mapScreen.SetSiblingIndex(mapSiblingIndex);
+            Debug.Log("Moved to infoScreen");
         }
         else
         {
-            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[0];
-            SpeechBubble.count = 1;
+            MapClick();
+            return;
+        }
+        try
+        {
+            if (SpeechBubble.count == 0)
+            {
+                speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
+            }
+            else
+            {
+                speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[0];
+                SpeechBubble.count = 1;
+            }
+        }
+        catch (ArgumentOutOfRangeException e)
+        {
+            Debug.Log(e);
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hups! Tästä aluksesta puuttuu esittelyteksti!";
         }
     }
 
