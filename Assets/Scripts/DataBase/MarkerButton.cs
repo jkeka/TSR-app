@@ -11,6 +11,9 @@ public class MarkerButton : MonoBehaviour
     public Button button;
     public GameObject confScreen;
     private MapSceneManager mapSceneManagerScript;
+    //private PanZoom panZoomScript;
+    private float buttonSize = Mathf.Clamp(1f, 0.4f, 1.5f);
+    private float cameraSizeMultiplier;
 
 
     public static float destinationLatitude;
@@ -20,8 +23,18 @@ public class MarkerButton : MonoBehaviour
     {
         confScreen = GameObject.Find("ConfirmationScreen");
         mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
+        //panZoomScript = FindObjectOfType<PanZoom>();
+
 
         button.onClick.AddListener(MarkerClick);            
+    }
+
+    private void Update()
+    {
+        cameraSizeMultiplier = (Camera.main.orthographicSize * 0.0028f);
+        transform.localScale = new Vector3(buttonSize * cameraSizeMultiplier, buttonSize * cameraSizeMultiplier, buttonSize * cameraSizeMultiplier);
+        Debug.Log("Camera size from marker button script " + cameraSizeMultiplier);
+        
     }
 
     public void MarkerClick()

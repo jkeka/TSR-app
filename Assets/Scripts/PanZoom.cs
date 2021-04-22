@@ -5,7 +5,7 @@ using UnityEngine;
 public class PanZoom : MonoBehaviour
 {
     Vector3 touchStart;
-    public float zoomMin = 100;
+    public float zoomMin = 50;
     public float zoomMax = 480;
     private float zoomSlow = 0.01f;
 
@@ -40,7 +40,7 @@ public class PanZoom : MonoBehaviour
         mapWidth = map.sizeDelta.x;
 
 
-        zoomMin = 100;
+        zoomMin = 50;
         zoomMax = 480;
 
     }
@@ -79,7 +79,7 @@ public class PanZoom : MonoBehaviour
             Camera.main.transform.position += direction;
         }
 
-        Zoom(Input.GetAxis("Mouse ScrollWheel"));
+        Zoom(Input.GetAxis("Mouse ScrollWheel") * 50);
 
         void Zoom(float increment)
         {
