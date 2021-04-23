@@ -6,8 +6,8 @@ using Newtonsoft.Json;
 
 public class LibraryScript : MonoBehaviour
 {
-    public TextAsset joutsen;
-    public TextAsset sailing;
+    public TextAsset purjelaivat;
+    public TextAsset purjehdus;
 
     public Dictionary<string, string> yearsDict = new Dictionary<string, string>();
 
@@ -24,8 +24,8 @@ public class LibraryScript : MonoBehaviour
 
     void Start()
     {
-        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(joutsen.text); });
-        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(sailing.text); });
+        suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(purjelaivat.text); });
+        purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(purjehdus.text); });
     }
 
     private void LoadGlossary(string file)
@@ -45,7 +45,7 @@ public class LibraryScript : MonoBehaviour
         bool years = false;
         
         foreach (KeyValuePair<string, string> entry in glossary)
-        {
+        {/*
             if (entry.Key.StartsWith("1"))
             {
                 if (years == false)
@@ -55,9 +55,9 @@ public class LibraryScript : MonoBehaviour
                     glossaryList.Add(letter);
                     years = true;
                 }                                 
-            }
+            }*/
 
-            else if (!entry.Key.ToUpper().StartsWith(previousKey))
+            if (!entry.Key.ToUpper().StartsWith(previousKey))
             {
                 Button letterBut = Instantiate(letterButton, letterButtonPos);
                 //letterBut.transform.localPosition = new Vector3(x, y, 0);
