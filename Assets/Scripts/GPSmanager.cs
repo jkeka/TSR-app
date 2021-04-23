@@ -79,7 +79,13 @@ public class GPSmanager : MonoBehaviour
     void Awake()
     {
 
-        
+        if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
+        {
+            Permission.RequestUserPermission(Permission.FineLocation);
+            Permission.RequestUserPermission(Permission.CoarseLocation);
+        }
+
+
         deviceLatitude = 99.9999f;
         deviceLongitude = 99.9999f;
 
@@ -91,14 +97,14 @@ public class GPSmanager : MonoBehaviour
         Input.compass.enabled = true;
 
         isGpsOn = false;
-
+        /*
         //Ask permission for location
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
             dialog = new GameObject();
         }
-
+        */
         //Call gps
         StartCoroutine(GetLocation());
 

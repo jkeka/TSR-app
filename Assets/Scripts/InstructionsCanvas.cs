@@ -13,8 +13,9 @@ public class InstructionsCanvas : MonoBehaviour
     public RectTransform instructionThree;
     public RectTransform instructionFour;
     public RectTransform instructionFive;
+    public RectTransform instructionSix;
 
-    private int siblingIndex = 5;
+    private int siblingIndex = 6;
     private int siblingInt = 1;
 
     // Start is called before the first frame update
@@ -25,11 +26,12 @@ public class InstructionsCanvas : MonoBehaviour
 
         siblingInt = 1;
 
-        instructionOne.SetSiblingIndex(5);
-        instructionTwo.SetSiblingIndex(4);
-        instructionThree.SetSiblingIndex(3);
-        instructionTwo.SetSiblingIndex(2);
-        instructionOne.SetSiblingIndex(1);
+        instructionSix.SetSiblingIndex(1);
+        instructionFive.SetSiblingIndex(2);
+        instructionFour.SetSiblingIndex(3);
+        instructionThree.SetSiblingIndex(4);
+        instructionTwo.SetSiblingIndex(5);
+        instructionOne.SetSiblingIndex(6);
 
 
     }
@@ -63,6 +65,11 @@ public class InstructionsCanvas : MonoBehaviour
             instructionFive.SetSiblingIndex(siblingIndex);
         }
         if (siblingInt == 6)
+        {
+            instructionSix.SetSiblingIndex(siblingIndex);
+
+        }
+        if (siblingInt == 7)
         {
             mapSceneManagerScript.isFirstTime = false;
 
