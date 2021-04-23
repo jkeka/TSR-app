@@ -33,7 +33,7 @@ public class MarkerButton : MonoBehaviour
     {
         cameraSizeMultiplier = (Camera.main.orthographicSize * 0.0028f);
         transform.localScale = new Vector3(buttonSize * cameraSizeMultiplier, buttonSize * cameraSizeMultiplier, buttonSize * cameraSizeMultiplier);
-        Debug.Log("Camera size from marker button script " + cameraSizeMultiplier);
+        //Debug.Log("Camera size from marker button script " + cameraSizeMultiplier);
         
     }
 

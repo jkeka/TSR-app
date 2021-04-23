@@ -22,6 +22,7 @@ public class MapSceneManager : MonoBehaviour
 
     public GameObject instructionCanvas;
     public GameObject bottomBar;
+    public GameObject passBackBútton;
 
     public GameObject confScreen;
     public GameObject errorMessage;
@@ -51,6 +52,7 @@ public class MapSceneManager : MonoBehaviour
     //Navigation
 
     public Button scheduleButton;
+    public Button passButton;
     public Button settingsButton;
     public Button mapButton;
     public Button langButton;
@@ -120,6 +122,7 @@ public class MapSceneManager : MonoBehaviour
         mapButton.onClick.AddListener(MapClick);
         settingsButton.onClick.AddListener(SettingsClick);
         libraryButton.onClick.AddListener(LibraryClick);
+        passButton.onClick.AddListener(VirtualPassBarClick);
 
         langButton.onClick.AddListener(LangClick);
         confYesButton.onClick.AddListener(YesClick);
@@ -360,6 +363,19 @@ public class MapSceneManager : MonoBehaviour
 
     void VirtualPassClick()
     {
+        screens.SetActive(true);
+        passBackBútton.SetActive(true);
+        Debug.Log("Moved to Virtual Pass");
+        virtualPassScreen.SetSiblingIndex(siblingIndex);
+        mapScreen.SetSiblingIndex(mapSiblingIndex);
+
+    }
+
+    void VirtualPassBarClick()
+    {
+        screens.SetActive(true);
+        passBackBútton.SetActive(false);
+
         Debug.Log("Moved to Virtual Pass");
         virtualPassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
