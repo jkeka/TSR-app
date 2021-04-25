@@ -10,7 +10,9 @@ using Firebase.Database;
 
 public class LocationDataHandler : MonoBehaviour
 {
-    public Button locationMarker;
+    public Button shipMarker;
+    public Button infoMarker;
+    public Button healthMarker;
     public GameObject mapScreen;
     public static List<Button> markerList = new List<Button>();
 
@@ -75,23 +77,23 @@ public class LocationDataHandler : MonoBehaviour
         float latConverted = ConvertLocationY(floatLat);
         float lonConverted = ConvertLocationX(floatLon);
 
-        Button marker = Instantiate(locationMarker, new Vector3(lonConverted, latConverted, 0), Quaternion.identity) as Button;
+        Button marker = null;
+
+        if (type.Equals("ship"))
+        {
+            marker = Instantiate(shipMarker, new Vector3(lonConverted, latConverted, 0), Quaternion.identity);
+        }
+
+        else
+        {
+            marker = Instantiate(infoMarker, new Vector3(lonConverted, latConverted, 0), Quaternion.identity);
+        }
 
         marker.GetComponent<Coordinates>().locationName = name;
         marker.GetComponent<Coordinates>().latitude = floatLat;
         marker.GetComponent<Coordinates>().longitude = floatLon;
         marker.GetComponent<Coordinates>().id = id;
         marker.GetComponent<Coordinates>().type = type;
-
-
-        if (type.Equals("venue"))
-        {
-            marker.GetComponent<Image>().color = Color.green;
-        }
-        else if (type.Equals("booth"))
-        {
-            marker.GetComponent<Image>().color = Color.yellow;
-        }
 
         marker.transform.SetParent(mapScreen.transform, false);
 
