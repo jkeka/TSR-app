@@ -9,7 +9,7 @@ public class SpeechBubble : MonoBehaviour
     public Button bubble;
     public Button qrButton;
     public RectTransform infoScreen;
-    //Coroutine routine = null;
+    Coroutine routine = null;
     Transform child;
     public static int count = 0;
    
@@ -46,8 +46,7 @@ public class SpeechBubble : MonoBehaviour
                 if (QV != null)
                     QV(2);
 
-               
-
+             
                 if (count == Description.shipInfo.Count - 1)
                 {
                     bubble.onClick.RemoveListener(ClickTextBubble);
@@ -56,7 +55,7 @@ public class SpeechBubble : MonoBehaviour
                     qrButton.gameObject.SetActive(true);
                     Description.shipInfo.Clear();
                     Debug.Log(Description.shipInfo);
-                    //routine = StartCoroutine(ResetBubble());
+                    routine = StartCoroutine(ResetBubble());
                     return;
                 }
 
@@ -79,26 +78,23 @@ public class SpeechBubble : MonoBehaviour
     {
         bubble.onClick.RemoveAllListeners();
         bubble.onClick.AddListener(ClickTextBubble);
+        qrButton.gameObject.SetActive(false);
+        Debug.Log("speechbubble reset!");
     }
 
-    /*IEnumerator ResetBubble()
+    IEnumerator ResetBubble()
     // Resets button listener and text after quitting infoscreen.
     {
-        bool reset = false;
-
-        while(reset == false)
+       
+        while(infoScreen.GetSiblingIndex() == MapSceneManager.siblingIndex)
         {
             yield return new WaitForSecondsRealtime(1);
-            if (infoScreen.GetSiblingIndex() != MapSceneManager.siblingIndex || !infoScreen.gameObject.activeSelf )
-            {
-                reset = true;
-                bubble.onClick.AddListener(ClickTextBubble);
-                child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
-                StopCoroutine(routine);
-                Debug.Log("speechbubble reset!");
-            }      
-        }        
-    }*/
+        }
 
-
+        bubble.onClick.RemoveAllListeners();
+        bubble.onClick.AddListener(ClickTextBubble);
+        qrButton.gameObject.SetActive(false);
+        Debug.Log("speechbubble reset!");
+        StopCoroutine(routine);               
+    }
 }

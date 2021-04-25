@@ -22,7 +22,6 @@ public class MapSceneManager : MonoBehaviour
 
     public GameObject instructionCanvas;
     public GameObject bottomBar;
-    public GameObject passBackBútton;
 
     public GameObject confScreen;
     public GameObject errorMessage;
@@ -52,7 +51,6 @@ public class MapSceneManager : MonoBehaviour
     //Navigation
 
     public Button scheduleButton;
-    public Button passButton;
     public Button settingsButton;
     public Button mapButton;
     public Button langButton;
@@ -65,7 +63,6 @@ public class MapSceneManager : MonoBehaviour
     public Button instructionButton;
     public Button qrButton;
     public Button virtualPassButton;
-    public Button backButton;
     public Button speechBubble;
     
 
@@ -122,7 +119,7 @@ public class MapSceneManager : MonoBehaviour
         mapButton.onClick.AddListener(MapClick);
         settingsButton.onClick.AddListener(SettingsClick);
         libraryButton.onClick.AddListener(LibraryClick);
-        passButton.onClick.AddListener(VirtualPassBarClick);
+        //passButton.onClick.AddListener(VirtualPassBarClick);
 
         langButton.onClick.AddListener(LangClick);
         confYesButton.onClick.AddListener(YesClick);
@@ -133,8 +130,7 @@ public class MapSceneManager : MonoBehaviour
         instructionButton.onClick.AddListener(InstructionClick);
         qrButton.onClick.AddListener(QRScreenClick);
         virtualPassButton.onClick.AddListener(VirtualPassClick);
-        backButton.onClick.AddListener(QRScreenClick);
-
+        
         //menuText.text = "Language";
 
         GameObject.DontDestroyOnLoad(this);
@@ -364,14 +360,14 @@ public class MapSceneManager : MonoBehaviour
     void VirtualPassClick()
     {
         screens.SetActive(true);
-        passBackBútton.SetActive(true);
+        //passBackBútton.SetActive(true);
         Debug.Log("Moved to Virtual Pass");
         virtualPassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
     }
 
-    void VirtualPassBarClick()
+    /*void VirtualPassBarClick()
     {
         screens.SetActive(true);
         passBackBútton.SetActive(false);
@@ -380,7 +376,7 @@ public class MapSceneManager : MonoBehaviour
         virtualPassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
 
-    }
+    }*/
 
 }
    
