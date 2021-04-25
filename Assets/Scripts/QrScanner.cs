@@ -5,6 +5,7 @@ using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 using ZXing;
 
 public class QrScanner : MonoBehaviour
@@ -26,16 +27,23 @@ public class QrScanner : MonoBehaviour
     /// </summary>
     public string currentQRcode;
         
-        void Start()
+    void Start()
     {
 
-
+        if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+        {
+            Permission.RequestUserPermission(Permission.Camera);
+            
+            
+        } else {
             qrScanner.onClick.AddListener(OnScanClick);
 
-        //var renderer = GetComponent<RawImage>();
-        var renderer = cameraImage;
-        webcamTexture = new WebCamTexture(512, 512);
-        renderer.material.mainTexture = webcamTexture;
+            //var renderer = GetComponent<RawImage>();
+            var renderer = cameraImage;
+            webcamTexture = new WebCamTexture(512, 512);
+            renderer.material.mainTexture = webcamTexture;
+        }
+        
     }
 
     IEnumerator GetQRCode()
