@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
@@ -8,6 +9,7 @@ public class LibraryScript : MonoBehaviour
 {
     public TextAsset purjelaivat;
     public TextAsset purjehdus;
+    public TextAsset joutsen;
 
     public Dictionary<string, string> yearsDict = new Dictionary<string, string>();
 
@@ -15,6 +17,7 @@ public class LibraryScript : MonoBehaviour
     public static List<Button> letterList = new List<Button>();
     public Button suuretPurjeLaivat;
     public Button purjehdusTunnissa;
+    public Button suomenJoutsen;
     public Button keywordButton;
     public Button letterMarker;
     public Button letterButton;
@@ -22,10 +25,12 @@ public class LibraryScript : MonoBehaviour
     public Transform letterButtonPos;
     public GameObject glossaryScreen;
 
+    
     void Start()
     {
         suuretPurjeLaivat.onClick.AddListener(delegate { LoadGlossary(purjelaivat.text); });
         purjehdusTunnissa.onClick.AddListener(delegate { LoadGlossary(purjehdus.text); });
+        suomenJoutsen.onClick.AddListener(delegate { LoadGlossary(joutsen.text); });
     }
 
     private void LoadGlossary(string file)
@@ -43,9 +48,13 @@ public class LibraryScript : MonoBehaviour
        
         string previousKey = "*";
         bool years = false;
+        string pattern = "^[0-9]";
         
         foreach (KeyValuePair<string, string> entry in glossary)
-        {/*
+        {
+            Match match = Regex.Match(entry.Key, pattern, RegexOptions.None);
+    
+            /*
             if (entry.Key.StartsWith("1"))
             {
                 if (years == false)
@@ -57,8 +66,9 @@ public class LibraryScript : MonoBehaviour
                 }                                 
             }*/
 
-            if (!entry.Key.ToUpper().StartsWith(previousKey))
+            if (!entry.Key.ToUpper().StartsWith(previousKey) && !match.Success)
             {
+               
                 Button letterBut = Instantiate(letterButton, letterButtonPos);
                 //letterBut.transform.localPosition = new Vector3(x, y, 0);
                 //y = y - 110;
