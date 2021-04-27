@@ -62,8 +62,6 @@ public class QrScanner : MonoBehaviour
                 break;
             }
 
-
-
             try
             {
                 snap.SetPixels32(webcamTexture.GetPixels32());
@@ -78,8 +76,8 @@ public class QrScanner : MonoBehaviour
 
                         if (!User.visitedLocations.Contains(currentQRcode))
                         {
-                            User.AddVisitedLocation(currentQRcode);
-                            qrtext.text = QrCode;
+                            string name = User.AddVisitedLocation(currentQRcode);
+                            qrtext.text = name;
                         }
                         else
                         {

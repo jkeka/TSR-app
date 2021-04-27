@@ -25,6 +25,8 @@ public class MapSceneManager : MonoBehaviour
 
     public GameObject confScreen;
     public GameObject errorMessage;
+
+    public GameObject qrText;
    
     public RectTransform mapScreen;
     public RectTransform setScreen;
@@ -286,14 +288,20 @@ public class MapSceneManager : MonoBehaviour
     void NoClick()
     {
         Debug.Log("Confirmation answer no");
-        schedScreen.SetSiblingIndex(siblingIndex);
+        //schedScreen.SetSiblingIndex(siblingIndex);
 
-        screens.SetActive(false);
-        for (int i = 0; i < screenObjects.Count; i++)
+        if(virtualPassScreen.GetSiblingIndex() == siblingIndex - 1)
         {
-            screenObjects[i].SetActive(true);
+            virtualPassScreen.SetSiblingIndex(siblingIndex);
         }
-
+        else
+        {
+            screens.SetActive(false);
+            for (int i = 0; i < screenObjects.Count; i++)
+            {
+                screenObjects[i].SetActive(true);
+            }
+        }
     }
 
     public void infoClick()
@@ -355,6 +363,8 @@ public class MapSceneManager : MonoBehaviour
         qrScannerScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
         qrButton.gameObject.SetActive(false);
+
+        qrText.GetComponent<TMPro.TextMeshProUGUI>().text = "Laivan nimi";
     }
 
     void VirtualPassClick()

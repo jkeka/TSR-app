@@ -53,11 +53,6 @@ public class VirtualPassScript : MonoBehaviour
                         button.transform.GetChild(1).gameObject.SetActive(true);
                     }
                 }
-                var s = User.GetVisitedLocations();
-                foreach(string l in s)
-                {
-                    Debug.Log(l);
-                }
             }                   
         }
     }
