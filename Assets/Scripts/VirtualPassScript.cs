@@ -13,11 +13,11 @@ public class VirtualPassScript : MonoBehaviour
     public GameObject virtualPassScreen;
     public Button virtualPassLocation;
     public Button virtualPassButton;
+    public List<string> testList = new List<string>();
     
     private void Start()
     {
-        virtualPassButton.onClick.AddListener(LoadVirtualPass);
-       
+        virtualPassButton.onClick.AddListener(LoadVirtualPass);    
     }
 
     public void LoadVirtualPass()
@@ -48,10 +48,15 @@ public class VirtualPassScript : MonoBehaviour
 
                 foreach (var location in User.GetVisitedLocations())
                 {
-                    if (shipName == location)
+                    if (button.GetComponent<Coordinates>().id == location)
                     {
-                        button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().color = Color.green;
+                        button.transform.GetChild(1).gameObject.SetActive(true);
                     }
+                }
+                var s = User.GetVisitedLocations();
+                foreach(string l in s)
+                {
+                    Debug.Log(l);
                 }
             }                   
         }
