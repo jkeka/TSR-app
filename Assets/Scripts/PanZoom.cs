@@ -34,16 +34,8 @@ public class PanZoom : MonoBehaviour
     {
         //Boundaries
 
-        cameraSize = Camera.main.orthographicSize;
-
-        cameraHeight = cameraSize * 2;
-        cameraWidth = cameraHeight * 0.5625f;
-
         mapHeigth = map.sizeDelta.y;
         mapWidth = map.sizeDelta.x;
-
-        mapHeightBound = mapHeigth / 2;
-        mapWidthBound = mapWidth / 2;
 
         zoomMin = 50;
         zoomMax = 480;
@@ -53,7 +45,13 @@ public class PanZoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cameraSize = Camera.main.orthographicSize;
 
+        cameraHeight = cameraSize * 2;
+        cameraWidth = cameraHeight * 0.5625f;
+
+        mapHeightBound = mapHeigth / 2;
+        mapWidthBound = mapWidth / 2;
 
         //Zooming and moving the camera
 

@@ -6815,7 +6815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00005340576, y: 581.5922}
+  m_AnchoredPosition: {x: 0.00005340576, y: 581.59204}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.1, y: 0.9}
 --- !u!114 &718126976
@@ -7603,7 +7603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 324.99942}
+  m_AnchoredPosition: {x: 0, y: 324.99948}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.9}
 --- !u!114 &787197968
@@ -10808,7 +10808,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 264, y: 470}
+  m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1185903980
 GameObject:
@@ -11969,6 +11969,8 @@ MonoBehaviour:
   cameraBoundXLeft: 0
   cameraBoundYTop: 0
   cameraBoundYBot: 0
+  mapHeightBound: 0
+  mapWidthBound: 0
 --- !u!1 &1330125247
 GameObject:
   m_ObjectHideFlags: 0
@@ -19795,7 +19797,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8140390117746683377}
   m_HandleRect: {fileID: 8140390117746683376}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
