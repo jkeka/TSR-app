@@ -66,6 +66,8 @@ public class SpeechBubble : MonoBehaviour
         catch (NullReferenceException e)
         {
             Debug.Log(e);
+            if (QV != null)
+                QV(2);
             child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hups, tästä kohteesta puuttuu esittelyteksti!";
         }
         catch (ArgumentOutOfRangeException e)
