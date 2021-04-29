@@ -129,7 +129,6 @@ public class GPSmanager : MonoBehaviour
 
         //Pointer to destination
         destinationPointer.transform.rotation = Quaternion.Slerp(destinationPointer.transform.rotation, Quaternion.Euler(0, 0, magneticHeading + bearing), 0.05f);
-        //destinationPointer.transform.rotation = Quaternion.Euler(0, 0, magneticHeading + bearing);
 
         bearingText.text = ("magneticHeading: " + magneticHeading);
 
@@ -143,27 +142,11 @@ public class GPSmanager : MonoBehaviour
             {
                 logText.text = "Paamaara saavutettu";
                 mapSceneManagerScript.infoClick();
-                /*
-                Debug.Log("deviceLatitude " + deviceLatitude);
-                Debug.Log("deviceLongitude " + deviceLongitude);
-                Debug.Log("destinationLatitude - latitudeTolerance " + (destinationLatitude - latitudeTolerance));
-                Debug.Log("destinationLongitude - longitudeTolerance " + (destinationLongitude - longitudeTolerance));
-                */
-            }
-        }
-        
-        /*
-        //Just to test that if user is near Juanis place
-        if (deviceLatitude > (22.254176f - latitudeTolerance) && deviceLatitude < (22.254176f + latitudeTolerance))
-        {
-            if (deviceLongitude > (60.440105f - longitudeTolerance) && deviceLongitude < (60.440105f + longitudeTolerance))
-            {
-                logText.text = "Harakanpesa saavutettu";
-                mapSceneManagerScript.infoClick();
 
             }
         }
-        */
+        
+
 
         //Bruno tarkka 60.44118, 22.24897
 
@@ -175,9 +158,7 @@ public class GPSmanager : MonoBehaviour
         //22.1234... on länsi-itä-suunta eli latitude
         //60.1234... on pohjois-etelä-suunta eli longitude
 
-        //Juani
-        //deviceLatitude = 22.254176f;
-        //deviceLongitude = 60.440105f;
+
     }
     IEnumerator GetLocation()
     {
