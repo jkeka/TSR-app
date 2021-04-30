@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import firebase from '../../services/firebase'
 import { Button, Form, Container, Table, Row, Col } from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
+import CarbonDatePicker from 'react-carbon-datepicker'
+import TimePicker from 'react-time-picker'
+
 
 export default class Event extends Component {
   constructor(props) {
@@ -75,12 +78,7 @@ export default class Event extends Component {
       // No user is signed in.
     }
   }
-  setStartTime(date) {
-    this.setState({startTime: date})
-  }
-  setEndTime(date) {
-    this.setState({endTime: date})
-  }
+  
   fillStuff() {
     this.setState({
         eventFi: 'Tapahtuma',
@@ -97,6 +95,7 @@ export default class Event extends Component {
     console.log('handlechange')
     switch (event.target.name) {
       case 'venue':
+        console.log(event.target.value)
         this.setState({venue: event.target.value})
         break
       case 'eventFi':
@@ -128,7 +127,12 @@ export default class Event extends Component {
     if (this.state.id !== '') {
       newId = this.state.id
     }
-    const venueId = this.state.venues[this.state.venue].id
+    let venue = this.state.venue
+    if (this.state.venue === undefined) {
+      venue = Object.values(this.state.venues)[0].name
+    }
+    let venueId = Object.values(this.state.venues).find(value => value.name === venue).id
+    
     const newEvent = { 
       id: newId,
       startTime: this.state.startTime.getTime(),
@@ -225,6 +229,27 @@ export default class Event extends Component {
       descSe: ''
     })
   }
+
+  setStartTime(date) {
+    this.setState({startTime: new Date(date)})
+  }
+  setEndTime(date) {
+    this.setState({endTime: new Date(date)})
+  }
+  setTheStartTime(value) {
+    let tmp = value.split(':')
+    let tmpTime = new Date(this.state.startTime)
+    tmpTime.setHours(tmp[0])
+    tmpTime.setMinutes(tmp[1])
+    this.setState({startTime: tmpTime})
+  }
+  setTheEndTime(value) {
+    let tmp = value.split(':')
+    let tmpTime = new Date(this.state.endTime)
+    tmpTime.setHours(tmp[0])
+    tmpTime.setMinutes(tmp[1])
+    this.setState({endTime: tmpTime})
+  }
   render() {
     const events = Object.entries(this.state.events).map(([key, value], index) => {
       return (
@@ -260,8 +285,8 @@ export default class Event extends Component {
     return (
       <div>
         {this.state.authed ?
-      <Container>
-        
+      <div>
+
         <a href="#addEvent">Add event</a>
         <h1>{this.title}</h1>
         
@@ -283,7 +308,7 @@ export default class Event extends Component {
         <hr/>
         <h1 id="addEvent">Add Event</h1>
         <Button variant="success" size="lg" onClick={() => this.fillStuff()}>Fill</Button>
-        <Form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label htmlFor="eventFi">Event name in Finnish:</Form.Label>
             <Button size="sm" onClick={() => this.copyEvent()}>Copy to all</Button>
@@ -306,16 +331,29 @@ export default class Event extends Component {
           <hr/>
           <Row>
             <Col>
-            <Form.Label>Select start time</Form.Label>
-            <br/>
-            <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.startTime} onChange={date => this.setStartTime(date)} />
+              <Form.Label>Select start time</Form.Label>
+              <br/>
+              <CarbonDatePicker onChange={date => this.setStartTime(date)} config={this.config} />
+              <br/><br/>
+              <TimePicker onChange={value => this.setTheStartTime(value)} value={this.state.startTime} />
+              <br/>
+              Timestamp: {this.state.startTime.getTime()}
+              <br/>
+              {this.state.startTime.toLocaleString()}
             </Col>
             <Col>
-            <Form.Label>Select end time</Form.Label>
-            <br/>
-            <DatePicker showTimeSelect dateFormat="Pp" selected={this.state.endTime} onChange={date => this.setEndTime(date)} />
+              <Form.Label>Select end time</Form.Label>
+              <br/>
+              <CarbonDatePicker onChange={date => this.setEndTime(date)} config={this.config} />
+              <br/><br/>
+              <TimePicker onChange={value => this.setTheEndTime(value)} value={this.state.endTime} />
+              <br/>
+              Timestamp: {this.state.endTime.getTime()}
+              <br/>
+              {this.state.endTime.toLocaleString()}
             </Col>
           </Row>
+
           <hr/>
           <Form.Group>
             <Form.Label htmlFor="descFi">Description in Finnish:</Form.Label>
@@ -335,9 +373,9 @@ export default class Event extends Component {
           <Form.Group>
             <Button variant="primary" type="submit">Add event</Button>
           </Form.Group>
-        </Form>
-        
-      </Container>
+        </form>
+
+      </div>
         :
         <p>Please log in</p>
             }

@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import firebase from '../services/firebase'
 
+
+
 export default class Home extends Component {
 
     constructor(props) {
         super(props)
         this.title = 'Home'
         this.storageRef = firebase.storage().ref();
-        this.state = { testi: '', selectedFile: null, image: null }
+        this.state = { testi: '', selectedFile: null, image: null, startTime: new Date() }
         this.submitData = this.submitData.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.getData = this.getData.bind(this)

@@ -109,7 +109,7 @@ export default class Descriptions extends Component {
 
       console.log('Descriptions', this.state.locationSelected, this.state.selectedLanguage)
       this.ref.child('Descriptions').child(this.state.locationSelected)
-        .child(this.state.selectedLanguage).set(this.state.description)
+        .child(this.state.selectedLanguage).child('description').set(this.state.description)
       let tmpDescriptions = {...this.state.descriptions}
       tmpDescriptions[this.state.locationSelected] = [this.state.selectedLanguage]
       tmpDescriptions[this.state.locationSelected][this.state.selectedLanguage] = this.state.description
