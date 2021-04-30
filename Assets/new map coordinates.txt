@@ -1,0 +1,54 @@
+60.448450, 22.211355			60.448450, 22.264478
+
+
+
+
+
+
+60.429646, 22.211355			60.429646, 22.264478
+
+
+
+Esimerkkikohteita:
+
+Sigyn 60.438521, 22.241855
+
+Suomen Joutsen  60.436393, 22.237032
+
+Barkerinpuiston leikkialue 60.442184, 22.248330
+
+
+
+Kartta-alueen leveys GPS:nä: 0,053123
+Kartta-alueen leveys Unityssä: 4400
+
+Leveysyksikkö: 0,053123 / 4400 = 0,000012073
+
+
+
+Kartta-alueen korkeus GPS:nä: 0,018804
+Kartta-alueen korkeus Unityssä: 3150
+
+Korkeusyksikkö: 0,018804 / 3150 = 0,00000597
+
+Eli:
+
+Korkeuden laskeminen:
+
+Kun tietokantaan syötetään uusi sijainti (esim. Sigyn 60.438521, 22.241855),
+järjestelmä laskee 60.438521(sijainnin korkeusarvo) - 60.429646(korkeuden gps-offset) = 0,008875
+
+Saatu arvo plussataan korkeuden alkuarvoon: -1575 + (0,008875 / 0,00000597) = -1426,34
+
+
+Leveyden laskeminen:
+
+Kun tietokantaan syötetään uusi sijainti (esim. Sigyn 60.438521, 22.241855),
+järjestelmä laskee 22.241855(sijainnin leveysarvo) - 22.211355(korkeuden gps-offset) = 0,035
+
+Saatu arvo plussataan korkeuden alkuarvoon: -2200 + (0,035 / 0,000012073) = 699,0308954
+
+
+
+Korkeus: -1575 
+Leveys: -2200

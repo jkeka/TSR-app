@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - sailor
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 859158139
+    locked: 0
+  - name: Sprites
+    uniqueID: 1776218045
     locked: 0

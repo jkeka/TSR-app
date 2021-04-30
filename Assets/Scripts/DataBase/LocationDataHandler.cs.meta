@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bbf0612c4b5cf6d4bbe86b15152b255b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - locationMarker: {fileID: 2643738278568629517, guid: 5472d5df447da994bb1427905fcf3c47,
+      type: 3}
+  - mapScreen: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
