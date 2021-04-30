@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../../services/firebase'
 import { Button, Form, Container, Table, Row, Col } from 'react-bootstrap'
-import DatePicker from 'react-datepicker'
 import CarbonDatePicker from 'react-carbon-datepicker'
 import TimePicker from 'react-time-picker'
 
@@ -285,7 +284,7 @@ export default class Event extends Component {
     return (
       <div>
         {this.state.authed ?
-      <div>
+      <Container>
 
         <a href="#addEvent">Add event</a>
         <h1>{this.title}</h1>
@@ -375,7 +374,7 @@ export default class Event extends Component {
           </Form.Group>
         </form>
 
-      </div>
+      </Container>
         :
         <p>Please log in</p>
             }
