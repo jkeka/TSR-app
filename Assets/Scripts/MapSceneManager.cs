@@ -83,13 +83,13 @@ public class MapSceneManager : MonoBehaviour
 
         FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
 
-        StartCoroutine(CheckConnection(isConnected =>
+        /*StartCoroutine(CheckConnection(isConnected =>
         {
             string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
             User.InitializeUser(deviceCode);
 
         }
-        ));
+        ));*/
 
     }
 
@@ -135,7 +135,7 @@ public class MapSceneManager : MonoBehaviour
         
         //menuText.text = "Language";
 
-        GameObject.DontDestroyOnLoad(this);
+        //GameObject.DontDestroyOnLoad(this);
 
     }
 
