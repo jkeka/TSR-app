@@ -7,16 +7,21 @@ using UnityEngine.Networking;
 using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 
+using Firebase.Database;
+
 public class LoadingSceneManager : MonoBehaviour
 {
     bool connectionEstablished = false;
     bool permissionsGranted = false;
     public GameObject errorMessage;
-
+   
     // Start is called before the first frame update
 
     void Start()
     {
+
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+
         StartCoroutine(CheckConnection());
         StartCoroutine(CheckPermissions());
 

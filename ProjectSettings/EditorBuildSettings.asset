@@ -6,13 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: cee0bd097c6365547859aa0cf9346719
+  - enabled: 1
     path: Assets/Scenes/MapScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/Scenes/ARScene.unity
-    guid: fa8dc4cc15af0ad478eef3efd24f6562
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
+      type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: 9e6dc79a7beab334baf6a15ef9bc3c85,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 5fe5ca5359a2b5048a074e45b2c7aed9,
       type: 2}
     com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: c2f7b8d7c0bff4d10874cbcf3f24af78,
       type: 2}

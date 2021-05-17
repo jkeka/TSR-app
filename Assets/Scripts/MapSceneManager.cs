@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Events;
+using UnityEngine.Localization.Settings;
 
 using Firebase.Database;
 
@@ -49,6 +50,7 @@ public class MapSceneManager : MonoBehaviour
     //Language
     public Button finnButton;
     public Button engButton;
+    public Button sweButton;
 
     //Navigation
 
@@ -115,6 +117,7 @@ public class MapSceneManager : MonoBehaviour
         //Language clicks
         finnButton.onClick.AddListener(FinnClick);
         engButton.onClick.AddListener(EngClick);
+        sweButton.onClick.AddListener(SweClick);
 
         //Navigation clicks
         scheduleButton.onClick.AddListener(ScheduleClick);
@@ -191,6 +194,7 @@ public class MapSceneManager : MonoBehaviour
 
         Debug.Log("Set system to Finnish language!");
         User.SetLanguage("fi");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
         
         mapScreen.SetSiblingIndex(siblingIndex);
 
@@ -214,7 +218,36 @@ public class MapSceneManager : MonoBehaviour
 
         Debug.Log("Set system to English language!");
         User.SetLanguage("en");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
+
         mapScreen.SetSiblingIndex(siblingIndex);
+
+        if (isFirstTime == true)
+        {
+            instructionCanvas.SetActive(true);
+
+        }
+
+        bottomBar.SetActive(true);
+    }
+
+    void SweClick()
+    {
+        screens.SetActive(false);
+
+        Debug.Log("Set system to Swedish language!");
+        User.SetLanguage("sv");
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[2];
+
+        mapScreen.SetSiblingIndex(siblingIndex);
+
+        if (isFirstTime == true)
+        {
+            instructionCanvas.SetActive(true);
+
+        }
+
+        bottomBar.SetActive(true);
     }
 
     void MapClick()
