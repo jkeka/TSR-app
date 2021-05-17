@@ -38,5 +38,42 @@ MonoBehaviour:
     m_Localized: "Inst\xE4llningar"
     m_Metadata:
       m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: "Inst\xE4llningar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: "V\xE4lj Spr\xE5k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: Ljudstyrka
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Anvisningar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Sluta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Tidtabell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: "OneHourWord -ordb\xF6cker"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: "QR-bildl\xE4sning"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: "Hej, v\xE4lkommen! Klicka pratbubblan och jag ber\xE4ttar dig om
+      b\xE5ten."
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

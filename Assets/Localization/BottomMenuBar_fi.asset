@@ -38,5 +38,41 @@ MonoBehaviour:
     m_Localized: Asetukset
     m_Metadata:
       m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: Asetukset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: Valitse kieli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: "\xC4\xE4nenvoimakkuus"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Ohjeet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Poistu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Aikataulu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: OneHourWord -sanakirjat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: QR-skannaus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

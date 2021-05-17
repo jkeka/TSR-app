@@ -38,5 +38,42 @@ MonoBehaviour:
     m_Localized: Settings
     m_Metadata:
       m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: Select language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Instructions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Schedule
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: OneHourWord -glossaries
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: QR-scan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: Hello, welcome! Click the text bubble and I will tell you about
+      the ship.
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

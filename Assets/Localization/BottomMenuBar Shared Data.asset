@@ -12,27 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
   m_Name: BottomMenuBar Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: BottomMenuBar
+  m_TableCollectionName: Translations
   m_TableCollectionNameGuidString: 36d9b237f26bb0342bb2f952a7b6f53d
   m_Entries:
   - m_Id: 157153636352
-    m_Key: MAP_BUTTON
+    m_Key: MENUBAR_NAVIGATION
     m_Metadata:
       m_Items: []
   - m_Id: 293393018880
-    m_Key: SCHEDULE_BUTTON
+    m_Key: MENUBAR_SCHEDULE
     m_Metadata:
       m_Items: []
   - m_Id: 486666547200
-    m_Key: PASS_BUTTON
+    m_Key: MENUBAR_PASS
     m_Metadata:
       m_Items: []
   - m_Id: 879022714880
-    m_Key: LIBRARY_BUTTON
+    m_Key: MENUBAR_LIBRARY
     m_Metadata:
       m_Items: []
   - m_Id: 979941863424
-    m_Key: SETTINGS_BUTTON
+    m_Key: MENUBAR_SETTINGS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280428889387008
+    m_Key: SETTINGS_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Key: SETTINGS_LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Key: SETTINGS_VOLUME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Key: SETTINGS_INSTRUCTIONS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Key: SETTINGS_EXIT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Key: SCHEDULE_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Key: LIBRARY_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Key: INFO_QRSCAN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Key: INFO_START
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290774689656832
+    m_Key: INFO_ERROR
     m_Metadata:
       m_Items: []
   m_Metadata:
