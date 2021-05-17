@@ -22,7 +22,9 @@ export default class Location extends Component {
             defaultLocation: DefaultLocation,
             selectedLocation: null,
             mapLoaded: false,
-            authed: false
+            authed: false,
+            showMap: false,
+            filter: 'ship'
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -54,7 +56,6 @@ export default class Location extends Component {
                         typeDropDown: tmpDropDown,
                         mapLoaded: true    
                     })       
-                console.log(snapshot.val())
             } else {
                 console.log('no locations found')
                 this.setState({typeDropDown: tmpDropDown, mapLoaded: true })
@@ -83,11 +84,14 @@ export default class Location extends Component {
     }
     handleRemove(loc, locId) {
         console.log(loc, locId)
-        const ref = this.ref.child(loc)
-        ref.remove()
-        let tmpLocations = {...this.state.locations}
-        delete tmpLocations[loc]
-        this.setState({locations: tmpLocations})
+        if (window.confirm(`really remove ${loc}, ${locId}?`)) {
+            const ref = this.ref.child(loc)
+            ref.remove()
+            let tmpLocations = {...this.state.locations}
+            delete tmpLocations[loc]
+            this.setState({locations: tmpLocations})
+        }
+        
     }
     handleChange(event) {
         let changedObject = JSON.parse(JSON.stringify(this.state.temp))
@@ -109,30 +113,47 @@ export default class Location extends Component {
                 break
             case 'type':
                 changedObject.type = event.target.value
+                if (event.target.value !== 'ship') {
+                    delete changedObject.shipId
+                }
                 this.setState({temp: changedObject, type: event.target.value})
+                break
+            case 'filter':
+                this.setState({filter: event.target.value})
+                break
+            case 'shipId':
+                changedObject.shipId = parseInt(event.target.value)
+                this.setState({temp: changedObject})
                 break
             default:
                 console.log('error with switch')
         }
+        console.log(changedObject)
     }
     modifyLocation(value) {
         const formattedLat = parseFloat(value.Latitude.replace(/,/g, '.'))
         const formattedLon = parseFloat(value.Longitude.replace(/,/g, '.'))
         this.handleChangeLocation(formattedLat, formattedLon)
-        const loc = { name: value.name, Latitude: value.Latitude, Longitude: value.Longitude, type: value.type }
+        let loc = { name: value.name, Latitude: value.Latitude, Longitude: value.Longitude, type: value.type }
+        console.log(value)
+        if (value.type === 'ship') {
+            loc = { ...loc, shipId: value.shipId }
+        } 
         this.setState({
             defaultLocation: { lat: formattedLat, lng: formattedLon }, 
             selectedLocation: value.id, 
             temp: loc,
             type: value.type
-        })
+        }) 
+        
+        
     }
     handleUpdate(key, value) {
         console.log(key, value)
         const ref = this.ref.child(key)
         let tmpLocations = {...this.state.locations}
         let newObj = {...this.state.temp}
-        newObj.id = new Date().getTime()
+        newObj.id = value
         ref.set(newObj)
         tmpLocations[this.state.temp.name] = newObj
         this.setState({locations: tmpLocations})
@@ -147,35 +168,50 @@ export default class Location extends Component {
     render() {
         const tmp = this.state.temp
 
-        const fetchedLocs = Object.entries(this.state.locations).map(([key, value], index) => {
+        let filteredLocs = this.state.locations
+        if (this.state.filter !== 'all') {
+            filteredLocs = Object.values(this.state.locations).filter(value => value.type === this.state.filter)
+        }
+
+        const locArray = []
+        Object.values(filteredLocs).forEach(loc => locArray.push(loc))
+
+        if (this.state.filter === 'ship') {
+            locArray.sort((a,b) => a.shipId - b.shipId)
+        }
+
+        
+        const fetchedLocs = locArray.map(value => {
+            let style = value.shipId === 0 || value.shipId === 999 ? {background: 'DarkSalmon'} : {background: 'DarkSeaGreen'}
             return (
-                <tr key={index}>
+                <tr key={value.id} style={style}>
+                    {this.state.filter === 'ship' ? <td>{value.shipId}</td> : null}
                     <td>
                         {value.id}
                     </td>
                     <td>
-                        {key}
+                        {value.name}
                     </td>
                     <td>
-                        <li>{value.type}</li>
+                        {value.type}
                     </td>
                     <td>
-                        <li>{value.Latitude}</li>
+                        {value.Latitude}
                     </td>
                     <td>
-                        <li>{value.Longitude}</li>
+                        {value.Longitude}
                     </td>
                     {this.state.selectedLocation === value.id ? 
                     <td>
-                        <Button variant="success" onClick={() => this.handleUpdate(key, value.id)}>Update</Button>
+                        <Button variant="success" onClick={() => this.handleUpdate(value.name, value.id)}>Update</Button>
                         <br/>
-                        <Button variant="danger" onClick={() => this.handleRemove(key, value.id)}>Remove</Button>
+                        <Button variant="danger" onClick={() => this.handleRemove(value.name, value.id)}>Remove</Button>
                         <br/>
                         <Button variant="warning" onClick={() => this.cancel()}>Cancel</Button>
                     </td>
                     :
                     <td>
-                        <Button onClick={() => this.modifyLocation(value)}>Edit</Button>
+                        <Button size="sm" onClick={() => this.modifyLocation(value)}>Edit</Button>
                     </td>
                     }
                 </tr>
@@ -215,6 +251,7 @@ export default class Location extends Component {
                     <label>Longitude:</label>
                     <input type='text' name="longitude" value={this.state.mapLocation.lng} 
                         onChange={this.handleChange} />
+                    
                     <label>Zoom:</label>
                     <input type='text' value={this.state.zoom} disabled/>
                     <br/>
@@ -225,6 +262,15 @@ export default class Location extends Component {
                     <label>Name:</label><input type="text" name="name" value={this.state.temp.name}
                         onChange={this.handleChange} disabled={this.state.selectedLocation}></input>
                     <br/>
+                    {this.state.type === 'ship' ?
+                    <div>
+                        <label>Ship Id:</label>
+                        <input type='number' name="shipId" value={this.state.temp.shipId} 
+                        onChange={this.handleChange} />
+                    </div>
+                    
+                    :
+                    ''}
                     {this.state.selectedLocation === null ?
                         <Button variant="primary" type="submit">Submit a new Location</Button>
                         :
@@ -232,22 +278,36 @@ export default class Location extends Component {
                     }
                     
                 </Form>
+
+                <br/>
                 
-                {this.state.mapLoaded ? 
-                <MapPicker 
-                    defaultLocation={this.state.defaultLocation}
-                    zoom={this.state.zoom}
-                    style={{height:'500px'}}
-                    onChangeLocation={this.handleChangeLocation} 
-                    onChangeZoom={this.handleChangeZoom}
-                    apiKey='AIzaSyBrVmDD28eMPJ3QGoJfBiml1QQdvB0EUuU'
-                />
-                : ''}
+                {this.state.mapLoaded && this.state.showMap ? 
+                <div>
+                    <button onClick={() => this.setState({showMap: false})}>Hide map</button>
+                    <MapPicker 
+                        defaultLocation={this.state.defaultLocation}
+                        zoom={this.state.zoom}
+                        style={{height:'500px'}}
+                        onChangeLocation={this.handleChangeLocation} 
+                        onChangeZoom={this.handleChangeZoom}
+                        apiKey='AIzaSyBrVmDD28eMPJ3QGoJfBiml1QQdvB0EUuU'
+                    />
+                </div>
+                : <button onClick={() => this.setState({showMap: true})}>Show map</button>}
+
+                <br/><br/>
+                filter: 
+                <select name="filter" value={this.state.filter} onChange={this.handleChange}>
+                    <option>all</option>
+                    {this.state.types.map(type => <option key={type}>{type}</option>)}
+                </select>
+                location count: {filteredLocs.length}
                 
                 
-                <Table striped bordered hover>
+                <Table striped bordered hover style={{fontSize: 'small'}}>
                     <thead>
                         <tr>
+                        {this.state.filter === 'ship' ? <th>shipId</th> : null}
                         <th>id</th>
                         <th>Name</th>
                         <th>Type</th>

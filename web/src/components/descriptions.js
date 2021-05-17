@@ -2,9 +2,17 @@
 import React, { Component } from 'react'
 import firebase from '../services/firebase'
 import { Button } from 'react-bootstrap'
+import SHIPDATA from './data/shipdata'
 
 const defaultTypes = ['ship', 'booth', 'venue', 'restaurant']
 const defaultLanguages = ['fi', 'en', 'se']
+
+const countryFi = ['Venäjä','Suomi','Puola','UK','Espanja','Ranska','Tanska','Liettua','Norja','Saksa','Alankomaat','Viro','Belgia','Venäjä','Latvia','Ruotsi']
+const countryEn = ['Russia','Finland','Poland','UK','Spain','France','Denmark','Lithuania','Norway','Germany','Netherlands','Estonia','Belgium','Russia','Latvia','Swedish']
+const countrySe = ['Ryssland','Finland','Polen','Storbritannien','Spanien','Frankrike','Danmark','Litauen','Norge','Tyskland','Nederländerna','Estland','Belgien','Ryssland','Lettland','svenska']
+const riggingFi = ['Sluuppi','Kahvelikuunari','Kutteri','Sluuppi','Ketsi','Huippupurje kuunari','Kahveliketsi','Täystakiloitu alus','Kuunari','Jooli','Riki','Kahvelikutteri','Barkentiini','Briki']
+const riggingEn = ['Sloop','Fork schooner','Cutter','Sloop','Ketch','Top sail schooner','Fork chain','Fully weighted vessel','Schooner','Yawl','Rigging','Fork cutter','Barkentin','Rigging']
+const riggingSe = ['Slup','Gaffelskonare','Fräs','Slup','Ketch','Topp segel skonare','Gaffelkedja','Fullt viktat fartyg','Skonare','Yawl','Tackling','Gaffelskärare','Barkentin','Tackling']
 
 export default class Descriptions extends Component {
   constructor(props) {
@@ -22,7 +30,8 @@ export default class Descriptions extends Component {
       selectedLocations: {},
       description: '',
       showForm: false,
-      authed: false
+      authed: false,
+      preview: ''
     }
   }
   componentDidMount() {
@@ -88,10 +97,51 @@ export default class Descriptions extends Component {
         this.setState({selectedLanguage: e.target.value, description: desc})
         break
       case 'desc':
-        this.setState({description: e.target.value})
+        let preview = this.getPreview(this.state.description.toString())
+
+        this.setState({description: e.target.value, preview: preview})
         break
       default:
         console.log('error with switch')
+    }
+  }
+  getPreview(preview) {
+    const shipRef = Object.entries(this.state.descriptions).find((key, value) => parseInt(key) === this.state.locationSelected)
+    let shipData = JSON.parse(JSON.stringify(shipRef))
+    
+    if (this.state.selectedLanguage === 'en') {
+      let index = countryFi.findIndex(c => c === shipData[1].data.country)
+      shipData[1].data.country = countryEn[index]
+      index = riggingFi.findIndex(r => r === shipData[1].data.riki)
+      shipData[1].data.riki = riggingEn[index]
+    } else if (this.state.selectedLanguage === 'se') {
+      let index = countryFi.findIndex(c => c === shipData[1].data.country)
+      shipData[1].data.country = countrySe[index]
+      index = riggingFi.findIndex(r => r === shipData[1].data.riki)
+      shipData[1].data.riki = riggingSe[index]
+    }
+
+    Object.entries(shipData[1].data).forEach(([key, value]) => {
+      if (value.toString().length < 1) {
+        preview = preview.replaceAll(`##${key}##`, 'MISSING VALUE')
+      } else {
+        preview = preview.replaceAll(`##${key}##`, value.toString())
+      }
+    })
+
+    return preview
+  }
+  createTemplate() {
+    if (this.state.selectedLanguage === 'fi') {
+      const fiTemplate = '##name## rakennettiin vuonna ##year##. Sen kotimaa on ##country##. Sen rikityyppi on ##riki##. Aluksessa on ##crew## henkilön miehistö. '
+      const preview = this.getPreview(fiTemplate)
+      this.setState({description: fiTemplate, preview: preview})
+    } else if (this.state.selectedLanguage === 'en') {
+      const enTemplate = `##name## was built in ##year##. It sails under the flag of ##country##. It's type of rigging is ##riki##. The ship has a crew of ##crew## members. `
+      const preview = this.getPreview(enTemplate)
+      this.setState({description: enTemplate, preview: preview})
+    } else if (this.state.selectedLanguage === 'se') {
+
     }
   }
   findDescription(lang, key, location = this.state.locationSelected) {
@@ -116,10 +166,43 @@ export default class Descriptions extends Component {
       
       this.setState({descriptions: tmpDescriptions})
     }
+    
+  }
+  theClick() {
+    SHIPDATA.forEach(ship => {
+      let match = Object.values(this.state.locations).find(loc => loc.shipId === ship.shipId)
+      if (match) { 
+        console.log(match)
+        this.ref.child('Descriptions').child(match.id).child('data').set(ship)
+      } else { 
+        console.log('ship not in locations: ' + ship.name)
+      }
+      //console.log(match.name)
+    })
+    
   }
   render() {
+    let shipData = ''
+    if (this.state.selectedType === 'ship') {
+      let desc = Object.entries(this.state.descriptions).find((key, value) => parseInt(key) === this.state.locationSelected)
+      if (desc && desc[1].data) {
+        // shipData = JSON.stringify(desc[1], null, 2)
+        shipData = (
+          <ul>
+            {Object.entries(desc[1].data).map(([key, value]) => {
+              const style = value.toString().length > 0 ? {color: 'green'} : {color: 'red'}
+              return <li style={style}>{key}: {value}</li>
+            })}
+          </ul>
+        )
+      }
+    }
+
     let descTable = Object.entries(this.state.descriptions).map(([key, value]) => {
       let loc = Object.values(this.state.locations).find(loc => loc.id.toString() === key.toString())
+      if (!loc) {
+        return <tr key={key}><td>{`error with ${key}`}</td></tr>
+      }
       return (
         <tr key={key}>
           <td>{key}</td>
@@ -133,6 +216,7 @@ export default class Descriptions extends Component {
     })
     return (
       <div>
+        <button onClick={() => this.theClick()}>update ship data</button>
         {this.state.authed ?
         <div>
           {this.state.showForm ?
@@ -154,21 +238,26 @@ export default class Descriptions extends Component {
               </tbody>
             </table>
           </div>
+
           <hr/>
+
           <select name="type" value={this.state.selectedType} onChange={this.handleChange}>
               {defaultTypes.map(type => <option key={type}>{type}</option>)}
           </select>
           
           {this.state.selectedLocations[0] ?
-          <>
-          <select name="location" value={this.state.locationSelected.id} onChange={this.handleChange}>
-              {this.state.selectedLocations.map(loc => <option key={loc.id}>{`${loc.name} (${loc.id})`}</option>)}
-          </select>
-          <select name="language" value={this.state.selectedLanguage} onChange={this.handleChange}>
-              {defaultLanguages.map(lang => <option key={lang}>{lang}</option>)}
-          </select>
-          </>
+          <div>
+            <select name="location" value={this.state.locationSelected.id} onChange={this.handleChange}>
+                {this.state.selectedLocations.map(loc => <option key={loc.id}>{`${loc.name} (${loc.id})`}</option>)}
+            </select>
+            <select name="language" value={this.state.selectedLanguage} onChange={this.handleChange}>
+                {defaultLanguages.map(lang => <option key={lang}>{lang}</option>)}
+            </select>
+          </div>
           : ''}
+          <br/>
+          {shipData}
+          <button onClick={() => this.createTemplate()}>Template</button>
           <br/>
           {this.state.description !== '' ?
           <textarea name="desc" rows="10" cols="80" value={this.state.description} onChange={this.handleChange}/>
@@ -177,6 +266,8 @@ export default class Descriptions extends Component {
             placeholder="No description found." onChange={this.handleChange}></textarea>
           }
           
+          <br/>
+          {this.state.preview.toString()}
           <br/>
           <Button onClick={() => this.handleSubmit()}>Submit</Button>
 
