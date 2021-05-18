@@ -303,12 +303,13 @@ export default class Descriptions extends Component {
     })
     return (
       <div>
-        <button onClick={() => this.theClick()}>update ship data</button>
-        <button onClick={() => this.createDescriptionsForAllShips()}>
-            create descriptions for all ships from templates
-        </button>
+        
         {this.state.authed ?
         <div>
+          <button onClick={() => this.theClick()}>update ship data</button>
+          <button onClick={() => this.createDescriptionsForAllShips()}>
+              create descriptions for all ships from templates
+          </button>
           {this.state.showForm ?
           <div>
           <div style={{fontSize: "small"}}>
