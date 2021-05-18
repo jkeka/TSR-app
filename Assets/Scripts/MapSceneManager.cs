@@ -308,7 +308,7 @@ public class MapSceneManager : MonoBehaviour
 
         if (CoordinateData.type == "ship")
         {
-            DescriptionDataHandler.LoadDescription(CoordinateData.id, "fi");
+            DescriptionDataHandler.LoadDescription(CoordinateData.id, User.GetLanguage());
         }       
 
         for (int i = 0; i < screenObjects.Count; i++)
