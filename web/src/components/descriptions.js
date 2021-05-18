@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import firebase from '../services/firebase'
 import { Button } from 'react-bootstrap'
 import SHIPDATA from './data/shipdata'
+import createTemplates from './descriptions/createTemplates'
 
 const defaultTypes = ['ship', 'booth', 'venue', 'restaurant']
 const defaultLanguages = ['fi', 'en', 'se']
@@ -132,16 +133,93 @@ export default class Descriptions extends Component {
     return preview
   }
   createTemplate() {
-    if (this.state.selectedLanguage === 'fi') {
-      const fiTemplate = '##name## rakennettiin vuonna ##year##. Sen kotimaa on ##country##. Sen rikityyppi on ##riki##. Aluksessa on ##crew## henkilön miehistö. '
-      const preview = this.getPreview(fiTemplate)
-      this.setState({description: fiTemplate, preview: preview})
-    } else if (this.state.selectedLanguage === 'en') {
-      const enTemplate = `##name## was built in ##year##. It sails under the flag of ##country##. It's type of rigging is ##riki##. The ship has a crew of ##crew## members. `
-      const preview = this.getPreview(enTemplate)
-      this.setState({description: enTemplate, preview: preview})
-    } else if (this.state.selectedLanguage === 'se') {
+    console.log('click')
+    const shipRef = Object.entries(this.state.descriptions).find((key, value) => parseInt(key) === this.state.locationSelected)
+    let s = JSON.parse(JSON.stringify(shipRef))[1].data
 
+    let template = ''
+    if (this.state.selectedLanguage === 'fi') {
+      if (s.year && s.name && s.country) {
+        template += '##name## rakennettiin vuonna ##year##. Sen kotimaa on ##country##. '
+      }
+      if (s.riki) {
+        template += 'Sen rikityyppi on ##riki##. '
+      }
+      if (s.crew) {
+        template += 'Aluksessa on ##crew## henkilön miehistö. '
+      }
+      if (s.length || s.height || s.width || s.depth) {
+        template += '\n\n'
+        if (s.length) {
+          template += '- pituus: ##length##\n'
+        }
+        if (s.height) {
+          template += '- korkeus: ##height##\n'
+        }
+        if (s.width) {
+          template += '- leveys: ##width##\n'
+        }
+        if (s.depth) {
+          template += '- syvyys: ##depth##\n'
+        }
+      }
+      const preview = this.getPreview(template)
+      this.setState({description: template, preview: preview})
+    } else if (this.state.selectedLanguage === 'en') {
+      if (s.year && s.name && s.country) {
+        template += '##name## was built in ##year##. It sails under the flag of ##country##. '
+      }
+      if (s.riki) {
+        template += `It's type of rigging is ##riki##.`
+      }
+      if (s.crew) {
+        template += 'The ship has a crew of ##crew## members. '
+      }
+      if (s.length || s.height || s.width || s.depth) {
+        template += '\n\n'
+        if (s.length) {
+          template += '- length: ##length##\n'
+        }
+        if (s.height) {
+          template += '- height: ##height##\n'
+        }
+        if (s.width) {
+          template += '- width: ##width##\n'
+        }
+        if (s.depth) {
+          template += '- depth: ##depth##\n'
+        }
+      }
+      const preview = this.getPreview(template)
+      this.setState({description: template, preview: preview})
+    } else if (this.state.selectedLanguage === 'se') {
+      console.log('seclick')
+      if (s.year && s.name && s.country) {
+        template += '##name## byggdes ##year##. Det seglar under ##country##s flagga. '
+      }
+      if (s.riki) {
+        template += `Det är en typ av rigg som är ##riki##.`
+      }
+      if (s.crew) {
+        template += 'Fartyget har en besättning på ##crew## medlemmar. '
+      }
+      if (s.length || s.height || s.width || s.depth) {
+        template += '\n\n'
+        if (s.length) {
+          template += '- längd: ##length##\n'
+        }
+        if (s.height) {
+          template += '- höjd: ##height##\n'
+        }
+        if (s.width) {
+          template += '- bredd: ##width##\n'
+        }
+        if (s.depth) {
+          template += '- djup: ##depth##\n'
+        }
+      }
+      const preview = this.getPreview(template)
+      this.setState({description: template, preview: preview})
     }
   }
   findDescription(lang, key, location = this.state.locationSelected) {
@@ -159,7 +237,7 @@ export default class Descriptions extends Component {
 
       console.log('Descriptions', this.state.locationSelected, this.state.selectedLanguage)
       this.ref.child('Descriptions').child(this.state.locationSelected)
-        .child(this.state.selectedLanguage).child('description').set(this.state.description)
+        .child(this.state.selectedLanguage).child('description').set(this.state.preview)
       let tmpDescriptions = {...this.state.descriptions}
       tmpDescriptions[this.state.locationSelected] = [this.state.selectedLanguage]
       tmpDescriptions[this.state.locationSelected][this.state.selectedLanguage] = this.state.description
@@ -181,6 +259,15 @@ export default class Descriptions extends Component {
     })
     
   }
+  createDescriptionsForAllShips() {
+    if (window.confirm('Create descriptions for all ships? \n\n Warning! This will overwrite all existing descriptions!!!')) {
+      let newData = createTemplates(this.state.descriptions)
+      let combined = { ...this.state.descriptions, ...newData }
+      console.log(combined)
+      this.ref.child('Descriptions').set(combined)
+      this.setState({descriptions: combined})
+    }  
+  }
   render() {
     let shipData = ''
     if (this.state.selectedType === 'ship') {
@@ -191,7 +278,7 @@ export default class Descriptions extends Component {
           <ul>
             {Object.entries(desc[1].data).map(([key, value]) => {
               const style = value.toString().length > 0 ? {color: 'green'} : {color: 'red'}
-              return <li style={style}>{key}: {value}</li>
+              return <li style={style} key={key}>{key}: {value}</li>
             })}
           </ul>
         )
@@ -217,6 +304,9 @@ export default class Descriptions extends Component {
     return (
       <div>
         <button onClick={() => this.theClick()}>update ship data</button>
+        <button onClick={() => this.createDescriptionsForAllShips()}>
+            create descriptions for all ships from templates
+        </button>
         {this.state.authed ?
         <div>
           {this.state.showForm ?
