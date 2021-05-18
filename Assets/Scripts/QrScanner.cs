@@ -29,6 +29,7 @@ public class QrScanner : MonoBehaviour
         
     void Start()
     {
+        qrtext.text = string.Empty;
 
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {

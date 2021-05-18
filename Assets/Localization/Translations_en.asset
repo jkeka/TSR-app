@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Translations_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 36d9b237f26bb0342bb2f952a7b6f53d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 157153636352
+    m_Localized: Navigation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293393018880
+    m_Localized: Schedule
+    m_Metadata:
+      m_Items: []
+  - m_Id: 486666547200
+    m_Localized: Stamp pass
+    m_Metadata:
+      m_Items: []
+  - m_Id: 879022714880
+    m_Localized: Library
+    m_Metadata:
+      m_Items: []
+  - m_Id: 979941863424
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: Select language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Instructions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Schedule
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: OneHourWord -glossaries
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: QR-scan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: Hello, welcome! Click the text bubble and I will tell you about
+      the ship.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290774689656832
+    m_Localized: Oops, this ship is missing the presentation text! We apologize for
+      the inconvenience.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 701929090330624
+    m_Localized: Stamp passport
+    m_Metadata:
+      m_Items: []
+  - m_Id: 702239020036096
+    m_Localized: Ship name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703367984066560
+    m_Localized: Welcome to Tall Ships Races -app!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703689544577024
+    m_Localized: "First, let\u2019s go trough step-by-step instructions how the app
+      works\r\n\r\n\r\nTouch the screen to continue!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704028519837696
+    m_Localized: 'From the navigation, you will see a map view of the entire event
+      area, from which you can select the destination to which the application will
+      direct you.
+
+
+      You will also see your own location on the map.
+
+
+      You
+      can also find other items related to the event on the map.
+
+
+      Touch the
+      screen to continue!
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704809427939328
+    m_Localized: "You can see the schedules of significant events in the schedule.
+      Click on an event for more information and the app will help you navigate to
+      the event area.\r\n\r\n\nTouch the screen to continue!\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 705086033899520
+    m_Localized: 'In the stamp passport you can see from which ships you have scanned
+      the QR code. You can also navigate to the ships from the passport. Can you
+      collect all the stamps?
+
+
+
+      Touch the screen to continue!
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707488036302848
+    m_Localized: 'In the library you will find Lingsoft''s One Hour Word -glossaries
+      with interesting content related to sailing, ships and Turku.
+
+
+
+      Touch
+      the screen to continue!
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707766391287808
+    m_Localized: "In Settings, you can change the language, adjust the volume, view
+      the instructions again and exit the application.\r\n\r\n\nTouch the screen
+      again to start using the app!\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 710717222563840
+    m_Localized: Start scanning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 756267196231680
+    m_Localized: Error! Check internet connection!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 757747848458240
+    m_Localized: Internet connection established!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

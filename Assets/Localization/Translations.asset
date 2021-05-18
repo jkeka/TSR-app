@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: BottomMenuBar
+  m_Name: Translations
   m_EditorClassIdentifier: 
   m_SharedTableData: {fileID: 11400000, guid: 36d9b237f26bb0342bb2f952a7b6f53d, type: 2}
   m_Tables:

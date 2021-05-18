@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: BottomMenuBar Shared Data
+  m_Name: Translations Shared Data
   m_EditorClassIdentifier: 
   m_TableCollectionName: Translations
   m_TableCollectionNameGuidString: 36d9b237f26bb0342bb2f952a7b6f53d
@@ -73,6 +73,54 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 290774689656832
     m_Key: INFO_ERROR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 701929090330624
+    m_Key: PASS_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 702239020036096
+    m_Key: QR_SHIPNAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703367984066560
+    m_Key: INSTRUCTION1_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703689544577024
+    m_Key: INSTRUCTION1_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704028519837696
+    m_Key: INSTRUCTION2_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704809427939328
+    m_Key: INSTRUCTION3_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 705086033899520
+    m_Key: INSTRUCTION4_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707488036302848
+    m_Key: INSTRUCTION5_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707766391287808
+    m_Key: INSTRUCTION6_TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 710717222563840
+    m_Key: QR_SCANNING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 756267196231680
+    m_Key: ERROMESSAGE_CONNECTIONFALSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 757747848458240
+    m_Key: ERRORMESSAGE_CONNECTIONTRUE
     m_Metadata:
       m_Items: []
   m_Metadata:

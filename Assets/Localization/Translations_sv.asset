@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Translations_sv
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: sv
+  m_SharedData: {fileID: 11400000, guid: 36d9b237f26bb0342bb2f952a7b6f53d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 157153636352
+    m_Localized: Navigering
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293393018880
+    m_Localized: Tidtabell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 486666547200
+    m_Localized: "St\xE4mpelpass"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 879022714880
+    m_Localized: Bibliotek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 979941863424
+    m_Localized: "Inst\xE4llningar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: "Inst\xE4llningar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: "V\xE4lj Spr\xE5k"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: Volym
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Instruktioner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Sluta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Tidtabell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: OneHourWord -ordlister
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: QR-skanning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: "Hej, v\xE4lkommen! Klicka pratbubblan och jag ber\xE4ttar dig om
+      b\xE5ten."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290774689656832
+    m_Localized: "Oj, det h\xE4r fartyget saknar presentationstexten! Vi ber om urs\xE4kt
+      f\xF6r besv\xE4ret."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 701929090330624
+    m_Localized: "St\xE4mpelpass"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 702239020036096
+    m_Localized: Fartygets namn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703367984066560
+    m_Localized: "V\xE4lkommen till Tall Ships Races -app!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703689544577024
+    m_Localized: "L\xE5t oss f\xF6rst g\xE5 igenom steg f\xF6r steg hur appen fungerar.\r\n\r\n\r\nTryck
+      p\xE5 sk\xE4rmen f\xF6r att forts\xE4tta!\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704028519837696
+    m_Localized: "Fr\xE5n navigeringen ser du en kartvy \xF6ver hela evenemangsomr\xE5det,
+      fr\xE5n vilket du kan v\xE4lja den destination som applikationen ska rikta
+      dig till.\r\n\r\nDu kommer ocks\xE5 att se din egen plats p\xE5 kartan.\r\n\r\nDu
+      kan ocks\xE5 hitta andra f\xF6rem\xE5l relaterade till evenemanget p\xE5 kartan.\r\n\r\nTryck
+      p\xE5 sk\xE4rmen f\xF6r att forts\xE4tta!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704809427939328
+    m_Localized: "Du kan se scheman f\xF6r viktiga h\xE4ndelser i schemat. Klicka
+      p\xE5 ett evenemang f\xF6r mer information och appen hj\xE4lper dig att navigera
+      till evenemangsomr\xE5det.\r\n\r\n\nTryck p\xE5 sk\xE4rmen f\xF6r att forts\xE4tta!\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 705086033899520
+    m_Localized: "I st\xE4mpelpasset kan du se fr\xE5n vilka fartyg du har skannat
+      QR-koden. Du kan ocks\xE5 navigera till fartygen fr\xE5n passet. Kan du samla
+      alla frim\xE4rken?\r\n\r\n\nTryck p\xE5 sk\xE4rmen f\xF6r att forts\xE4tta!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707488036302848
+    m_Localized: "I biblioteket hittar du Lingsofts One Hour Word -ordlistor med
+      intressant inneh\xE5ll relaterat till segling, fartyg och \xC5bo.\r\n\r\n\nTryck
+      p\xE5 sk\xE4rmen f\xF6r att forts\xE4tta!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707766391287808
+    m_Localized: "I Inst\xE4llningar kan du \xE4ndra spr\xE5k, justera volymen, visa
+      instruktionerna igen och avsluta programmet.\r\n\r\n\nTryck p\xE5 sk\xE4rmen
+      igen f\xF6r att b\xF6rja anv\xE4nda appen!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 710717222563840
+    m_Localized: "B\xF6rja skanna"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 756267196231680
+    m_Localized: 'Fel! Kontrollera internetanslutningen! '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 757747848458240
+    m_Localized: "Internetanslutning uppr\xE4ttad! "
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

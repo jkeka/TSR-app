@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Translations_fi
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fi
+  m_SharedData: {fileID: 11400000, guid: 36d9b237f26bb0342bb2f952a7b6f53d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 157153636352
+    m_Localized: Navigointi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293393018880
+    m_Localized: Aikataulu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 486666547200
+    m_Localized: Leimapassi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 879022714880
+    m_Localized: Kirjasto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 979941863424
+    m_Localized: Asetukset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280428889387008
+    m_Localized: Asetukset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 280616949395456
+    m_Localized: Valitse kieli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281517604876288
+    m_Localized: "\xC4\xE4nenvoimakkuus"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 281830055358464
+    m_Localized: Ohjeet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 282545481986048
+    m_Localized: Poistu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287738877587456
+    m_Localized: Aikataulu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 287856204853248
+    m_Localized: OneHourWord -sanastot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 289311628341248
+    m_Localized: QR-skannaus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290000958009344
+    m_Localized: Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 290774689656832
+    m_Localized: "Hups, t\xE4st\xE4 aluksesta puuttuu esittelyteksti! Pahoittelemme
+      h\xE4iri\xF6t\xE4."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 701929090330624
+    m_Localized: Leimapassi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 702239020036096
+    m_Localized: Laivan nimi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703367984066560
+    m_Localized: "Tervetuloa \rTall Ships Races -appiin!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 703689544577024
+    m_Localized: "Aluksi k\xE4yd\xE4\xE4n l\xE4vitse kohta kohdalta, miten sovellus
+      toimii.\r\n\r\n\r\nKosketa n\xE4ytt\xF6\xE4 jatkaaksesi!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704028519837696
+    m_Localized: "Navigoinnista n\xE4et koko tapahtuma-alueen karttan\xE4kym\xE4n
+      josta voit valita kohteen, jonne sovellus ohjaa sinut.\r\n\r\nN\xE4et my\xF6s
+      oman sijaintisi kartassa.\r\n\r\nKartalta l\xF6yd\xE4t my\xF6s muita tapahtumaan
+      liittyvi\xE4 kohteita.\r\n\r\nKosketa n\xE4ytt\xF6\xE4 jatkaaksesi!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704809427939328
+    m_Localized: "Aikataulusta n\xE4et merkitt\xE4vien tapahtumien aikataulut, klikkaamalla
+      tapahtumaa saat lis\xE4tietoa ja sovellus auttaa sinua navigoimaan tapahtuma-alueelle.\r\n\r\n\nKosketa
+      n\xE4ytt\xF6\xE4 jatkaaksesi!\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 705086033899520
+    m_Localized: "Leimapassista n\xE4et, mista laivoista olet skannannut QR-koodin.
+      Passista voi my\xF6s navigoida laivoille. Saatko ker\xE4tty\xE4 passin t\xE4yteen?\r\n\r\n\r\nKosketa
+      n\xE4ytt\xF6\xE4 jatkaaksesi!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707488036302848
+    m_Localized: "Kirjastosta l\xF6yd\xE4t Lingsoftin One Hour Word -sanastot, joissa
+      on mielenkiintoista sis\xE4lt\xF6\xE4 liittyen merenkulkuun, laivoihin ja Turkuun.\n\n\nKosketa
+      n\xE4ytt\xF6\xE4 jatkaaksesi!\r\r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 707766391287808
+    m_Localized: "Kirjastosta l\xF6yd\xE4t Lingsoftin One Hour Word -sanastot, joissa
+      on mielenkiintoista sis\xE4lt\xF6\xE4 liittyen merenkulkuun, laivoihin ja Turkuun.\r\n\r\n\nKosketa
+      n\xE4ytt\xF6\xE4 jatkaaksesi!\r\n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 710717222563840
+    m_Localized: Aloita skannaus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 756267196231680
+    m_Localized: Virhe! Tarkista internet-yhteys!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 757747848458240
+    m_Localized: 'Internet-yhteys luotu! '
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Localization.Tables;
+using UnityEngine.Localization;
+
 
 public class SpeechBubble : MonoBehaviour
 {
@@ -12,9 +13,8 @@ public class SpeechBubble : MonoBehaviour
     public RectTransform infoScreen;
     Coroutine routine = null;
     Transform child;
+    LocalizedString localizedString = new LocalizedString() {TableReference = "Translations"};
     public static int count = 0;
-   
-
 
     //SailorInteraction
     public delegate void AnimTrigger(int i);
@@ -25,10 +25,9 @@ public class SpeechBubble : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+     
         child = bubble.transform.GetChild(0);
         bubble.onClick.AddListener(ClickTextBubble);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
     }
 
     public void ClickTextBubble()
@@ -69,7 +68,8 @@ public class SpeechBubble : MonoBehaviour
             Debug.Log(e);
             if (QV != null)
                 QV(2);
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = "Hups, tästä kohteesta puuttuu esittelyteksti!";
+            localizedString.TableEntryReference = "INFO_ERROR";
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
         catch (ArgumentOutOfRangeException e)
         {

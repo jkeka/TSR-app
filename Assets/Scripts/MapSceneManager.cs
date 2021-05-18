@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Events;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
 using Firebase.Database;
@@ -339,7 +340,8 @@ public class MapSceneManager : MonoBehaviour
 
     public void infoClick()
     {
-            
+        LocalizedString localizedString = new LocalizedString() {TableReference = "Translations" };
+                          
         if (CoordinateData.type == "ship")
         {
             sailor.SetActive(true);
@@ -356,7 +358,8 @@ public class MapSceneManager : MonoBehaviour
         {
             if (SpeechBubble.count == 0)
             {
-                speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hei, tervetuloa! Klikkaa tekstikuplaa niin kerron sinulle aluksesta.";
+                localizedString.TableEntryReference = "INFO_START";              
+                speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
             }
             else
             {
@@ -367,7 +370,8 @@ public class MapSceneManager : MonoBehaviour
         catch (ArgumentOutOfRangeException e)
         {
             Debug.Log(e);
-            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Hups! Tästä aluksesta puuttuu esittelyteksti!";
+            localizedString.TableEntryReference = "INFO_ERROR";
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
     }
 
@@ -397,7 +401,7 @@ public class MapSceneManager : MonoBehaviour
         mapScreen.SetSiblingIndex(mapSiblingIndex);
         qrButton.gameObject.SetActive(false);
 
-        qrText.GetComponent<TMPro.TextMeshProUGUI>().text = "Laivan nimi";
+        //qrText.GetComponent<TMPro.TextMeshProUGUI>().text = "Laivan nimi";
     }
 
     void VirtualPassClick()
