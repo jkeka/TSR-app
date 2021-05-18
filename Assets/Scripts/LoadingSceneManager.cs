@@ -30,7 +30,7 @@ public class LoadingSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (connectionEstablished == true && permissionsGranted == true*/)
+        if (connectionEstablished == true && permissionsGranted == true)
         {
             string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
             User.InitializeUser(deviceCode);
