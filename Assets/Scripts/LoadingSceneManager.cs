@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 using Firebase.Database;
 
+using static User;
+
 public class LoadingSceneManager : MonoBehaviour
 {
     bool connectionEstablished = false;
@@ -19,7 +21,6 @@ public class LoadingSceneManager : MonoBehaviour
 
     void Start()
     {
-
         FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
 
         StartCoroutine(CheckConnection());
@@ -32,9 +33,16 @@ public class LoadingSceneManager : MonoBehaviour
     {
         if (connectionEstablished == true && permissionsGranted == true)
         {
-            string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
-            User.InitializeUser(deviceCode);
-            SceneManager.LoadScene("MapScene");
+            
+            if (!User.initializing) {
+                Debug.Log("Initializing user");
+                string deviceCode = SystemInfo.deviceUniqueIdentifier; // Replace with any string to test the db
+                User.InitializeUser(deviceCode);
+            }
+            if (User.readyToUse) {
+                Debug.Log("User ready, loading mapscene");
+                SceneManager.LoadScene("MapScene");
+            }
         }
 
     }

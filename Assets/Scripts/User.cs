@@ -135,10 +135,13 @@ public static class User {
     public static DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
     public static List<string> visitedLocations;
     public static List<Location> locationArray = new List<Location>();
+	public static bool readyToUse = false;
+	public static bool initializing = false;
     
 
     public static void InitializeUser(string deviceCodeNow)
     {
+		initializing = true;
         GetLocations();
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.SignInAnonymouslyAsync().ContinueWith(task => {
@@ -220,6 +223,7 @@ public static class User {
 
             if(!task.IsFaulted && !task.IsCanceled) {
                 Debug.Log("Completed creating the user.");
+				readyToUse = true;
             }
         });
         
@@ -231,6 +235,7 @@ public static class User {
         Debug.Log(tmpUser.ToString());
         language = tmpUser.language;
         visitedLocations = tmpUser.visitedLocations;
+		readyToUse = true;
     }
 
     public static string AddVisitedLocation(string newLocation)
