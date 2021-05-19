@@ -84,7 +84,7 @@ public class MapSceneManager : MonoBehaviour
         else
             Instance = this;
 
-        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
+        // FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
 
         /*StartCoroutine(CheckConnection(isConnected =>
         {
