@@ -154,7 +154,7 @@ export default class Event extends Component {
     }
     console.log(newEvent)
     
-    const ref = this.ref.child('events').child(newId)
+    const ref = this.ref.child('Schedule').child('events').child(newId)
     ref.set(newEvent)
     let tempEvents = JSON.parse(JSON.stringify(this.state.events))
     tempEvents[newId] = newEvent
