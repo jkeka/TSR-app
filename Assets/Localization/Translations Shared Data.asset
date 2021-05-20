@@ -115,12 +115,20 @@ MonoBehaviour:
     m_Key: QR_SCANNING
     m_Metadata:
       m_Items: []
-  - m_Id: 756267196231680
-    m_Key: ERROMESSAGE_CONNECTIONFALSE
+  - m_Id: 1361817411923968
+    m_Key: CONFIRMATION_TEXT
     m_Metadata:
       m_Items: []
-  - m_Id: 757747848458240
-    m_Key: ERRORMESSAGE_CONNECTIONTRUE
+  - m_Id: 1364276029042688
+    m_Key: CONFIRMATION_YES
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364425501454336
+    m_Key: CONFIRMATION_NO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1368720019959808
+    m_Key: DESCRIPTION_CLOSE
     m_Metadata:
       m_Items: []
   m_Metadata:

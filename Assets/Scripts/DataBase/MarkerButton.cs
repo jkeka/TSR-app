@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 
 public class MarkerButton : MonoBehaviour
@@ -14,6 +14,7 @@ public class MarkerButton : MonoBehaviour
     //private PanZoom panZoomScript;
     private float buttonSize = Mathf.Clamp(1f, 0.4f, 1.5f);
     private float cameraSizeMultiplier;
+    private LocalizedString localizedString = new LocalizedString() { TableReference = "Translations", TableEntryReference = "CONFIRMATION_TEXT"};
 
 
     public static float destinationLatitude;
@@ -50,7 +51,7 @@ public class MarkerButton : MonoBehaviour
 
         string locationName = gameObject.GetComponent<Coordinates>().locationName;
         var child = confScreen.transform.GetChild(0).transform.GetChild(0);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = "Matkataanko kohteeseen " + locationName + "?";
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString() + " " + locationName + "?";
         RectTransform Pos = confScreen.GetComponent<RectTransform>();
         Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
         confScreen.SetActive(true);

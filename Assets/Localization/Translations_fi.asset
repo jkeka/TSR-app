@@ -88,7 +88,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 703367984066560
-    m_Localized: "Tervetuloa \rTall Ships Races -appiin!\r\n"
+    m_Localized: "Tervetuloa \r\nTall Ships Races -appiin!\r\n"
     m_Metadata:
       m_Items: []
   - m_Id: 703689544577024
@@ -131,12 +131,20 @@ MonoBehaviour:
     m_Localized: Aloita skannaus
     m_Metadata:
       m_Items: []
-  - m_Id: 756267196231680
-    m_Localized: Virhe! Tarkista internet-yhteys!
+  - m_Id: 1361817411923968
+    m_Localized: Navigoidaanko kohteeseen
     m_Metadata:
       m_Items: []
-  - m_Id: 757747848458240
-    m_Localized: 'Internet-yhteys luotu! '
+  - m_Id: 1364276029042688
+    m_Localized: "Kyll\xE4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364425501454336
+    m_Localized: Ei
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1368720019959808
+    m_Localized: Sulje
     m_Metadata:
       m_Items: []
   references:

@@ -156,12 +156,20 @@ MonoBehaviour:
     m_Localized: Start scanning
     m_Metadata:
       m_Items: []
-  - m_Id: 756267196231680
-    m_Localized: Error! Check internet connection!
+  - m_Id: 1361817411923968
+    m_Localized: Navigate to
     m_Metadata:
       m_Items: []
-  - m_Id: 757747848458240
-    m_Localized: Internet connection established!
+  - m_Id: 1364276029042688
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1364425501454336
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1368720019959808
+    m_Localized: Close
     m_Metadata:
       m_Items: []
   references:
