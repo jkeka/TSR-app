@@ -329,6 +329,10 @@ public class MapSceneManager : MonoBehaviour
         {
             virtualPassScreen.SetSiblingIndex(siblingIndex);
         }
+        else if (schedScreen.GetSiblingIndex() == siblingIndex - 1)
+        {
+            schedScreen.SetSiblingIndex(siblingIndex);
+        }
         else
         {
             screens.SetActive(false);
