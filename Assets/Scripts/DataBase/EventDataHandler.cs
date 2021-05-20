@@ -13,8 +13,10 @@ using Newtonsoft.Json;
 public class EventDataHandler : MonoBehaviour
 
 {
+    private static string language = null;
+
     public Button eventButton;
-    public GameObject scheduleScreen;
+    public GameObject events;
     public TMPro.TMP_Dropdown dropdown;
     public static List<Button> scheduleList = new List<Button>();
 
@@ -23,8 +25,8 @@ public class EventDataHandler : MonoBehaviour
 
     private void Start()
     {
-     reference = FirebaseDatabase.DefaultInstance.RootReference;
-     LoadScheduleData();
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        LoadScheduleData();
     }
 
     public void LoadScheduleData()
@@ -86,18 +88,33 @@ public class EventDataHandler : MonoBehaviour
         var child = schedule.transform.GetChild(0);
         child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " + start + " - " + end;
 
-        schedule.transform.SetParent(scheduleScreen.transform, false);
+        schedule.transform.SetParent(events.transform, false);
         scheduleList.Add(schedule);
 
     }
 
-    public Dictionary<string, string> SetEventLanguage(string translations)
+    public static Dictionary<string, string> SetEventLanguage(string translations)
     // Sets schedule language based on user settings.
     {
         Dictionary<string, Dictionary<string, string>> languages =
             JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(Convert.ToString(translations));
 
-        string language = "fi";  // Needs to get the language from settings
+        if (User.GetLanguage() != null)
+        {
+            language = User.GetLanguage();
+        }
+        else if (Application.systemLanguage == SystemLanguage.Finnish)
+        {
+            language = "fi";
+        }
+        else if (Application.systemLanguage == SystemLanguage.Swedish)
+        {
+            language = "se";
+        }
+        else
+        {
+            language = "en";
+        }
 
         foreach (var item in languages)
         {
@@ -131,8 +148,6 @@ public class EventDataHandler : MonoBehaviour
         {
             var eventDate = button.GetComponent<Event>().startTime.Day + "." + button.GetComponent<Event>().startTime.Month;
 
-            
-
             if (eventDate == day)
             {
                 button.gameObject.SetActive(true);
@@ -143,5 +158,26 @@ public class EventDataHandler : MonoBehaviour
             }
         }
 
+    }
+
+    public static void ChangeLanguage()
+    // Changes schedule language if another language is selected
+    {
+        if (language == User.GetLanguage())
+        {
+            return;
+        }
+        foreach (Button schedule in scheduleList)
+        {
+            var translation = SetEventLanguage(schedule.GetComponent<Event>().translations);
+            var child = schedule.transform.GetChild(0);
+
+            var start = schedule.GetComponent<Event>().startTime.ToShortTimeString();
+            var end = schedule.GetComponent<Event>().endTime.ToShortTimeString();
+
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " + start + " - " + end;
+        }
+
+        Debug.Log("Schedule language changed!");
     }
 }

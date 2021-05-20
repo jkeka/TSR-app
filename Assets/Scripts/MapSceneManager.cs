@@ -17,7 +17,7 @@ public class MapSceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static MapSceneManager Instance;
-
+  
     public bool isFirstTime;
 
     public GameObject sailor;
@@ -206,8 +206,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
-        
-
+        EventDataHandler.ChangeLanguage();
 
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
@@ -220,7 +219,7 @@ public class MapSceneManager : MonoBehaviour
         Debug.Log("Set system to English language!");
         User.SetLanguage("en");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
-
+       
         mapScreen.SetSiblingIndex(siblingIndex);
 
         if (isFirstTime == true)
@@ -230,6 +229,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
+        EventDataHandler.ChangeLanguage();
     }
 
     void SweClick()
@@ -237,7 +237,7 @@ public class MapSceneManager : MonoBehaviour
         screens.SetActive(false);
 
         Debug.Log("Set system to Swedish language!");
-        User.SetLanguage("sv");
+        User.SetLanguage("se");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[2];
 
         mapScreen.SetSiblingIndex(siblingIndex);
@@ -249,6 +249,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
+        EventDataHandler.ChangeLanguage();
     }
 
     void MapClick()
