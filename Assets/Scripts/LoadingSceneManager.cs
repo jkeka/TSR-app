@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Android;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 using Firebase.Database;
 
@@ -24,7 +25,7 @@ public class LoadingSceneManager : MonoBehaviour
         FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
 
         StartCoroutine(CheckConnection());
-        StartCoroutine(CheckPermissions());
+        CheckPermissions();
 
     }
 
@@ -82,13 +83,13 @@ public class LoadingSceneManager : MonoBehaviour
         connectionEstablished = true;
     }
 
-    IEnumerator CheckPermissions()
+    public void CheckPermissions()
     // Checks permission for Android phone about camera and GPS Location
     {
 
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation) || !Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
-            AskPermissions();
+            StartCoroutine(AskPermissions());
 
         }
 
@@ -97,32 +98,43 @@ public class LoadingSceneManager : MonoBehaviour
             //CloseScreen();
             permissionsGranted = true;
             Debug.Log("All permissions granted!");
-            yield break;
+            
         }
-        else
-        {
-            Application.Quit();
-        }
+            
     }
 
-
-    void AskPermissions()
-    // Asks permission from Android phone to use camera and GPS Location
+    IEnumerator AskPermissions()
+    // Asks permission from Android phone to use camera and GPS Location 
     {
+              
         //Camera permission
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
             Permission.RequestUserPermission(Permission.Camera);
             Debug.Log("Asking permission for camera");
-
         }
+
+        yield return new WaitForSecondsRealtime(1);
+
         //Location permission
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
-            Permission.RequestUserPermission(Permission.CoarseLocation);
+            //Permission.RequestUserPermission(Permission.CoarseLocation);
             Debug.Log("Asking permission for GPS");
 
         }
-    }
+        
+        yield return new WaitForSecondsRealtime(1);
+
+        if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && Permission.HasUserAuthorizedPermission(Permission.Camera))
+        {
+            permissionsGranted = true;
+            Debug.Log("All permissions granted!");
+        }
+        else
+        {
+            Application.Quit();
+        }
+    } 
 }
