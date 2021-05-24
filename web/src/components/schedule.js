@@ -1,94 +1,48 @@
-import React, { Component } from 'react'
-import { Button, Container } from 'react-bootstrap'
-import firebase from '../services/firebase'
-import Venue from './schedule/venue'
-import Day from './schedule/day'
-import Event from './schedule/event'
+import React, { useEffect, useState } from 'react'
+import EventTable from './schedule/eventTable'
+import NewEvent from './schedule/newEvent'
 
+export default function Schedule({firebase}) {
+    const [events, setEvents] = useState({})
+    const [venues, setVenues] = useState({})
+    const [editedEvent, setEditedEvent] = useState({})
 
-export default class Schedule extends Component {
-    constructor(props) {
-        super(props)
-        this.title = 'Schedule'
-        this.ref = firebase.database().ref("Schedule")
-        this.changeRoute = this.changeRoute.bind(this)
-        this.kill = this.kill.bind(this)
-        this.state = { 
-            venues: [],
-            days: [],
-            events: {},
-            router: <p>Choose a tab</p>,
-            dayButton: "primary",
-            eventButton: "primary",
-            venueButton: "primary"
-        }
-    }
-    kill() {
-        this.ref.child('days').remove()
-        
-        let tmpEvents = {...this.state.events}
-        Object.entries(tmpEvents).forEach(element => {
-            element[1].setToDay = false
-        })
-        console.log(tmpEvents)
-        this.ref.child('events').set(tmpEvents)
-        
-    }
-    componentDidMount() {
-        // Database fetch
-        this.ref.child('venues').on('value', (snapshot) => {
+    useEffect(() =>  {
+        firebase.child('Schedule').child('events').on('value', (snapshot) => {
             if (snapshot.val() !== null) {
-                this.setState({venues: snapshot.val()})
-            } else {
-                console.log('venues fetch failed or nothing to fetch')
-            }
-        })
-        this.ref.child('days').on('value', (snapshot) => {
-            if (snapshot.val() !== null) {
-                this.setState({days: snapshot.val()})
-            } else {
-                console.log('days fetch failed or nothing to fetch')
-            }
-        })
-        this.ref.child('events').on('value', (snapshot) => {
-            if (snapshot.val() !== null) {
-                this.setState({events: snapshot.val()})
+                setEvents(snapshot.val())
             } else {
                 console.log('events fetch failed or nothing to fetch')
             }
-        })
-        
-    }
-    changeRoute(route) {
-        switch(route) {
-            case 'venue':
-                this.setState({router: <Venue venues={this.state.venues} fireRef={this.ref} />,
-                    venueButton: "success", dayButton: "primary", eventButton: "primary"})
-                break
-            case 'event':
-                this.setState({router: <Event events={this.state.events} venues={this.state.venues} 
-                    fireRef={this.ref} />,
-                    venueButton: "primary", dayButton: "primary", eventButton: "success"})
-                break
-            case 'day':
-                this.setState({router: <Day days={this.state.days} fireRef={this.ref}
-                    events={this.state.events} venues={this.state.venues} />,
-                    venueButton: "primary", dayButton: "success", eventButton: "primary"})
-                break
-            default:
-                this.setState({router: <p>Choose a tab</p>})
-                break
-        }
-    }
-    render() {
-        return (
-            <Container>
-                <h1>{this.title}</h1>
-                <Button variant={this.state.eventButton} onClick={() => this.changeRoute('event')}>Event</Button>
-                <Button variant={this.state.venueButton} onClick={() => this.changeRoute('venue')}>Venue</Button>
-                {this.state.router}
-            </Container>
-            
-        )
-  }
+          })
+    }, [firebase])
+
+    useEffect(() => {
+        firebase.child('Location').on('value', (snapshot) => {
+            if (snapshot.val() !== null) {
+                let tmpVenues = {}
+                for (const [key, value] of Object.entries(snapshot.val())) {
+                    // Adding only locations with type venue to the venue list
+                    if (value.type === 'venue') {
+                        tmpVenues[key] = (snapshot.val()[key])
+                    }
+                }
+                setVenues(tmpVenues)
+            } else {
+                console.log('locations fetch failed or nothing to fetch')
+            }
+          })
+    }, [firebase])
+
+    return (
+        <div>
+            <h1>Schedule</h1>
+            <button onClick={() => console.log(events)}>events</button>
+            <button onClick={() => console.log(venues)}>venues</button>
+            <EventTable events={events} setEditedEvent={setEditedEvent} fb={firebase} />
+
+            <NewEvent venues={venues} editEvent={editedEvent} fb={firebase} />
+
+        </div>
+    )
 }

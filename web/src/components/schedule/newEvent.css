@@ -1,0 +1,11 @@
+.cont {
+  display: inline-flex;
+  width: 100%;
+}
+.co {
+  margin: 0.5em;
+  padding: 0.5em;
+  border-radius: 1em;
+  width: 33.3%;
+  background-color: bisque;
+}
