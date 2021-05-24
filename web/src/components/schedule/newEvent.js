@@ -82,8 +82,10 @@ export default function NewEvent({ venues, editEvent, fb }) {
   }
 
   const submitData = () => {
-    console.log('submitting', newEvent)
-    fb.child('Schedule').child('events').child(newEvent.id).set(newEvent)
+    if (window.confirm('really send new data?')) {
+      console.log('submitting', newEvent)
+      fb.child('Schedule').child('events').child(newEvent.id).set(newEvent)
+    }
   }
 
   return (
