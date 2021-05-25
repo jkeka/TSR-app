@@ -86,7 +86,7 @@ public class EventDataHandler : MonoBehaviour
         var translation = SetEventLanguage(translations);
 
         var child = schedule.transform.GetChild(0);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " + start + " - " + end;
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "\n" + start + " - " + end;
 
         schedule.transform.SetParent(events.transform, false);
         scheduleList.Add(schedule);
@@ -175,7 +175,7 @@ public class EventDataHandler : MonoBehaviour
             var start = schedule.GetComponent<Event>().startTime.ToShortTimeString();
             var end = schedule.GetComponent<Event>().endTime.ToShortTimeString();
 
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "  " + start + " - " + end;
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "\n" + start + " - " + end;
         }
 
         Debug.Log("Schedule language changed!");

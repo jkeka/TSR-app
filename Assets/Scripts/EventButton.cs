@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 public class EventButton : MonoBehaviour
 {
     public Button button;
     public GameObject confScreen;
+    private LocalizedString localizedString = new LocalizedString() { TableReference = "Translations", TableEntryReference = "CONFIRMATION_TEXT" };
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +29,11 @@ public class EventButton : MonoBehaviour
                      
             if (venueID == button.GetComponent<Coordinates>().id)
             {
-                
+                var translation = EventDataHandler.SetEventLanguage(gameObject.GetComponent<Event>().translations);
+
                 string locationName = button.GetComponent<Coordinates>().locationName;
                 var child = confScreen.transform.GetChild(0).transform.GetChild(0);
-                child.GetComponent<TMPro.TextMeshProUGUI>().text = "Matkataanko kohteeseen " + locationName + "?";
+                child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["desc"] + "\n\n" + localizedString.GetLocalizedString() + " " + locationName + "?";
                 RectTransform Pos = confScreen.GetComponent<RectTransform>();
                 Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
 
@@ -40,7 +43,7 @@ public class EventButton : MonoBehaviour
                 CoordinateData.id = button.GetComponent<Coordinates>().id;
                 CoordinateData.type = button.GetComponent<Coordinates>().type;
 
-                Debug.Log("Event button");
+                Debug.Log("Event button clicked!");
 
                 return;
             }

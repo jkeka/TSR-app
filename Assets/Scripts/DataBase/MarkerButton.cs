@@ -48,7 +48,6 @@ public class MarkerButton : MonoBehaviour
             mapSceneManagerScript.screenObjects[i].SetActive(false);
         }
 
-
         string locationName = gameObject.GetComponent<Coordinates>().locationName;
         var child = confScreen.transform.GetChild(0).transform.GetChild(0);
         child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString() + " " + locationName + "?";

@@ -10,7 +10,7 @@ public class Event : MonoBehaviour
     public DateTime startTime;
     public DateTime endTime;
     public string translations;
-
+    
     public Event(string id, string venueId, DateTime startTime, DateTime endTime, string translations)
     {
         this.id = id;
@@ -18,7 +18,8 @@ public class Event : MonoBehaviour
         this.startTime = startTime;
         this.endTime = endTime;
         this.translations = translations;
-    }
+           
+}
 
     public override string ToString()
     {

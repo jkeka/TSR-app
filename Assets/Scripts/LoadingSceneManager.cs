@@ -114,7 +114,7 @@ public class LoadingSceneManager : MonoBehaviour
             Debug.Log("Asking permission for camera");
         }
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         //Location permission
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
@@ -125,7 +125,7 @@ public class LoadingSceneManager : MonoBehaviour
 
         }
         
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
