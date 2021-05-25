@@ -9,15 +9,17 @@ public class Event : MonoBehaviour
     public string venueId;
     public DateTime startTime;
     public DateTime endTime;
-    public string translations;
+    public string eventName;
+    public string eventDescription;
     
-    public Event(string id, string venueId, DateTime startTime, DateTime endTime, string translations)
+    public Event(string id, string venueId, DateTime startTime, DateTime endTime, string eventName, string eventDescription)
     {
         this.id = id;
         this.venueId = venueId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.translations = translations;
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
            
 }
 
@@ -28,7 +30,8 @@ public class Event : MonoBehaviour
             "venueId: " + venueId + "\n" +
             "startTime: " + startTime + "\n" +
             "endTime: " + endTime + "\n" +
-            "translations: " + translations;
+            "event name: " + eventName + "\n" +
+            "event description: " + eventName;
 
         return s;
     }

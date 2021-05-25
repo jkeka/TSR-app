@@ -25,13 +25,18 @@ public class EventDataHandler : MonoBehaviour
 
     private void Start()
     {
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        LoadScheduleData();
+        //reference = FirebaseDatabase.DefaultInstance.RootReference;
+        //LoadScheduleData();
     }
 
     public void LoadScheduleData()
     // Loads schedule data from the database.
     {
+        FirebaseDatabase.DefaultInstance
+            .GetReference("Schedule")
+            .Child("events")
+            .ValueChanged -= ScheduleValueChanged;
+
         FirebaseDatabase.DefaultInstance
             .GetReference("Schedule")
             .Child("events")
@@ -41,6 +46,7 @@ public class EventDataHandler : MonoBehaviour
     void ScheduleValueChanged(object sender, ValueChangedEventArgs args)
     //Listens to changes in the database and loads a new snapshot when data changes. 
     {
+       
         if (args.DatabaseError != null)
         {
             Debug.LogError(args.DatabaseError.Message);
@@ -78,22 +84,21 @@ public class EventDataHandler : MonoBehaviour
         schedule.GetComponent<Event>().venueId = venueId;
         schedule.GetComponent<Event>().startTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(startTime) / 1000).LocalDateTime;
         schedule.GetComponent<Event>().endTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(endTime) / 1000).LocalDateTime;
-        schedule.GetComponent<Event>().translations = translations;
 
         var start = schedule.GetComponent<Event>().startTime.ToShortTimeString();
         var end = schedule.GetComponent<Event>().endTime.ToShortTimeString();
 
-        var translation = SetEventLanguage(translations);
+        SetEventLanguage(schedule, translations);
 
         var child = schedule.transform.GetChild(0);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "\n" + start + " - " + end;
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = schedule.GetComponent<Event>().eventName + "\n" + start + " - " + end;
 
         schedule.transform.SetParent(events.transform, false);
         scheduleList.Add(schedule);
 
     }
 
-    public static Dictionary<string, string> SetEventLanguage(string translations)
+    public void SetEventLanguage(Button schedule, string translations)
     // Sets schedule language based on user settings.
     {
         Dictionary<string, Dictionary<string, string>> languages =
@@ -121,10 +126,10 @@ public class EventDataHandler : MonoBehaviour
             if (language == item.Key)
             {
                 var translation = item.Value;
-                return translation;
+                schedule.GetComponent<Event>().eventName = translation["event"];
+                schedule.GetComponent<Event>().eventDescription = translation["desc"];
             }
-        }
-        return null;
+        }      
     }
 
     public void DestroySchedule()
@@ -160,7 +165,7 @@ public class EventDataHandler : MonoBehaviour
 
     }
 
-    public static void ChangeLanguage()
+    /*public static void ChangeLanguage()
     // Changes schedule language if another language is selected
     {
         if (language == User.GetLanguage())
@@ -179,5 +184,5 @@ public class EventDataHandler : MonoBehaviour
         }
 
         Debug.Log("Schedule language changed!");
-    }
+    }*/
 }

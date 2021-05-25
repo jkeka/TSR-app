@@ -17,6 +17,8 @@ public class MapSceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public static MapSceneManager Instance;
+    public GameObject mapSceneDataBase;
+    EventDataHandler eventDataHandler;
   
     public bool isFirstTime;
 
@@ -136,6 +138,8 @@ public class MapSceneManager : MonoBehaviour
         instructionButton.onClick.AddListener(InstructionClick);
         qrButton.onClick.AddListener(QRScreenClick);
         virtualPassButton.onClick.AddListener(VirtualPassClick);
+
+        eventDataHandler = mapSceneDataBase.GetComponent<EventDataHandler>();
         
         //menuText.text = "Language";
 
@@ -206,7 +210,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
-        EventDataHandler.ChangeLanguage();
+        eventDataHandler.LoadScheduleData();
 
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
@@ -229,7 +233,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
-        EventDataHandler.ChangeLanguage();
+        eventDataHandler.LoadScheduleData();
     }
 
     void SweClick()
@@ -249,7 +253,7 @@ public class MapSceneManager : MonoBehaviour
         }
 
         bottomBar.SetActive(true);
-        EventDataHandler.ChangeLanguage();
+        eventDataHandler.LoadScheduleData();
     }
 
     void MapClick()

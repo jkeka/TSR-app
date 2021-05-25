@@ -29,11 +29,11 @@ public class EventButton : MonoBehaviour
                      
             if (venueID == button.GetComponent<Coordinates>().id)
             {
-                var translation = EventDataHandler.SetEventLanguage(gameObject.GetComponent<Event>().translations);
-
+                string description = gameObject.GetComponent<Event>().eventDescription;
                 string locationName = button.GetComponent<Coordinates>().locationName;
                 var child = confScreen.transform.GetChild(0).transform.GetChild(0);
-                child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["desc"] + "\n\n" + localizedString.GetLocalizedString() + " " + locationName + "?";
+
+                child.GetComponent<TMPro.TextMeshProUGUI>().text = description + "\n\n" + localizedString.GetLocalizedString() + " " + locationName + "?";
                 RectTransform Pos = confScreen.GetComponent<RectTransform>();
                 Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
 
