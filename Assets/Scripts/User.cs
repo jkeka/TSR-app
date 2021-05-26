@@ -144,7 +144,7 @@ public static class User {
 		initializing = true;
         GetLocations();
         Firebase.Auth.FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.SignInAnonymouslyAsync().ContinueWith(task => {
+        auth.SignInWithEmailAndPasswordAsync("mainUser@hotmail.com", "FrustratinglyLongPassword%!7").ContinueWith(task => {
             if (task.IsCanceled) {
                 Debug.LogError("SignInAnonymouslyAsync was canceled.");
                 return;
