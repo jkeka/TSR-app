@@ -39,7 +39,7 @@ export default function Schedule({firebase}) {
             <h1>Schedule</h1>
             <button onClick={() => console.log(events)}>events</button>
             <button onClick={() => console.log(venues)}>venues</button>
-            <EventTable events={events} setEditedEvent={setEditedEvent} fb={firebase} />
+            <EventTable childevents={events} setEditedEvent={setEditedEvent} fb={firebase} />
 
             <NewEvent venues={venues} editEvent={editedEvent} fb={firebase} />
             

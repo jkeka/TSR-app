@@ -4,45 +4,53 @@ import "react-datepicker/dist/react-datepicker.css"
 import EventDescription from './eventDescription'
 import './newEvent.css'
 
+const eventTemplate = { 
+  endTime: new Date(), 
+  id: new Date().getTime(), 
+  startTime: new Date(),
+  translations: { 
+    en: {
+      desc: '',
+      event: ''
+    },
+    fi: {
+      desc: '',
+      event: ''
+    },
+    se: {
+      desc: '',
+      event: ''
+    }
+  },
+  venueId: 'null'
+}
 
 export default function NewEvent({ venues, editEvent, fb }) {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-  const [newEvent, setNewEvent] = useState(
-    { 
-      endTime: new Date(), 
-      id: new Date().getTime(), 
-      startTime: new Date(),
-      translations: { 
-        en: {
-          desc: '',
-          event: ''
-        },
-        fi: {
-          desc: '',
-          event: ''
-        },
-        se: {
-          desc: '',
-          event: ''
-        }
-      },
-      venueId: 'null'
-    }
-  )
+  const [newEvent, setNewEvent] = useState(eventTemplate)
   const [venueDropDown, setVenueDropDown] = useState(<option>No venues found</option>)
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
-    if (editEvent.id) {
+    if (editEvent && editEvent.id) {
       console.log(editEvent)
       setEndDate(new Date(editEvent.endTime))
       setStartDate(new Date(editEvent.startTime))
       setNewEvent(editEvent)
+    } else if (editEvent === null) {
+      setNewEvent(eventTemplate)
     }
   }, [editEvent])
 
   useEffect(() => {
-    setNewEvent({ ...newEvent, startTime: startDate.getTime(), endTime: endDate.getTime() })
+    if (endDate.getTime() <= startDate.getTime()) {
+      createMessage('Ending time must be later than starting time. Setting ending time to +15min of starting time.', true, 5000)
+      setEndDate(new Date(startDate.getTime() + 900000))
+      setNewEvent({ ...newEvent, startTime: startDate.getTime(), endTime: endDate.getTime() })
+    } else {
+      setNewEvent({ ...newEvent, startTime: startDate.getTime(), endTime: endDate.getTime() })
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate])
 
@@ -56,8 +64,11 @@ export default function NewEvent({ venues, editEvent, fb }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [venues])
   
-  if (venues) {
-    
+  const createMessage = (message, error = false, timeout = 3000) => {
+    let style = { color: 'green' }
+    if (error) { style.color = 'red' }
+    setMessage(<p style={style}>{message}</p>)
+    setTimeout(() => { setMessage(null) }, timeout)
   }
 
   const onChange = (e, o = null) => {
@@ -170,6 +181,7 @@ export default function NewEvent({ venues, editEvent, fb }) {
           </div>
         </div>
         <button onClick={submitData}>submit data</button>
+        {message}
       </div>
       :
       ''
