@@ -172,5 +172,13 @@ MonoBehaviour:
     m_Localized: Close
     m_Metadata:
       m_Items: []
+  - m_Id: 3569259994558464
+    m_Localized: Destination reached!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3570194711982080
+    m_Localized: 'You have reached the destination '
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

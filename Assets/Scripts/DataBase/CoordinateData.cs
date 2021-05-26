@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CoordinateData
 {
-    public static string locationName;
+    public static string locationName = null;
     public static float latitude;
     public static float longitude;
     public static string id;

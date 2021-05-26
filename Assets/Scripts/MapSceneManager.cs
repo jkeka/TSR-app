@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Notifications.Android;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.Networking;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+
 
 using Firebase.Database;
 
@@ -18,7 +20,9 @@ public class MapSceneManager : MonoBehaviour
     // Start is called before the first frame update
     public static MapSceneManager Instance;
     public GameObject mapSceneDataBase;
-    EventDataHandler eventDataHandler;
+    
+    private EventDataHandler eventDataHandler;
+    private Notifications notifications;
   
     public bool isFirstTime;
 
@@ -86,7 +90,7 @@ public class MapSceneManager : MonoBehaviour
         else
             Instance = this;
 
-        // FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);  //Disables the cache for data
 
         /*StartCoroutine(CheckConnection(isConnected =>
         {
@@ -140,7 +144,8 @@ public class MapSceneManager : MonoBehaviour
         virtualPassButton.onClick.AddListener(VirtualPassClick);
 
         eventDataHandler = mapSceneDataBase.GetComponent<EventDataHandler>();
-        
+        AndroidNotificationCenter.RegisterNotificationChannel(Notifications.defaultChannel);
+             
         //menuText.text = "Language";
 
         //GameObject.DontDestroyOnLoad(this);
@@ -211,7 +216,7 @@ public class MapSceneManager : MonoBehaviour
 
         bottomBar.SetActive(true);
         eventDataHandler.LoadScheduleData();
-
+     
         //langScreen.SetActive(false);
         //HubScreen.SetActive(true);
     }
@@ -361,6 +366,8 @@ public class MapSceneManager : MonoBehaviour
         else
         {
             MapClick();
+            Notifications.SetNotificationLanguage();         
+            AndroidNotificationCenter.SendNotification(Notifications.arrivalNotification, "channel_id");
             return;
         }
         try

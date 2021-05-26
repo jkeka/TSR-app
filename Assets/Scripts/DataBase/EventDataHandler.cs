@@ -25,7 +25,7 @@ public class EventDataHandler : MonoBehaviour
 
     private void Start()
     {
-        //reference = FirebaseDatabase.DefaultInstance.RootReference;
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
         //LoadScheduleData();
     }
 

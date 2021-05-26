@@ -147,5 +147,13 @@ MonoBehaviour:
     m_Localized: Sulje
     m_Metadata:
       m_Items: []
+  - m_Id: 3569259994558464
+    m_Localized: "M\xE4\xE4r\xE4np\xE4\xE4 saavutettu!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3570194711982080
+    m_Localized: Olet saavuttanut kohteen
+    m_Metadata:
+      m_Items: []
   references:
     version: 1
