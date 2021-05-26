@@ -27,8 +27,12 @@ export default function EventDescription({ desc, event, onChange, lang }) {
     onChange(x, obj)
   }
 
+  const imgStyle = { position: 'relative', top: '-1em', right: '0', width: '10%', marginBottom: '-1em' } 
+
   return (
     <div width="100%">
+      <img src={`/img/${lang}.png`} alt={lang} style={imgStyle} />
+      <br/>
       {eventTitle}: <br/>
       <input name={`${lang}Event`} value={event} onChange={handleChange} style={{width: '100%'}} /> 
       <br/>
