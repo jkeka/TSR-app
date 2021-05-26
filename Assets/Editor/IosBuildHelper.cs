@@ -28,7 +28,7 @@ public class IosBuildHelper : MonoBehaviour
         rootDict ["NSAppTransportSecurity"].AsDict ().SetBoolean ("NSAllowsArbitraryLoadsInWebContent", true);
 
         var exceptionDomains = rootDict ["NSAppTransportSecurity"].AsDict().CreateDict ("NSExceptionDomains");
-        var domain = exceptionDomains.CreateDict ("YOURDOMAIN.com");
+        var domain = exceptionDomains.CreateDict ("google.com");
 
         domain.SetBoolean ("NSExceptionAllowsInsecureHTTPLoads", true);
         domain.SetBoolean ("NSIncludesSubdomains", true);

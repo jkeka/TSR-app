@@ -42,7 +42,7 @@ export default function Schedule({firebase}) {
             <EventTable events={events} setEditedEvent={setEditedEvent} fb={firebase} />
 
             <NewEvent venues={venues} editEvent={editedEvent} fb={firebase} />
-
+            
         </div>
     )
 }

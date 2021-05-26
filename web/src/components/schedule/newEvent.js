@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import EventDescription from './eventDescription'
 import './newEvent.css'
 
+
 export default function NewEvent({ venues, editEvent, fb }) {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
@@ -84,7 +85,13 @@ export default function NewEvent({ venues, editEvent, fb }) {
   const submitData = () => {
     if (window.confirm('really send new data?')) {
       console.log('submitting', newEvent)
-      fb.child('Schedule').child('events').child(newEvent.id).set(newEvent)
+      try {
+        fb.child('Schedule').child('events').child(newEvent.id).set(newEvent)
+      } catch(e) {
+        console.log('error', e)
+        console.log({ message: 'Error adding event', error: true })
+      }
+      
     }
   }
 
@@ -104,7 +111,7 @@ export default function NewEvent({ venues, editEvent, fb }) {
                 return (
                   <div key={value.id}>{key}: 
                     <ul>
-                      {Object.entries(value).map(([k, v]) => <li>{k}: {JSON.stringify(v)}</li>)}
+                      {Object.entries(value).map(([k, v]) => <li key={k}>{k}: {JSON.stringify(v)}</li>)}
                     </ul>
                   </div>
                 )
