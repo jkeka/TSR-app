@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PanZoom : MonoBehaviour
 {
+
+    bool IsZooming = false;
+
     Vector3 touchStart;
     public float zoomMin = 50;
     public float zoomMax = 480;
@@ -55,6 +58,8 @@ public class PanZoom : MonoBehaviour
 
         //Zooming and moving the camera
 
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -62,6 +67,8 @@ public class PanZoom : MonoBehaviour
 
         if (Input.touchCount == 2)
         {
+            IsZooming = true;
+
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
@@ -76,13 +83,20 @@ public class PanZoom : MonoBehaviour
             Zoom(difference * zoomSlow);
         }
 
-        if (Input.GetMouseButton(0))
+        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Camera.main.transform.position += direction;
-        }
+            IsZooming = false;
 
-        Zoom(Input.GetAxis("Mouse ScrollWheel") * 50);
+        }
+        if (IsZooming == false)
+        {
+            Paning();
+        }
+    
+
+
+
+    Zoom(Input.GetAxis("Mouse ScrollWheel") * 50);
 
         void Zoom(float increment)
         {
@@ -133,5 +147,14 @@ public class PanZoom : MonoBehaviour
 
         }
 
+    }
+
+    void Paning()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 direction = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Camera.main.transform.position += direction;
+        }
     }
 }
