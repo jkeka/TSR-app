@@ -22,8 +22,9 @@ public class MarkerButton : MonoBehaviour
 
     private void Start()
     {
-        confScreen = GameObject.Find("ConfirmationScreen");
+      
         mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
+        confScreen = mapSceneManagerScript.confScreen;
         //panZoomScript = FindObjectOfType<PanZoom>();
 
 
@@ -65,28 +66,4 @@ public class MarkerButton : MonoBehaviour
         destinationLongitude =CoordinateData.longitude;
 
     }
-
-       
-    /*public void showInformation()
-    {
-        if (destroy == true)
-        {
-            Destroy(gameObject.transform.GetChild(1).gameObject);
-            destroy = false;
-            return;
-        }
-       
-        string locationName = gameObject.GetComponent<Coordinates>().locationName;
-        string latitude = gameObject.GetComponent<Coordinates>().latitude;
-        string longitude = gameObject.GetComponent<Coordinates>().longitude;
-
-        Image img = Instantiate(image, new Vector3(x + 150, y, 0), Quaternion.identity);
-        img.transform.SetParent(parent.transform, false);
-
-        Text textOutput = Instantiate(textBox, new Vector3(x + 150, y, 0), Quaternion.identity);
-        textOutput.transform.SetParent(img.transform, false);
-        textOutput.text = "Name: " + locationName + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude;
-
-        destroy = true;
-    }*/
 }

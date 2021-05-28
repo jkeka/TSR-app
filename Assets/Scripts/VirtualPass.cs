@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 public class VirtualPass : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class VirtualPass : MonoBehaviour
     public Button button;
     public GameObject confScreen;
     private MapSceneManager mapSceneManagerScript;
+    private LocalizedString localizedString = new LocalizedString() { TableReference = "Translations", TableEntryReference = "CONFIRMATION_TEXT" };
     //private PanZoom panZoomScript;
     private float buttonSize = Mathf.Clamp(1f, 0.4f, 1.5f);
     private float cameraSizeMultiplier;
@@ -19,7 +21,8 @@ public class VirtualPass : MonoBehaviour
 
     private void Start()
     {
-        confScreen = GameObject.Find("ConfirmationScreen");
+        mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
+        confScreen = mapSceneManagerScript.confScreen;
         //mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
         //panZoomScript = FindObjectOfType<PanZoom>();
 
@@ -48,7 +51,7 @@ public class VirtualPass : MonoBehaviour
 
         string locationName = gameObject.GetComponent<Coordinates>().locationName;
         var child = confScreen.transform.GetChild(0).transform.GetChild(0);
-        child.GetComponent<TMPro.TextMeshProUGUI>().text = "Matkataanko kohteeseen " + locationName + "?";
+        child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString() + " " + locationName + "?";
         RectTransform Pos = confScreen.GetComponent<RectTransform>();
         Pos.SetSiblingIndex(MapSceneManager.siblingIndex);
         confScreen.SetActive(true);

@@ -29,6 +29,7 @@ public class MapSceneManager : MonoBehaviour
     public GameObject sailor;
 
     public GameObject instructionCanvas;
+    public GameObject mapCanvas;
     public GameObject bottomBar;
 
     public GameObject confScreen;
@@ -46,7 +47,9 @@ public class MapSceneManager : MonoBehaviour
     public RectTransform infoScreen;
     public RectTransform qrScannerScreen;
     public RectTransform virtualPassScreen;
-   
+    public RectTransform descriptionScreen;
+
+    public GameObject descriptionText;
     public List<GameObject> screenObjects = new List<GameObject>();
 
     public GameObject screens;
@@ -115,8 +118,10 @@ public class MapSceneManager : MonoBehaviour
 
         for (int i = 0; i < screenObjects.Count; i++)
         {
-            screenObjects[i].SetActive(true);
+            screenObjects[i].SetActive(false);
         }
+
+        langScreen.gameObject.SetActive(true); 
 
         langScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -201,11 +206,12 @@ public class MapSceneManager : MonoBehaviour
     void FinnClick()
     {
         screens.SetActive(false);
+        mapCanvas.SetActive(true);
 
         Debug.Log("Set system to Finnish language!");
         User.SetLanguage("fi");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
-        
+
         mapScreen.SetSiblingIndex(siblingIndex);
 
         if (isFirstTime == true)
@@ -224,11 +230,12 @@ public class MapSceneManager : MonoBehaviour
     void EngClick()
     {
         screens.SetActive(false);
+        mapCanvas.SetActive(true);
 
         Debug.Log("Set system to English language!");
         User.SetLanguage("en");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
-       
+     
         mapScreen.SetSiblingIndex(siblingIndex);
 
         if (isFirstTime == true)
@@ -244,6 +251,7 @@ public class MapSceneManager : MonoBehaviour
     void SweClick()
     {
         screens.SetActive(false);
+        mapCanvas.SetActive(true);
 
         Debug.Log("Set system to Swedish language!");
         User.SetLanguage("se");
@@ -264,6 +272,7 @@ public class MapSceneManager : MonoBehaviour
     void MapClick()
     {
         screens.SetActive(false);
+        mapCanvas.SetActive(true);
 
         Debug.Log("Map clicked");
         mapScreen.SetSiblingIndex(siblingIndex);
@@ -273,6 +282,14 @@ public class MapSceneManager : MonoBehaviour
     void ScheduleClick()
     {
         screens.SetActive(true);
+        mapCanvas.SetActive(false);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        schedScreen.gameObject.SetActive(true);
 
         Debug.Log("Schedule clicked");
         schedScreen.SetSiblingIndex(siblingIndex);
@@ -283,6 +300,14 @@ public class MapSceneManager : MonoBehaviour
     void SettingsClick()
     {
         screens.SetActive(true);
+        mapCanvas.SetActive(false);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        setScreen.gameObject.SetActive(true);
 
         Debug.Log("Settings clicked");
         setScreen.SetSiblingIndex(siblingIndex);
@@ -293,6 +318,14 @@ public class MapSceneManager : MonoBehaviour
     void LibraryClick()
     {
         screens.SetActive(true);
+        mapCanvas.SetActive(false);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        libraryScreen.gameObject.SetActive(true);
 
         Debug.Log("Library clicked");
         libraryScreen.SetSiblingIndex(siblingIndex);
@@ -302,6 +335,15 @@ public class MapSceneManager : MonoBehaviour
 
     void LangClick()
     {
+        screens.SetActive(true);
+        mapCanvas.SetActive(false);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        langScreen.gameObject.SetActive(true);
 
         Debug.Log("Language selection clicked");
         langScreen.SetSiblingIndex(siblingIndex);
@@ -323,16 +365,16 @@ public class MapSceneManager : MonoBehaviour
 
         for (int i = 0; i < screenObjects.Count; i++)
         {
-            screenObjects[i].SetActive(true);
+            screenObjects[i].SetActive(false);
         }
 
-        //speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[0];
+        compassScreen.gameObject.SetActive(true);
+
     }
 
     void NoClick()
     {
         Debug.Log("Confirmation answer no");
-        //schedScreen.SetSiblingIndex(siblingIndex);
 
         if(virtualPassScreen.GetSiblingIndex() == siblingIndex - 1)
         {
@@ -345,10 +387,7 @@ public class MapSceneManager : MonoBehaviour
         else
         {
             screens.SetActive(false);
-            for (int i = 0; i < screenObjects.Count; i++)
-            {
-                screenObjects[i].SetActive(true);
-            }
+            mapCanvas.SetActive(true);          
         }
     }
 
@@ -358,6 +397,12 @@ public class MapSceneManager : MonoBehaviour
                           
         if (CoordinateData.type == "ship")
         {
+            for (int i = 0; i < screenObjects.Count; i++)
+            {
+                screenObjects[i].SetActive(false);
+            }
+
+            infoScreen.gameObject.SetActive(true);
             sailor.SetActive(true);
             infoScreen.SetSiblingIndex(siblingIndex);
             mapScreen.SetSiblingIndex(mapSiblingIndex);
@@ -400,6 +445,8 @@ public class MapSceneManager : MonoBehaviour
     void CloseClick()
     {
         Debug.Log("Description closed");
+
+        descriptionScreen.gameObject.SetActive(false);
         glossaryScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
     }
@@ -413,6 +460,13 @@ public class MapSceneManager : MonoBehaviour
     void QRScreenClick()
     {
         Debug.Log("Moved to QR Screen");
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        qrScannerScreen.gameObject.SetActive(true);
         qrScannerScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
         qrButton.gameObject.SetActive(false);
@@ -423,7 +477,15 @@ public class MapSceneManager : MonoBehaviour
     void VirtualPassClick()
     {
         screens.SetActive(true);
-        //passBackBútton.SetActive(true);
+        mapCanvas.SetActive(false);
+
+        for (int i = 0; i < screenObjects.Count; i++)
+        {
+            screenObjects[i].SetActive(false);
+        }
+
+        virtualPassScreen.gameObject.SetActive(true);
+
         Debug.Log("Moved to Virtual Pass");
         virtualPassScreen.SetSiblingIndex(siblingIndex);
         mapScreen.SetSiblingIndex(mapSiblingIndex);
