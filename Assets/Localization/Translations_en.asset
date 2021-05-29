@@ -180,9 +180,5 @@ MonoBehaviour:
     m_Localized: 'You have reached the destination '
     m_Metadata:
       m_Items: []
-  - m_Id: 3964950717804544
-    m_Localized: fafawfa
-    m_Metadata:
-      m_Items: []
   references:
     version: 1

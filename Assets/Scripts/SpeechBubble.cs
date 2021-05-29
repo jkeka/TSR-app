@@ -77,13 +77,13 @@ public class SpeechBubble : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    /*private void OnDisable()
     {
         bubble.onClick.RemoveAllListeners();
         bubble.onClick.AddListener(ClickTextBubble);
         qrButton.gameObject.SetActive(false);
         Debug.Log("speechbubble reset!");
-    }
+    }*/
 
     IEnumerator ResetBubble()
     // Resets button listener and text after quitting infoscreen.

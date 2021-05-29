@@ -122,9 +122,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 707766391287808
-    m_Localized: "Kirjastosta l\xF6yd\xE4t Lingsoftin One Hour Word -sanastot, joissa
-      on mielenkiintoista sis\xE4lt\xF6\xE4 liittyen merenkulkuun, laivoihin ja Turkuun.\r\n\r\n\nKosketa
-      n\xE4ytt\xF6\xE4 jatkaaksesi!\r\n"
+    m_Localized: "Asetuksista p\xE4\xE4set vaihtamaan kielen, s\xE4\xE4t\xE4m\xE4\xE4n
+      \xE4\xE4nenvoimakkuutta, katsomaan t\xE4m\xE4n esittely uusiksi sek\xE4 poistumaan
+      sovelluksesta.\n\n\nKosketa n\xE4ytt\xF6\xE4 viel\xE4 kerran aloittaaksesi
+      sovelluksen k\xE4yt\xF6n!"
     m_Metadata:
       m_Items: []
   - m_Id: 710717222563840
@@ -153,10 +154,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 3570194711982080
     m_Localized: Olet saavuttanut kohteen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3964950717804544
-    m_Localized: faeffeaf
     m_Metadata:
       m_Items: []
   references:
