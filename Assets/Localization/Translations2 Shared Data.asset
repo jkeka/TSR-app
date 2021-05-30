@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Translations2 Shared Data
   m_EditorClassIdentifier: 
   m_TableCollectionName: Translations2
-  m_TableCollectionNameGuidString: 00000000000000000000000000000000
+  m_TableCollectionNameGuidString: 4f49ce79b33506c46b93a413b60e02fb
   m_Entries: []
   m_Metadata:
     m_Items: []

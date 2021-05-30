@@ -109,26 +109,30 @@ export default class Descriptions extends Component {
   getPreview(preview) {
     const shipRef = Object.entries(this.state.descriptions).find((key, value) => parseInt(key) === this.state.locationSelected)
     let shipData = JSON.parse(JSON.stringify(shipRef))
-    
-    if (this.state.selectedLanguage === 'en') {
-      let index = countryFi.findIndex(c => c === shipData[1].data.country)
-      shipData[1].data.country = countryEn[index]
-      index = riggingFi.findIndex(r => r === shipData[1].data.riki)
-      shipData[1].data.riki = riggingEn[index]
-    } else if (this.state.selectedLanguage === 'se') {
-      let index = countryFi.findIndex(c => c === shipData[1].data.country)
-      shipData[1].data.country = countrySe[index]
-      index = riggingFi.findIndex(r => r === shipData[1].data.riki)
-      shipData[1].data.riki = riggingSe[index]
-    }
 
-    Object.entries(shipData[1].data).forEach(([key, value]) => {
-      if (value.toString().length < 1) {
-        preview = preview.replaceAll(`##${key}##`, 'MISSING VALUE')
-      } else {
-        preview = preview.replaceAll(`##${key}##`, value.toString())
+    if (shipData[1] && shipData[1].data) {
+      if (this.state.selectedLanguage === 'en') {
+        let index = countryFi.findIndex(c => c === shipData[1].data.country)
+        shipData[1].data.country = countryEn[index]
+        index = riggingFi.findIndex(r => r === shipData[1].data.riki)
+        shipData[1].data.riki = riggingEn[index]
+      } else if (this.state.selectedLanguage === 'se') {
+        let index = countryFi.findIndex(c => c === shipData[1].data.country)
+        shipData[1].data.country = countrySe[index]
+        index = riggingFi.findIndex(r => r === shipData[1].data.riki)
+        shipData[1].data.riki = riggingSe[index]
       }
-    })
+
+    
+      Object.entries(shipData[1].data).forEach(([key, value]) => {
+        if (value.toString().length < 1) {
+          preview = preview.replaceAll(`##${key}##`, 'MISSING VALUE')
+        } else {
+          preview = preview.replaceAll(`##${key}##`, value.toString())
+        }
+      })
+    }
+    
 
     return preview
   }
