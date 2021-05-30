@@ -7,14 +7,12 @@ using UnityEngine.UI;
 public class VirtualPassScript : MonoBehaviour
 {
     
-    private int[] testArray;
     public RectTransform virtualPassContent;
     public List<Button> virtualPassLocations;
     public GameObject virtualPassScreen;
     public Button virtualPassLocation;
     public Button virtualPassButton;
-    public List<string> testList = new List<string>();
-    
+       
     private void Start()
     {
         virtualPassButton.onClick.AddListener(LoadVirtualPass);    

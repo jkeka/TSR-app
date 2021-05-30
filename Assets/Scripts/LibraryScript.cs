@@ -24,6 +24,7 @@ public class LibraryScript : MonoBehaviour
     public Transform keywordPos;
     public Transform letterButtonPos;
     public GameObject glossaryScreen;
+    public GameObject libraryScreen;
 
     
     void Start()
@@ -43,35 +44,22 @@ public class LibraryScript : MonoBehaviour
         }
 
         RectTransform pos = glossaryScreen.GetComponent<RectTransform>();
+        libraryScreen.SetActive(false);
+        glossaryScreen.SetActive(true);
         pos.SetSiblingIndex(11);
         Dictionary<string, string> glossary = JsonConvert.DeserializeObject<Dictionary<string, string>>(file);
-       
+
         string previousKey = "*";
-        bool years = false;
         string pattern = "^[0-9]";
         
         foreach (KeyValuePair<string, string> entry in glossary)
         {
             Match match = Regex.Match(entry.Key, pattern, RegexOptions.None);
     
-            /*
-            if (entry.Key.StartsWith("1"))
-            {
-                if (years == false)
-                {
-                    Button letter = Instantiate(letterMarker, keywordPos);
-                    letter.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "YEARS OF NOTE";
-                    glossaryList.Add(letter);
-                    years = true;
-                }                                 
-            }*/
-
             if (!entry.Key.ToUpper().StartsWith(previousKey) && !match.Success)
             {
                
                 Button letterBut = Instantiate(letterButton, letterButtonPos);
-                //letterBut.transform.localPosition = new Vector3(x, y, 0);
-                //y = y - 110;
                 glossaryList.Add(letterBut);
 
                 letterBut.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = entry.Key[0].ToString().ToUpper();
