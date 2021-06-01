@@ -33,22 +33,32 @@ public class DescriptionDataHandler : MonoBehaviour
         }
         DataSnapshot snapshot = args.Snapshot;
 
-        if (!snapshot.HasChild("description"))
-        {
-            return;
-        }
-
         if (Description.shipInfo != null)
         {
             Description.shipInfo.Clear();
         }
 
-        string[] separator = new string[] {"\n\n"};
+        try
+        {
+            string[] separator = new string[] { "\n\n" };
 
-        string s = snapshot.Child("description").Value.ToString();
-        Description.shipInfo = s.Split(separator, StringSplitOptions.None).ToList();
-        string lastLine = s.Split(separator, StringSplitOptions.None).Last();
-        Description.shipInfo.Add(lastLine);
-       
+            string s = snapshot.Child("description").Value.ToString();
+            Description.shipInfo = s.Split(separator, StringSplitOptions.None).ToList();
+            string lastLine = s.Split(separator, StringSplitOptions.None).Last();
+            Description.shipInfo.Add(lastLine);
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("Following error when loading description: " + e.Message);
+        }
+        catch (ArgumentException e)
+        {
+            Debug.Log("Following error when creating a location marker: " + e.Message);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Following error when loading description: " + e.Message);
+        }
+
     }
 }
