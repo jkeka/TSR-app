@@ -4,6 +4,16 @@ import { NavLink } from 'react-router-dom'
 import '../css/custom.css'
 import firebase from 'firebase'
 
+/**
+ * This component includes the navigation bar that's seen
+ * on the top of the site with links to different pages.
+ * 
+ * This component also handles logging in to Firebase.
+ * The component should tell if the user is logged in, but
+ * there are some issues with it. Sometimes the site tells
+ * you're logged out even though you're succesfully logged in.
+ */
+
 export default class Navigation extends Component {
     constructor(props) {
       super(props)

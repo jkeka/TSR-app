@@ -1,5 +1,11 @@
 import React from 'react'
 
+/**
+ * This component serves as child component for NewEvent.
+ * 
+ * It creates a small form-like area for different languages.
+ */
+
 export default function EventDescription({ desc, event, onChange, lang }) {
   let eventTitle, descriptionTitle
   switch (lang) {

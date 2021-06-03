@@ -2,6 +2,19 @@ import React, { Component } from 'react'
 import { Button, Table, Container } from 'react-bootstrap'
 import firebase from '../services/firebase'
 
+/**
+ * This component fetches data from the Firebase's 'Users'-node.
+ * 
+ * The component lists the users in a table with headers:
+ * device, lang, visitedLocations
+ * 
+ * The device code represents the user device's unique IMEI code.
+ * Language represents the language that the user has set on the app.
+ * Visited locations represents the locations (ships) the user has visited.
+ * 
+ * This component ables user to remove users from database if needed.
+ */
+
 export default class User extends Component {
   constructor(props) {
     super(props)

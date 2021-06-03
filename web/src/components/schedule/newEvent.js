@@ -2,7 +2,16 @@ import React, { useEffect, useState } from 'react'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import EventDescription from './eventDescription'
-import './newEvent.css'
+import '../../css/newEvent.css'
+
+/**
+ * This component ables user to add/edit events to Firebase db.
+ * 
+ * It uses child component EventDescription to create an
+ * area for setting event descriptions in different languages.
+ * 
+ * DatePicker is used for setting starting and ending times for event.
+ */
 
 const eventTemplate = { 
   endTime: new Date(), 

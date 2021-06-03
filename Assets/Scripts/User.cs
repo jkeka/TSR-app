@@ -10,6 +10,15 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 
+/**
+* This file includes 3 different classes:
+* - DBUser: used to add/fetch user data from Firebase DB
+* - Location: used to add/fetch VisitedLocations of the user
+* - User: used as an interface to control device based user's actions
+*       in database
+* 
+*/
+
 public class DBUser {
     public string deviceCode;
     public string language;
@@ -29,12 +38,14 @@ public class DBUser {
         this.visitedLocations = locsVisited;
     }
 
+    // used for debugging
     public override string ToString() {
         string locations = "";
         visitedLocations.ForEach(item => locations += item);
         return this.deviceCode + ", " + this.language + ", " + locations;
     }
 }
+
 
 public class Location {
     public string id;
@@ -45,6 +56,7 @@ public class Location {
     }
 }
 
+// Used to sort Location arrays
 public class Locs : IEnumerable
 {
     private Location[] _location;
@@ -119,13 +131,19 @@ public class LocsEnum : IEnumerator
 }
 
 /** 
+
+
 Functions:
 ToString() - returns deviceCode, set language and locations visited in a string
 SetLanguage(string language) - sets the language with variables like 'fi', 'en'
 GetLanguage() - returns language
 InitializeUser(string deviceCode) 
-  - checks if the user exists in the database and if so, gets the data, otherwise creates a new user to DB
+  - logs/auths in to Firebase with the main user's username/password
+  - checks if the user exists (CheckTheDatabaseForNewUser) in the database and if so, 
+        gets the data, otherwise creates a new user to DB
 AddVisitedLocation(string newLocation) - adds a location to VisitedLocations (List<string>)
+  - returns a string of the added location (ship)
+  - if the location is not found from db returns a string describing failure
 GetVisitedLocations() - return visitedLocations as List<string> 
 */
 

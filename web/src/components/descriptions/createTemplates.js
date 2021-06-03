@@ -5,6 +5,13 @@ const riggingFi = ['Sluuppi','Kahvelikuunari','Kutteri','Sluuppi','Ketsi','Huipp
 const riggingEn = ['Sloop','Fork schooner','Cutter','Sloop','Ketch','Top sail schooner','Fork chain','Fully weighted vessel','Schooner','Yawl','Rigging','Fork cutter','Barkentin','Rigging']
 const riggingSe = ['Slup','Gaffelskonare','Fräs','Slup','Ketch','Topp segel skonare','Gaffelkedja','Fullt viktat fartyg','Skonare','Yawl','Tackling','Gaffelskärare','Barkentin','Tackling']
 
+/**
+ * This function automatically creates descriptions for ships.
+ * 
+ * If a value is missing, the line including it is skipped.
+ * 
+ * Translations in static tables have been made with Google Translate.
+ */
 
 const createTemplates = (descriptions) => {
   let newDescriptions = {}

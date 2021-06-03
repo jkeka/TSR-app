@@ -4,13 +4,20 @@ import Location from './components/location'
 import Navigation from './components/navi'
 import Home from './components/home'
 import Schedule from './components/schedule'
-import Event from './components/schedule/event'
 import Descriptions from './components/descriptions'
 import firebase from './services/firebase'
-
-
-// import { Route, IndexRoute, HashRouter } from 'react-router-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
+
+/**
+ * The base component for TSR Web UI.
+ * 
+ * Includes the router for the site. In the router there
+ * is the Navigation bar that is included in every page. 
+ * After that a component will be shown depending on the 
+ * path chosen.
+ * 
+ * @returns BrowserRouter
+ */
 
 function App() {
   return (
@@ -21,8 +28,8 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/user" component={User} />
         <Route exact path="/location" component={Location} />
-        <Route exact path="/event" component={Event} />
-        <Route exact path="/schedule" render={props => <Schedule {...props} firebase={firebase.database().ref()} />} />
+        <Route exact path="/schedule" 
+          render={props => <Schedule {...props} firebase={firebase.database().ref()} />} />
         <Route exact path="/descriptions" component={Descriptions} />
         
       </BrowserRouter>

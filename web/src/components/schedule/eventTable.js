@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+/**
+ * This component lists all current events in the Firebase db.
+ * 
+ * By clicking Edit, user can edit an event (the data is sent to NewEvent.js).
+ */
+
 export default function EventTable({ childevents, setEditedEvent, fb }) {
   const [events, setEvents] = useState(childevents)
   const [selectedEvent, setSelectedEvent] = useState('')

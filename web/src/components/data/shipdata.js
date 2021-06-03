@@ -1,3 +1,8 @@
+/**
+ * Static ship data got from the event organizer.
+ * Used in ship descriptions. See src/components/descriptions.js
+ */
+
 const SHIPDATA = [
   {
     "shipId": 1,

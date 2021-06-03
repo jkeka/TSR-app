@@ -5,6 +5,28 @@ import { Button } from 'react-bootstrap'
 import SHIPDATA from './data/shipdata'
 import createTemplates from './descriptions/createTemplates'
 
+/**
+ * This component ables user to add descriptions for ships.
+ * These descriptions are then told by the 3D sailor in the app.
+ * 
+ * It also lists all existing descriptions in the database.
+ * 
+ * When a ship is selected the component lists all the keys and values
+ * there are in the ship data.
+ * You can use these values by writing ##key## in the textarea and the
+ * component replaces them with corresponding values.
+ * For example 'This ship was built in ##year##.'
+ * 
+ * There are 2 buttons on the top of component:
+ * update ship data (theClick()):
+ *  - goes through SHIPDATA and Firebase 'Locations' node
+ *    -> if a ship is found from both it's data is added to Firebase
+ * 
+ * create descriptions for all ships from templates (createDescriptionsForAllShips()):
+ *  - calls ./descriptions/createTemplates to create descriptions
+ *    for all ships that have some data
+ */
+
 const defaultTypes = ['ship', 'booth', 'venue', 'restaurant']
 const defaultLanguages = ['fi', 'en', 'se']
 
@@ -259,7 +281,6 @@ export default class Descriptions extends Component {
       } else { 
         console.log('ship not in locations: ' + ship.name)
       }
-      //console.log(match.name)
     })
     
   }
@@ -277,7 +298,6 @@ export default class Descriptions extends Component {
     if (this.state.selectedType === 'ship') {
       let desc = Object.entries(this.state.descriptions).find((key, value) => parseInt(key) === this.state.locationSelected)
       if (desc && desc[1].data) {
-        // shipData = JSON.stringify(desc[1], null, 2)
         shipData = (
           <ul>
             {Object.entries(desc[1].data).map(([key, value]) => {

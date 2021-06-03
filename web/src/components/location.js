@@ -3,6 +3,21 @@ import firebase from '../services/firebase'
 import { Button, Form, Table } from 'react-bootstrap'
 import MapPicker from 'react-google-map-picker'
 
+/**
+ * This component ables user to create/edit/remove locations
+ * in the TSR app. 
+ * 
+ * By clicking show map, a Google Maps component (MapPicker) is shown and you
+ * can select the location latitude and longitude with it. The
+ * DefaultLocation object sets the starting position of the map.
+ * 
+ * Only locations of type ship are listed by default. You can list 
+ * different locations by setting the filter in the dropdown menu.
+ * 
+ * Ships with a shipId of 0 or 999 are listed with a orange background
+ * because they aren't going to be a part of the actual event.
+ */
+
 const DefaultLocation = { lat: 60.43, lng: 22.24 }
 const DefaultZoom = 15
 const DefaultTemp = { name: '', Latitude: '0', Longitude: '0', type: 'ship' }

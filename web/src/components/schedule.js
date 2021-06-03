@@ -2,6 +2,17 @@ import React, { useEffect, useState } from 'react'
 import EventTable from './schedule/eventTable'
 import NewEvent from './schedule/newEvent'
 
+/**
+ * 
+ * This component ables user to add/edit/remove events.
+ * 
+ * It uses child component EventTable to list different events.
+ * 
+ * For adding new events or editing events it uses child
+ * component NewEvent.
+ * 
+ */
+
 export default function Schedule({firebase}) {
     const [events, setEvents] = useState({})
     const [venues, setVenues] = useState({})
