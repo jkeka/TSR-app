@@ -8,6 +8,43 @@ Firebase requirements:
   - admin user to add/edit/remove data on the Web UI
   - a common main user to use the app (app logs in with this on the loading screen)
 
+Nodes:
+  Descriptions:
+    $locationId: $language: description: string
+
+  Location:
+    $locationName:
+      {
+        Latitude: string
+        Longitude: string
+        id: number
+        name: string
+        (shipId: number)
+        type: string
+      }
+
+  Schedule:
+    events:
+      $eventID:
+        {
+          endTime: number (timestamp)
+          id: number
+          startTime: number (timestamp)
+          translations: 
+            {
+              $language: { desc: string, event: string } 
+            }
+          venueId: number
+        }
+
+  Users:
+    $deviceCode: {
+      deviceCode: string
+      language: string
+      (visitedLocations: string array)
+    }
+
+
 Firebase rules (Firebase Console: Realtime Database -> Rules):
 {
   "rules": {
