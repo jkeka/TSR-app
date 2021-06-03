@@ -1,46 +1,41 @@
 ﻿using System;
 using System.Globalization;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-using Firebase;
 using Firebase.Database;
-
 
 public class LocationDataHandler : MonoBehaviour
 {
+    //This class fetches location data from database and creates markers on the map screen based on that data
+
+    // Marker buttons on the map
     public Button shipMarker;
     public Button infoMarker;
     public Button healthMarker;
+
+    // Reference to gameobject where markers are put
     public GameObject mapScreen;
+
+    // List where references to marker buttons are stored
     public static List<Button> markerList = new List<Button>();
 
+    // Reference to Panzoom script
     private PanZoom panZoomScript;
 
-    DatabaseReference reference;
-
+    // Reference to Firebase database
+    private DatabaseReference reference;
 
     private void Start()
     {
         panZoomScript = FindObjectOfType<PanZoom>();
-
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        LoadMarkers();
+        reference = FirebaseDatabase.DefaultInstance.GetReference("Location");
+        reference.ValueChanged += MarkerValueChanged;
     }
 
-    public void LoadMarkers()
-    // Loads location data form the database.
-    {
-
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Location")
-            .ValueChanged += MarkerValueChanged;
-    }
-
-    void MarkerValueChanged(object sender, ValueChangedEventArgs args)
     //Listens to changes in the database and loads a new snapshot when data changes.
+    void MarkerValueChanged(object sender, ValueChangedEventArgs args)
+
     {
         if (args.DatabaseError != null)
         {
@@ -69,25 +64,25 @@ public class LocationDataHandler : MonoBehaviour
             {
                 Debug.Log("Following error when creating a location marker: " + e.Message);
             }
-            catch(ArgumentException e)
+            catch (ArgumentException e)
             {
                 Debug.Log("Following error when creating a location marker: " + e.Message);
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 Debug.Log("Following error when creating a location marker: " + e.Message);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.Log("Following error when creating a location marker: " + e.Message);
             }
         }
     }
 
+    // Creates markers on on the map screen based on the database coordinates. Attaches the to the marker values fetched.
     public void CreateMarker(string name, string latitude, string longitude, string type, string id)
-    // Creates markers on on the map screen based on the database coordinates. Attaches the location name and coordinates fetched.
-    {
 
+    {
         float floatLat = float.Parse(latitude, CultureInfo.InvariantCulture);
         float floatLon = float.Parse(longitude, CultureInfo.InvariantCulture);
 
@@ -126,8 +121,8 @@ public class LocationDataHandler : MonoBehaviour
         float roundLonConv = Mathf.Round(lonConverted * 1000f) / 1000f;
     }
 
-    public void DestroyMarkers()
     // Destroys existing markers on the map screen any time the location data changes in the database.
+    public void DestroyMarkers()
     {
 
         for (int i = 0; i < markerList.Count; i++)
@@ -139,22 +134,19 @@ public class LocationDataHandler : MonoBehaviour
 
     }
 
+    // Converts the longitude of the marker to X coordinates on the map
     public float ConvertLocationX(float longitude)
     {
 
-        //float startOffsetX = -2200f;
         float startOffsetX = -(panZoomScript.mapWidth / 2);
 
         float startOffsetGPSX = 22.22401f;
 
-        //float mapWidthGps = 0.054132385680159f;
         float mapWidthGps = 22.27814f - 22.22401f;
 
         float mapWidth = panZoomScript.mapWidth;
 
-        //float widthUnit = 0.000012073f;
         float widthUnit = mapWidthGps / panZoomScript.mapWidth;
-
 
         float markerTempWidth = longitude - startOffsetGPSX;
 
@@ -163,27 +155,17 @@ public class LocationDataHandler : MonoBehaviour
         return markerPositionX;
     }
 
+    // Converts the latitude of the marker to Y coordinates on the map
     public float ConvertLocationY(float latitude)
     {
-
-        //float startOffsetY = -1575f;
         float startOffsetY = -(panZoomScript.mapHeigth / 2);
 
         float startOffsetGPSY = 60.43064f;
 
-        // Top right 60.45733392077009, 22.278142732388787
-        // Top left 60.45733392077009, 22.224010346708628
-
-        //Bot right 60.4306495777899, 22.278142732388787
-        //Bot left 60.4306495777899, 22.224010346708628
-
-
-        //float mapHeigthGps = 0.02668434298019f;
         float mapHeigthGps = 60.45733f - 60.43064f;
 
         float mapHeigth = panZoomScript.mapHeigth;
 
-        //float heigthUnit = 0.00000597f;
         float heigthUnit = mapHeigthGps / panZoomScript.mapHeigth;
 
         float markerTempHeigth = latitude - startOffsetGPSY;

@@ -1,13 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InstructionsCanvas : MonoBehaviour
 {
+    // This class operates the functioning of the Instruction Canvas, switching the screens when necessary
 
+    // The number of indexes
+    private int siblingIndex = 6;
+    
+    // Counter for screen change
+    private int siblingInt = 1;
+
+    // Reference to MapSceneManager script
     private MapSceneManager mapSceneManagerScript;
 
-
+    // References to RectTransforms of instruction screens
     public RectTransform instructionOne;
     public RectTransform instructionTwo;
     public RectTransform instructionThree;
@@ -15,13 +21,9 @@ public class InstructionsCanvas : MonoBehaviour
     public RectTransform instructionFive;
     public RectTransform instructionSix;
 
-    private int siblingIndex = 6;
-    private int siblingInt = 1;
-
     // Start is called before the first frame update
     void Start()
     {
-
         mapSceneManagerScript = GameObject.Find("MapSceneManager").GetComponent<MapSceneManager>();
 
         siblingInt = 1;
@@ -32,7 +34,6 @@ public class InstructionsCanvas : MonoBehaviour
         instructionThree.SetSiblingIndex(4);
         instructionTwo.SetSiblingIndex(5);
         instructionOne.SetSiblingIndex(6);
-
 
     }
 

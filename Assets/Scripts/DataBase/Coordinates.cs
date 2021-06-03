@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Coordinates : MonoBehaviour
 {
+    // This class stores database data for marker information
+
+    // Data for marker
     public string locationName;
     public float latitude;
     public float longitude;
@@ -21,11 +22,12 @@ public class Coordinates : MonoBehaviour
 
     public override string ToString()
     {
-         string s =
+        string s =
             "id: " + id + "\n" +
             "locationName: " + locationName + "\n" +
             "latitude: " + latitude + "\n" +
-            "longitude: " + longitude;
+            "longitude: " + longitude + "\n" +
+            "type: " + type;
 
         return s;
     }

@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Firebase;
 using Firebase.Database;
 
 public class DescriptionDataHandler : MonoBehaviour
 {
-    
-    public static void LoadDescription(string id, string language)
-    // Loads Ship Description data from the database.
-    {
-       
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Descriptions").Child(id).Child(language)
-            .ValueChanged += DescriptionValueChanged;
+    // This class fetches description for ship from the database and formats it for reading
 
-        FirebaseDatabase.DefaultInstance
-           .GetReference("Descriptions").Child(id).Child(language)
-           .ValueChanged -= DescriptionValueChanged;
+    // Contains description of ship cut into separate strings
+    public static List<string> shipInfo;
+
+    // Reference to Firebase database
+    static DatabaseReference reference;
+    
+    private void Start()
+    {
+        reference = FirebaseDatabase.DefaultInstance.GetReference("Descriptions");
     }
 
-    static void DescriptionValueChanged(object sender, ValueChangedEventArgs args)
+    // Attaches or removes listeners for the reference path
+    public static void LoadDescription(string id, string language)
+    {     
+        reference.Child(id).Child(language).ValueChanged += DescriptionValueChanged;
+        reference.Child(id).Child(language).ValueChanged -= DescriptionValueChanged;
+    }
+
     //Listens to changes in the database and loads a new snapshot when data changes.
+    static void DescriptionValueChanged(object sender, ValueChangedEventArgs args)
+    
     {
         if (args.DatabaseError != null)
         {
@@ -33,9 +37,9 @@ public class DescriptionDataHandler : MonoBehaviour
         }
         DataSnapshot snapshot = args.Snapshot;
 
-        if (Description.shipInfo != null)
+        if (shipInfo != null)
         {
-            Description.shipInfo.Clear();
+            shipInfo.Clear();
         }
 
         try
@@ -43,9 +47,9 @@ public class DescriptionDataHandler : MonoBehaviour
             string[] separator = new string[] { "\n\n" };
 
             string s = snapshot.Child("description").Value.ToString();
-            Description.shipInfo = s.Split(separator, StringSplitOptions.None).ToList();
+            shipInfo = s.Split(separator, StringSplitOptions.None).ToList();
             string lastLine = s.Split(separator, StringSplitOptions.None).Last();
-            Description.shipInfo.Add(lastLine);
+            shipInfo.Add(lastLine);
         }
         catch (NullReferenceException e)
         {

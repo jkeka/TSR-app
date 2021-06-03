@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿
 public class CoordinateData
 {
+    // This class stores marker information to be used globally for navigation and description fetching
+
+    // Data from selected marker is stored in these variables
     public static string locationName = null;
     public static float latitude;
     public static float longitude;
@@ -17,7 +16,8 @@ public class CoordinateData
             "id : " + id + "\n" +
             "locationName: " + locationName + "\n" +
             "latitude : " + latitude + "\n" +
-            "longitude : " + longitude + "\n";
+            "longitude : " + longitude + "\n" +
+            "type : " + type;
 
         return s;
     }

@@ -1,32 +1,41 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Android;
+using TMPro;
 using ZXing;
 
 public class QrScanner : MonoBehaviour
 {
-    WebCamTexture webcamTexture;
-    Coroutine routine = null;
-    string QrCode = string.Empty;
-    //public AudioSource beepSound;
-    public TextMeshProUGUI qrtext;
-    public Button qrScanner;
-    public RectTransform qrScreen;
-    public RawImage cameraImage;
+    // This class attaches listener to Qr button used for scanning the Qr code and runs the script when clicked
+
+    // Variables that store information about the QR code
+    public string currentQRcode;
+    private string QrCode = string.Empty;
+
+    // Boolean to check if application is currently scanning
     private bool scanning;
 
+    // Webcam screen for scanning
+    WebCamTexture webcamTexture;
 
+    // Displays a texture for the UI
+    public RawImage cameraImage;
 
-    /// <summary>
-    /// current/last recorded qr code
-    /// </summary>
-    public string currentQRcode;
-        
+    // Routine for camera to scan the Qr code
+    Coroutine routine = null;  
+
+    // References text below
+    public TextMeshProUGUI qrtext;
+
+    // References the Qr button
+    public Button qrScanner;
+
+    //References the Qr screen
+    public RectTransform qrScreen;
+    
+      
     void Start()
     {
         qrtext.text = string.Empty;
@@ -38,15 +47,28 @@ public class QrScanner : MonoBehaviour
             
         } else {
             qrScanner.onClick.AddListener(OnScanClick);
-
-            //var renderer = GetComponent<RawImage>();
             var renderer = cameraImage;
             webcamTexture = new WebCamTexture(512, 512);
             renderer.material.mainTexture = webcamTexture;
-        }
-        
+        }      
     }
 
+    // Starts or stops scanning for Qr code
+    public void OnScanClick()
+    {
+        if (scanning)
+            StopScan();
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            qrtext.text = string.Empty;
+            QrCode = string.Empty;
+            routine = StartCoroutine(GetQRCode());
+            Debug.Log("Scanning QR-code!");
+        }
+    }
+
+    // Scans for the Qr code
     IEnumerator GetQRCode()
     {
        
@@ -89,16 +111,16 @@ public class QrScanner : MonoBehaviour
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Debug.LogWarning(ex.Message);
-                //qrtext.text = ex.Message;
+                Debug.LogWarning(e.Message);
                 StopScan();             
             }
             yield return null;
         }
     }
 
+    // Stops the scan for Qr code
     private void StopScan()
     {
         if (scanning)
@@ -110,22 +132,5 @@ public class QrScanner : MonoBehaviour
             Debug.Log("QR-scanning stopped!");
         }
     }
-    public void OnScanClick()
-    {
-        //ARSceneManager.instance.qrButton.gameObject.SetActive(true);
-        if (scanning)
-            StopScan();
-        else
-        {
-            transform.GetChild(0).gameObject.SetActive(false);
-            qrtext.text = string.Empty;
-            QrCode = string.Empty;
-            routine = StartCoroutine(GetQRCode());
-            Debug.Log("Scanning QR-code!");
-        }
-    }
-
-
-
-
+    
 }

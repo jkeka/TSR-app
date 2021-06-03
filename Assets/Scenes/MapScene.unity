@@ -1489,7 +1489,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 300124526}
   m_HandleRect: {fileID: 300124525}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6946,7 +6946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00005340576, y: 581.5922}
+  m_AnchoredPosition: {x: 0.00005340576, y: 581.5921}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.1, y: 0.9}
 --- !u!114 &718126976
@@ -8100,6 +8100,7 @@ GameObject:
   - component: {fileID: 840214690}
   - component: {fileID: 840214689}
   - component: {fileID: 840214691}
+  - component: {fileID: 840214692}
   m_Layer: 0
   m_Name: MapSceneDatabase
   m_TagString: Untagged
@@ -8156,6 +8157,18 @@ MonoBehaviour:
   healthMarker: {fileID: 5122356062416243313, guid: 7010b0f231edae5419f525ca7d3966c9,
     type: 3}
   mapScreen: {fileID: 1218679790}
+--- !u!114 &840214692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840214688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211f2f8e682fb0c468ecc7f08f96b40c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &840287214
 GameObject:
   m_ObjectHideFlags: 0
@@ -12414,6 +12427,8 @@ MonoBehaviour:
   map: {fileID: 1218679791}
   mapWidth: 0
   mapHeigth: 0
+  mapHeightBound: 0
+  mapWidthBound: 0
   cameraSize: 0
   cameraWidth: 0
   cameraHeight: 0
@@ -12423,8 +12438,6 @@ MonoBehaviour:
   cameraBoundXLeft: 0
   cameraBoundYTop: 0
   cameraBoundYBot: 0
-  mapHeightBound: 0
-  mapWidthBound: 0
 --- !u!1 &1330125247
 GameObject:
   m_ObjectHideFlags: 0
@@ -12767,14 +12780,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401041e4bd346fd4d89bdcdb929b89ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSceneDataBase: {fileID: 840214688}
   isFirstTime: 0
+  mapSceneDataBase: {fileID: 840214688}
   sailor: {fileID: 324636858}
+  screens: {fileID: 1374262342}
   instructionCanvas: {fileID: 1460053807}
   mapCanvas: {fileID: 1176186919}
   bottomBar: {fileID: 2014804819}
   confScreen: {fileID: 1805440745}
   errorMessage: {fileID: 1009862026}
+  descriptionText: {fileID: 1705849893}
   qrText: {fileID: 532004139}
   mapScreen: {fileID: 917013217}
   setScreen: {fileID: 9037895799598350355}
@@ -12787,20 +12802,6 @@ MonoBehaviour:
   qrScannerScreen: {fileID: 899310409}
   virtualPassScreen: {fileID: 8140390118824992049}
   descriptionScreen: {fileID: 811789275}
-  descriptionText: {fileID: 1705849893}
-  screenObjects:
-  - {fileID: 22752716}
-  - {fileID: 9037895799598350356}
-  - {fileID: 811789274}
-  - {fileID: 1115110232}
-  - {fileID: 773387248}
-  - {fileID: 1805440745}
-  - {fileID: 422749281}
-  - {fileID: 2081905241}
-  - {fileID: 899310408}
-  - {fileID: 1228774044}
-  - {fileID: 8140390118824992048}
-  screens: {fileID: 1374262342}
   finnButton: {fileID: 1172275739}
   engButton: {fileID: 882538272}
   sweButton: {fileID: 1681842569}
@@ -12818,6 +12819,18 @@ MonoBehaviour:
   qrButton: {fileID: 1054184422}
   virtualPassButton: {fileID: 458144704}
   speechBubble: {fileID: 1559583822}
+  screenObjects:
+  - {fileID: 22752716}
+  - {fileID: 9037895799598350356}
+  - {fileID: 811789274}
+  - {fileID: 1115110232}
+  - {fileID: 773387248}
+  - {fileID: 1805440745}
+  - {fileID: 422749281}
+  - {fileID: 2081905241}
+  - {fileID: 899310408}
+  - {fileID: 1228774044}
+  - {fileID: 8140390118824992048}
 --- !u!1 &1340358308
 GameObject:
   m_ObjectHideFlags: 0
@@ -13460,8 +13473,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932507971}
   m_HandleRect: {fileID: 1932507970}
   m_Direction: 3
-  m_Value: 0
-  m_Size: 0.99051887
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14437,7 +14450,7 @@ GameObject:
   - component: {fileID: 1551706118}
   - component: {fileID: 1551706117}
   m_Layer: 5
-  m_Name: ARButton
+  m_Name: InfoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17660,11 +17673,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e16b9ccf4f5f44cab753d49a8ca4cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentQRcode: 
+  cameraImage: {fileID: 364462628}
   qrtext: {fileID: 532004141}
   qrScanner: {fileID: 1919161213}
   qrScreen: {fileID: 899310409}
-  cameraImage: {fileID: 364462628}
-  currentQRcode: 
 --- !u!114 &1919161212
 MonoBehaviour:
   m_ObjectHideFlags: 0

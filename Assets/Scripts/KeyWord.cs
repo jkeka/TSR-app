@@ -1,14 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyWord : MonoBehaviour
 {
+    // This class attaches listener to keyword buttons in glossary screen and runs the script when clicked
+
+    // Stores the description got from the glossary
     public string description;
+
+    // References this button
     public Button keywordButton;
+
+    // References description screen
     public RectTransform descriptionScreen;
+
+    // References text gameobject in description screen
     public GameObject descriptionText;
+
+    // References MapsSceneManager script
     private MapSceneManager mapSceneManagerScript;
   
     void Start()
@@ -19,8 +28,8 @@ public class KeyWord : MonoBehaviour
         keywordButton.onClick.AddListener(ShowDescription);       
     }
 
-    public void ShowDescription()
     // Shows the description stored in the button in pop-up screen.
+    public void ShowDescription()
     {
         descriptionScreen.gameObject.SetActive(true);
         RectTransform pos = descriptionScreen.GetComponent<RectTransform>();

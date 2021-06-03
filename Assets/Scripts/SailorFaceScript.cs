@@ -1,20 +1,30 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SailorFaceScript : MonoBehaviour
 {
-    public SpeechBubble speechBubble;
-
- 
-
+    // This class operates the sailor animations
+    
+    // Sailor face animation timer
     private float faceRate=0.6f;
-    private int faceIndex;
-    private GameObject[] faceList;
-    public Animator animator;
+
+    // Sailor face antimation index
+    private int faceIndex;   
+
+    // Sailor body animation selected
     private string currentBool="Talking";
-    float talkTimer = 6.66f;
-    //private IEnumerator talkRoutine;
+
+    // Sailor animation timer
+    private float talkTimer = 6.66f;
+
+    // List of sailor animations
+    private GameObject[] faceList;
+
+    // Reference to sailor animator
+    public Animator animator;
+
+    // Reference to speech bubble
+    public SpeechBubble speechBubble;
 
     private void Start()
     {
@@ -24,18 +34,11 @@ public class SailorFaceScript : MonoBehaviour
             faceList[i] = transform.GetChild(i).gameObject;
         }
         speechBubble.QV += ChangeToEmote;
-
-        //talkRoutine = ChangeFace();
-        StartCoroutine(ChangeFace());
-
-        //Emote(0);
-        //ChangeToEmote(2);
+       
+        StartCoroutine(ChangeFace());      
     }
-
-    /// <summary>
-    /// 0=greet, 1=wave, 2=talk
-    /// </summary>
-    /// <param name="index"></param>
+   
+    // Set animation for sailor
     public void Emote(int index)
     {
         string trigger="Talk";
@@ -53,10 +56,8 @@ public class SailorFaceScript : MonoBehaviour
         }
         animator.SetTrigger(trigger);
     }
-    /// <summary>
-    /// 0=greet, 1=wave, 2=talk
-    /// </summary>
-    /// <param name="index"></param>
+    
+    // Changes sailor animation when speechbubble is clicked
     public void ChangeToEmote(int index)
     {
         string trigger = "Talking";
@@ -82,7 +83,7 @@ public class SailorFaceScript : MonoBehaviour
         StartCoroutine(ChangeFace());
     }
     
-
+    // Changes sailor face animation
     public IEnumerator ChangeFace()
     {
         while (talkTimer >= 0f)
@@ -104,8 +105,10 @@ public class SailorFaceScript : MonoBehaviour
         }
         faceList[0].SetActive(true);
         yield return null;
-        //StopCoroutine();
+        
     }
+
+    // Disables sailor animation
     private void OnDisable()
     {
         speechBubble.QV -= ChangeToEmote;

@@ -1,37 +1,50 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 
-
 public class SpeechBubble : MonoBehaviour
 {
-    public Button bubble;
-    public Button qrButton;
-    public RectTransform infoScreen;
-    Coroutine routine = null;
-    Transform child;
-    LocalizedString localizedString = new LocalizedString() {TableReference = "Translations"};
+    // This class attaches listener to speech bubble in info screen and runs the script when clicked
+
+    // Counter for times the speech bubble has been clicked
     public static int count = 0;
 
-    //SailorInteraction
+    // References the speech bubble
+    public Button bubble;
+
+    // References Qr button in the info screen
+    public Button qrButton;
+
+    // References text gameobject of speech bubble
+    Transform bubbleChild;
+
+    // References the size and position of info screen
+    public RectTransform infoScreen;
+
+    // Coroutine to reset the speechBubble
+    Coroutine routine = null;
+
+    // Reference to table used in string localization
+    LocalizedString localizedString = new LocalizedString() {TableReference = "Translations"};
+    
+    // Variables related to sailor interaction
     public delegate void AnimTrigger(int i);
     public AnimTrigger QV;
     public bool test;
 
-
     // Start is called before the first frame update
     void Start()
     {
-     
-        child = bubble.transform.GetChild(0);
+   
+        bubbleChild = bubble.transform.GetChild(0);
         bubble.onClick.AddListener(ClickTextBubble);
     }
 
+    // Changes bubble text content when clicked. Also triggers the sailor animation
     public void ClickTextBubble()
-    // Changes bubble text content when clicked.
+    
     {
         try
         {
@@ -42,24 +55,22 @@ public class SpeechBubble : MonoBehaviour
             }
             else
             {
-                Debug.Log(Description.shipInfo.Count);
                 if (QV != null)
                     QV(2);
-
-             
-                if (count == Description.shipInfo.Count - 1)
+           
+                if (count == DescriptionDataHandler.shipInfo.Count - 1)
                 {
                     bubble.onClick.RemoveListener(ClickTextBubble);
                     count = 1;
                     
                     qrButton.gameObject.SetActive(true);
-                    Description.shipInfo.Clear();
-                    Debug.Log(Description.shipInfo);
+                    DescriptionDataHandler.shipInfo.Clear();
+                    Debug.Log(DescriptionDataHandler.shipInfo);
                     routine = StartCoroutine(ResetBubble());
                     return;
                 }
 
-                child.GetComponent<TMPro.TextMeshProUGUI>().text = Description.shipInfo[count];
+                bubbleChild.GetComponent<TMPro.TextMeshProUGUI>().text = DescriptionDataHandler.shipInfo[count];
                 count++;
             }
         }
@@ -70,7 +81,7 @@ public class SpeechBubble : MonoBehaviour
 
             Debug.Log("Following error in the speechbubble: " + e.Message);
             localizedString.TableEntryReference = "INFO_ERROR";
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+            bubbleChild.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
         catch (NullReferenceException e)
         {
@@ -79,7 +90,7 @@ public class SpeechBubble : MonoBehaviour
 
             Debug.Log("Following error in the speechbubble: " + e.Message);
             localizedString.TableEntryReference = "INFO_ERROR";
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+            bubbleChild.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
         catch (Exception e)
         {
@@ -88,12 +99,12 @@ public class SpeechBubble : MonoBehaviour
 
             Debug.Log("Following error in the speechbubble: " + e.Message);
             localizedString.TableEntryReference = "INFO_ERROR";
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+            bubbleChild.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
     }
 
+    // Resets button listener and text after quitting info screen.
     IEnumerator ResetBubble()
-    // Resets button listener and text after quitting infoscreen.
     {
        
         while(infoScreen.GetSiblingIndex() == MapSceneManager.siblingIndex)
@@ -107,12 +118,4 @@ public class SpeechBubble : MonoBehaviour
         Debug.Log("speechbubble reset!");
         StopCoroutine(routine);               
     }
-
-    /*private void OnDisable()
-    {
-        bubble.onClick.RemoveAllListeners();
-        bubble.onClick.AddListener(ClickTextBubble);
-        qrButton.gameObject.SetActive(false);
-        Debug.Log("speechbubble reset!");
-    }*/
 }

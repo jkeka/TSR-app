@@ -1,51 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PanZoom : MonoBehaviour
 {
+    // This class operates the zooming function of the map screen
 
+    // Checks if user is zooming
     bool IsZooming = false;
 
+    // Zooming position and speed
     Vector3 touchStart;
     public float zoomMin = 50;
     public float zoomMax = 480;
     private float zoomSlow = 0.4f;
 
+    // Map size and position
     public RectTransform map;
     public float mapWidth;
     public float mapHeigth;
+    public float mapHeightBound;
+    public float mapWidthBound;
 
+    // Camera size and position
     public float cameraSize;
-
     public float cameraWidth;
     public float cameraHeight;
-
     public float cameraPositionX;
     public float cameraPositionY;
-
     public float cameraBoundXRight;
     public float cameraBoundXLeft;
     public float cameraBoundYTop;
     public float cameraBoundYBot;
 
-    public float mapHeightBound;
-    public float mapWidthBound;
-
-    // Start is called before the first frame update
     void Start()
     {
-        //Boundaries
-
+       
         mapHeigth = map.sizeDelta.y;
         mapWidth = map.sizeDelta.x;
 
         zoomMin = 50;
         zoomMax = 480;
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         cameraSize = Camera.main.orthographicSize;
@@ -57,9 +52,6 @@ public class PanZoom : MonoBehaviour
         mapWidthBound = mapWidth / 2;
 
         //Zooming and moving the camera
-
-        
-
         if (Input.GetMouseButtonDown(0))
         {
             touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -93,9 +85,6 @@ public class PanZoom : MonoBehaviour
             Paning();
         }
     
-
-
-
     Zoom(Input.GetAxis("Mouse ScrollWheel") * 50);
 
         void Zoom(float increment)
@@ -103,8 +92,7 @@ public class PanZoom : MonoBehaviour
             Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - increment, zoomMin, zoomMax);
         }
 
-
-        //Boundaries
+        //Setting boundaries
         cameraPositionX = transform.position.x;
         cameraPositionY = transform.position.y;
 
@@ -117,38 +105,26 @@ public class PanZoom : MonoBehaviour
         cameraBoundXRight = cameraPositionX + (cameraWidth / 2);
         cameraBoundXLeft = (-cameraPositionX - (-cameraWidth / 2)) * -1;
 
-
         if (cameraBoundYTop > mapHeightBound)
         {
-            //Debug.Log("OutOfBounds Y top");
-            //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x, transform.position.y - 5, transform.position.z);
         }
         else if (cameraBoundYBot < -mapHeightBound)
         {
-            //Debug.Log("OutOfBounds Y bot");
-            //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
-
         }
-
         if (cameraBoundXRight > mapWidthBound)
         {
-            //Debug.Log("OutOfBounds X right");
-            //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
 
         }
         else if (cameraBoundXLeft < -mapWidthBound)
         {
-            //Debug.Log("OutOfBounds x left");
-            //Camera.main.orthographicSize = cameraSize - 1;
             transform.position = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
-
         }
-
     }
 
+    // Keeps the camera in zoomed position
     void Paning()
     {
         if (Input.GetMouseButton(0))

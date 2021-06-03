@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Notifications.Android;
+﻿using Unity.Notifications.Android;
 using UnityEngine;
 using UnityEngine.Localization;
 
 public class Notifications: MonoBehaviour
-
 {
+    //This class stores and operates mobile notifications of the application
+
+    // References to tables used in string localization
     static LocalizedString arrivalTitle = new LocalizedString() { TableReference = "Translations", TableEntryReference = "NOTIFICATION_ARRIVAL_TITLE" };
     static LocalizedString arrivalText = new LocalizedString() { TableReference = "Translations", TableEntryReference = "NOTIFICATION_ARRIVAL_TEXT" };
 
+    // Default channel for notifications
     public static AndroidNotificationChannel defaultChannel = new AndroidNotificationChannel()
     {
         Id = "channel_id",
@@ -18,6 +19,7 @@ public class Notifications: MonoBehaviour
         Description = "Generic notification"
     };
 
+    // Notification for arrival to the selected non-ship destination
     public static AndroidNotification arrivalNotification = new AndroidNotification()
     {
         Title = arrivalTitle.GetLocalizedString(),
@@ -25,8 +27,8 @@ public class Notifications: MonoBehaviour
         FireTime = System.DateTime.Now
     };
 
+    // Updates the language of notifications
     public static void SetNotificationLanguage()
-        // Updates the language of notifications when necessary
     {
         arrivalNotification.Title = arrivalTitle.GetLocalizedString();
         arrivalNotification.Text = arrivalText.GetLocalizedString() + " " + CoordinateData.locationName;

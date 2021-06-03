@@ -1,52 +1,51 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-using Firebase;
 using Firebase.Database;
-
 using Newtonsoft.Json;
 
 
 public class EventDataHandler : MonoBehaviour
-
 {
+    // This class fetches event data from database and creates events on the schedule screen based from that data
+
+    // Variable to store information about used language
     private static string language = null;
 
+    // Reference to prefab button for the schedule screen
     public Button eventButton;
+
+    //Reference to the gameobject where the created events are put
     public GameObject events;
+
+    // Reference to dropdown on the schedule screen
     public TMPro.TMP_Dropdown dropdown;
+
+    // List where references to event buttons are stored
     public static List<Button> scheduleList = new List<Button>();
 
+    // Reference to Firebase database
     DatabaseReference reference;
 
 
     private void Start()
     {
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
-        //LoadScheduleData();
+        reference = FirebaseDatabase.DefaultInstance.GetReference("Schedule").Child("events");
     }
 
+    // Attaches or removes listeners for the reference path
     public void LoadScheduleData()
-    // Loads schedule data from the database.
-    {
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Schedule")
-            .Child("events")
-            .ValueChanged -= ScheduleValueChanged;
 
-        FirebaseDatabase.DefaultInstance
-            .GetReference("Schedule")
-            .Child("events")
-            .ValueChanged += ScheduleValueChanged;
+    {
+        reference.ValueChanged -= ScheduleValueChanged;
+        reference.ValueChanged += ScheduleValueChanged;
     }
 
+    // Listens to changes in the database and loads a new snapshot when data changes. 
     void ScheduleValueChanged(object sender, ValueChangedEventArgs args)
-    //Listens to changes in the database and loads a new snapshot when data changes. 
+
     {
-       
         if (args.DatabaseError != null)
         {
             Debug.LogError(args.DatabaseError.Message);
@@ -70,7 +69,7 @@ public class EventDataHandler : MonoBehaviour
                    i.Child("endTime").Value.ToString(),
                    i.Child("translations").GetRawJsonValue());
             }
-            catch(NullReferenceException e)
+            catch (NullReferenceException e)
             {
                 Debug.Log("Following error when creating an event: " + e.Message);
             }
@@ -82,7 +81,7 @@ public class EventDataHandler : MonoBehaviour
             {
                 Debug.Log("Following error when creating a location marker:" + e.Message);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Debug.Log("Following error when creating an event:" + e.Message);
             }
@@ -93,8 +92,9 @@ public class EventDataHandler : MonoBehaviour
 
     }
 
-    public void CreateEvent(string id, string venueId, string startTime, string endTime, string translations)
     // Creates button for schedule menu which shows event name, start- and endtime.
+    public void CreateEvent(string id, string venueId, string startTime, string endTime, string translations)
+
     {
         Button schedule = Instantiate(eventButton);
 
@@ -116,8 +116,9 @@ public class EventDataHandler : MonoBehaviour
 
     }
 
-    public void SetEventLanguage(Button schedule, string translations)
     // Sets schedule language based on user settings.
+    public void SetEventLanguage(Button schedule, string translations)
+
     {
         Dictionary<string, Dictionary<string, string>> languages =
             JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(Convert.ToString(translations));
@@ -147,11 +148,11 @@ public class EventDataHandler : MonoBehaviour
                 schedule.GetComponent<Event>().eventName = translation["event"];
                 schedule.GetComponent<Event>().eventDescription = translation["desc"];
             }
-        }      
+        }
     }
 
-    public void DestroySchedule()
     // Destroys existing schedule button on the schedule screen any time the schedule data changes in the database.
+    public void DestroySchedule()
     {
 
         for (int i = 0; i < scheduleList.Count; i++)
@@ -162,8 +163,8 @@ public class EventDataHandler : MonoBehaviour
         scheduleList.Clear();
     }
 
-    public void CheckEventDate()
     // Checks if the event date matches the selected dropdown date.
+    public void CheckEventDate()
     {
         var day = dropdown.options[dropdown.value].text;
 
@@ -182,25 +183,4 @@ public class EventDataHandler : MonoBehaviour
         }
 
     }
-
-    /*public static void ChangeLanguage()
-    // Changes schedule language if another language is selected
-    {
-        if (language == User.GetLanguage())
-        {
-            return;
-        }
-        foreach (Button schedule in scheduleList)
-        {
-            var translation = SetEventLanguage(schedule.GetComponent<Event>().translations);
-            var child = schedule.transform.GetChild(0);
-
-            var start = schedule.GetComponent<Event>().startTime.ToShortTimeString();
-            var end = schedule.GetComponent<Event>().endTime.ToShortTimeString();
-
-            child.GetComponent<TMPro.TextMeshProUGUI>().text = translation["event"] + "\n" + start + " - " + end;
-        }
-
-        Debug.Log("Schedule language changed!");
-    }*/
 }

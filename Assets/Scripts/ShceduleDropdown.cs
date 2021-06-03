@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-
-
 
 public class ShceduleDropdown : MonoBehaviour
 
 {
+    //This class attaches listener to dropdown in schedule screen and runs the script when drodown value changes
+
+    // References the dropdown
     public TMPro.TMP_Dropdown dropdown;
+
+    // References the position of schedule screen
     public Transform scheduleScreen;
 
     // Start is called before the first frame update
     void Start()
-    {
-        
-    dropdown.onValueChanged.AddListener(delegate {
-            CheckDate();      
-        });
-   
+    {       
+    dropdown.onValueChanged.AddListener(delegate { CheckDate(); });  
     }
 
+    // Checks if the event date matches the selected dropdown date.
     public void CheckDate()
-     // Checks if the event date matches the selected dropdown date.
     {
         var day = dropdown.options[dropdown.value].text;
                

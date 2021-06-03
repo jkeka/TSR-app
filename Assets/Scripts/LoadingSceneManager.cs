@@ -1,28 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Android;
 using UnityEngine.SceneManagement;
-using UnityEngine.Events;
-
 using Firebase.Database;
-
-using static User;
 
 public class LoadingSceneManager : MonoBehaviour
 {
+    // This class operates the functioning of the LoadingScene, asking for permissions and creating/checking user before proceeding
+
+    // Booleans to check if permissions have been granted and internet connection established
     bool connectionEstablished = false;
     bool permissionsGranted = false;
+
+    // Reference to gameobject ErrorMessage on loading screen
     public GameObject errorMessage;
    
     // Start is called before the first frame update
-
     void Start()
     {
-        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+        FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false); // Disables the cache
 
         StartCoroutine(CheckConnection());
         CheckPermissions();
@@ -48,8 +46,8 @@ public class LoadingSceneManager : MonoBehaviour
 
     }
 
+    // Checks if connection is available. If not, displays a warning screen
     IEnumerator CheckConnection()
-    // Checks if connection is available. If not, displays a warning screen. Only creates user once connection is established.
     {
         UnityWebRequest request = new UnityWebRequest("http://google.com");
         //request.timeout = 2;
@@ -83,31 +81,26 @@ public class LoadingSceneManager : MonoBehaviour
         connectionEstablished = true;
     }
 
-    public void CheckPermissions()
     // Checks permission for Android phone about camera and GPS Location
+    public void CheckPermissions()
     {
 
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation) || !Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
             StartCoroutine(AskPermissions());
-
         }
 
         if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
-            //CloseScreen();
             permissionsGranted = true;
-            Debug.Log("All permissions granted!");
-            
+            Debug.Log("All permissions granted!");           
         }
             
     }
 
-    IEnumerator AskPermissions()
     // Asks permission from Android phone to use camera and GPS Location 
-    {
-              
-        //Camera permission
+    IEnumerator AskPermissions()
+    {            
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
             Permission.RequestUserPermission(Permission.Camera);
@@ -116,11 +109,9 @@ public class LoadingSceneManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        //Location permission
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
-            //Permission.RequestUserPermission(Permission.CoarseLocation);
             Debug.Log("Asking permission for GPS");
 
         }

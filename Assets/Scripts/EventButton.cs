@@ -1,14 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 
 public class EventButton : MonoBehaviour
 {
+    //This class attaches listener to event buttons in schedule screen and runs the script when clicked
+
+    // References this button
     public Button button;
+
+    // References gameobject confirmation screen
     public GameObject confScreen;
+
+    // References MapSceneManager script
     private MapSceneManager mapSceneManagerScript;
+
+    //References table used in string localization
     private LocalizedString localizedString = new LocalizedString() { TableReference = "Translations", TableEntryReference = "CONFIRMATION_TEXT" };
 
     // Start is called before the first frame update
@@ -19,9 +26,8 @@ public class EventButton : MonoBehaviour
         button.onClick.AddListener(EventClick);
     }
 
-    public void EventClick()
-    //Sets confirmationscreen visible and writes text to confirmation textbox. Also adds the location data to Coordinatedata class
-
+    //Sets confirmation screen visible and writes text to confirmation textbox. Also adds the location data to Coordinatedata class
+    public void EventClick()   
     {
         string venueID = gameObject.GetComponent<Event>().venueId;
             

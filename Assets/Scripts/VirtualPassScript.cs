@@ -1,16 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VirtualPassScript : MonoBehaviour
 {
+    // This class operates the virtual pass screen when clicked
     
+    // The location where virtual pass locations are created
     public RectTransform virtualPassContent;
+    
+    // Stores references of created virtual pass locations
     public List<Button> virtualPassLocations;
+    
+    // References the virtual pass screen in MainCanvas
     public GameObject virtualPassScreen;
+
+    // References the virtual pass location prefab that stores information about target
     public Button virtualPassLocation;
+
+    // References  the virtual pass button in the menu bar
     public Button virtualPassButton;
        
     private void Start()
@@ -18,6 +26,7 @@ public class VirtualPassScript : MonoBehaviour
         virtualPassButton.onClick.AddListener(LoadVirtualPass);    
     }
 
+    // Loads the virtual pass locations to the virtual pass screen
     public void LoadVirtualPass()
     {
               
@@ -55,6 +64,7 @@ public class VirtualPassScript : MonoBehaviour
         }
     }
 
+    // Deletes the virtual pass locations from the virtual pass screen
     public void ClearVirtualPass()
     {
         for (int i = 0; i < virtualPassLocations.Count; i++)
@@ -64,23 +74,4 @@ public class VirtualPassScript : MonoBehaviour
 
         virtualPassLocations.Clear();
     }
-
-
-    //GameObject textobject = ARSceneManager.instance.GetPooledObject();
-    //textobject.GetComponent<TextMeshProUGUI>().text = item;
-
-    //testArray = new int[10];
-    //for (int i = 0; i < testArray.Length; i++)
-    //{
-    //    testArray[i] = i;
-    //}
-    //foreach (var item in testArray)
-    //{
-
-    //    GameObject textobject = ARSceneManager.instance.GetPooledObject();
-    //    textobject.GetComponent<TextMeshProUGUI>().text = item.ToString();
-    //    textobject.transform.SetParent(gameObject.transform.GetChild(0).GetChild(0).GetChild(0));
-    //}User.GetVisitedLocations()
-
-
 }

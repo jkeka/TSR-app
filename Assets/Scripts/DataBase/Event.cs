@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Event : MonoBehaviour
 {
+    // This class stores database data for events
+
+    // Data for event. VenueId is the id of venue where the event takes place
     public string id;
     public string venueId;
-    public DateTime startTime;
-    public DateTime endTime;
     public string eventName;
     public string eventDescription;
-    
+
+    // Start- and endtime of event
+    public DateTime startTime;
+    public DateTime endTime;
+
     public Event(string id, string venueId, DateTime startTime, DateTime endTime, string eventName, string eventDescription)
     {
         this.id = id;
@@ -20,8 +23,7 @@ public class Event : MonoBehaviour
         this.endTime = endTime;
         this.eventName = eventName;
         this.eventDescription = eventDescription;
-           
-}
+    }
 
     public override string ToString()
     {
@@ -31,9 +33,8 @@ public class Event : MonoBehaviour
             "startTime: " + startTime + "\n" +
             "endTime: " + endTime + "\n" +
             "event name: " + eventName + "\n" +
-            "event description: " + eventName;
+            "event description: " + eventDescription;
 
         return s;
     }
-
 }
