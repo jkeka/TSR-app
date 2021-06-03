@@ -12,7 +12,7 @@ public class MapSceneManager : MonoBehaviour
     // This class operates the functioning of MapScene UI and most of the static buttons
 
     // Number of sibling indexes the screens-object in the MainCanvas has
-    public static int siblingIndex = 11;
+    public static int siblingIndex = 10;
 
     // Checks if player is starting the app first time. Point is to activate the Instructions at the beginning. Currently set always to true
     public bool isFirstTime;
@@ -30,9 +30,6 @@ public class MapSceneManager : MonoBehaviour
     public GameObject errorMessage;
     public GameObject descriptionText;
     public GameObject qrText;
-
-    // Reference to size and position of NewMap in the MapCanvas
-    public RectTransform mapScreen;
 
     // References to size and position of screens in the MainCanvas
     public RectTransform setScreen;
@@ -142,8 +139,6 @@ public class MapSceneManager : MonoBehaviour
         User.SetLanguage("fi");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[1];
 
-        mapScreen.SetSiblingIndex(siblingIndex);
-
         if (isFirstTime == true)
         {
             instructionCanvas.SetActive(true);
@@ -164,8 +159,6 @@ public class MapSceneManager : MonoBehaviour
         User.SetLanguage("en");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[0];
      
-        mapScreen.SetSiblingIndex(siblingIndex);
-
         if (isFirstTime == true)
         {
             instructionCanvas.SetActive(true);
@@ -186,8 +179,6 @@ public class MapSceneManager : MonoBehaviour
         User.SetLanguage("se");
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[2];
 
-        mapScreen.SetSiblingIndex(siblingIndex);
-
         if (isFirstTime == true)
         {
             instructionCanvas.SetActive(true);
@@ -204,8 +195,7 @@ public class MapSceneManager : MonoBehaviour
         screens.SetActive(false);
         mapCanvas.SetActive(true);
 
-        Debug.Log("Map clicked");
-        mapScreen.SetSiblingIndex(siblingIndex);
+        Debug.Log("Map clicked");      
 
     }
 

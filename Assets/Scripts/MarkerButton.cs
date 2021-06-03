@@ -10,7 +10,7 @@ public class MarkerButton : MonoBehaviour
     private float buttonSize = Mathf.Clamp(1f, 0.4f, 1.5f);
     private float cameraSizeMultiplier;
 
-    //???
+    //Latitude and longitude of selected destination
     public static float destinationLatitude;
     public static float destinationLongitude;
     

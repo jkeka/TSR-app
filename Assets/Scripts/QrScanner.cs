@@ -60,7 +60,7 @@ public class QrScanner : MonoBehaviour
             StopScan();
         else
         {
-            transform.GetChild(0).gameObject.SetActive(false);
+            qrScanner.transform.GetChild(0).gameObject.SetActive(false);
             qrtext.text = string.Empty;
             QrCode = string.Empty;
             routine = StartCoroutine(GetQRCode());
@@ -128,7 +128,7 @@ public class QrScanner : MonoBehaviour
             webcamTexture.Stop();
             scanning = false;
             StopCoroutine(routine);
-            transform.GetChild(0).gameObject.SetActive(true);
+            qrScanner.transform.GetChild(0).gameObject.SetActive(true);
             Debug.Log("QR-scanning stopped!");
         }
     }

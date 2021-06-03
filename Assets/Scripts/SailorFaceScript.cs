@@ -20,6 +20,9 @@ public class SailorFaceScript : MonoBehaviour
     // List of sailor animations
     private GameObject[] faceList;
 
+    // Reference to gameobject where sailor faces are stored
+    public GameObject SailorFaces;
+
     // Reference to sailor animator
     public Animator animator;
 
@@ -31,7 +34,7 @@ public class SailorFaceScript : MonoBehaviour
         faceList = new GameObject[4];
         for (int i = 0; i <= 3; i++)
         {
-            faceList[i] = transform.GetChild(i).gameObject;
+            faceList[i] = SailorFaces.transform.GetChild(i).gameObject;
         }
         speechBubble.QV += ChangeToEmote;
        
