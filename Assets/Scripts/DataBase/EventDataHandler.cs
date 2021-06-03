@@ -61,13 +61,31 @@ public class EventDataHandler : MonoBehaviour
 
         foreach (DataSnapshot i in snapshot.Children)
         {
-
-            CreateEvent(
-               i.Child("id").Value.ToString(),
-               i.Child("venueId").Value.ToString(),
-               i.Child("startTime").Value.ToString(),
-               i.Child("endTime").Value.ToString(),
-               i.Child("translations").GetRawJsonValue());
+            try
+            {
+                CreateEvent(
+                   i.Child("id").Value.ToString(),
+                   i.Child("venueId").Value.ToString(),
+                   i.Child("startTime").Value.ToString(),
+                   i.Child("endTime").Value.ToString(),
+                   i.Child("translations").GetRawJsonValue());
+            }
+            catch(NullReferenceException e)
+            {
+                Debug.Log("Following error when creating an event: " + e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                Debug.Log("Following error when creating a location marker:" + e.Message);
+            }
+            catch (FormatException e)
+            {
+                Debug.Log("Following error when creating a location marker:" + e.Message);
+            }
+            catch (Exception e) 
+            {
+                Debug.Log("Following error when creating an event:" + e.Message);
+            }
         }
 
         scheduleList.Sort((x, y) => x.GetComponent<Event>().startTime.CompareTo(y.GetComponent<Event>().startTime));

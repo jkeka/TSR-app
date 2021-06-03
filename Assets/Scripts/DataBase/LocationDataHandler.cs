@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,9 +56,31 @@ public class LocationDataHandler : MonoBehaviour
 
         foreach (DataSnapshot i in snapshot.Children)
         {
-            CreateMarker(i.Key, i.Child("Latitude").Value.ToString(), i.Child("Longitude").Value.ToString(),
-                i.Child("type").Value.ToString(), i.Child("id").Value.ToString());
-
+            try
+            {
+                CreateMarker(
+                    i.Key,
+                    i.Child("Latitude").Value.ToString(),
+                    i.Child("Longitude").Value.ToString(),
+                    i.Child("type").Value.ToString(),
+                    i.Child("id").Value.ToString());
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.Log("Following error when creating a location marker: " + e.Message);
+            }
+            catch(ArgumentException e)
+            {
+                Debug.Log("Following error when creating a location marker: " + e.Message);
+            }
+            catch(FormatException e)
+            {
+                Debug.Log("Following error when creating a location marker: " + e.Message);
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Following error when creating a location marker: " + e.Message);
+            }
         }
     }
 
@@ -102,8 +125,6 @@ public class LocationDataHandler : MonoBehaviour
         float roundLatConv = Mathf.Round(latConverted * 1000f) / 1000f;
         float roundLonConv = Mathf.Round(lonConverted * 1000f) / 1000f;
     }
-
-
 
     public void DestroyMarkers()
     // Destroys existing markers on the map screen any time the location data changes in the database.

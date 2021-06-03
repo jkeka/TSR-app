@@ -63,27 +63,34 @@ public class SpeechBubble : MonoBehaviour
                 count++;
             }
         }
-        catch (NullReferenceException e)
+        catch (ArgumentOutOfRangeException e)
         {
-            Debug.Log(e);
             if (QV != null)
                 QV(2);
+
+            Debug.Log("Following error in the speechbubble: " + e.Message);
             localizedString.TableEntryReference = "INFO_ERROR";
             child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
-        catch (ArgumentOutOfRangeException e)
+        catch (NullReferenceException e)
         {
-            Debug.Log(e);
+            if (QV != null)
+                QV(2);
+
+            Debug.Log("Following error in the speechbubble: " + e.Message);
+            localizedString.TableEntryReference = "INFO_ERROR";
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+        }
+        catch (Exception e)
+        {
+            if (QV != null)
+                QV(2);
+
+            Debug.Log("Following error in the speechbubble: " + e.Message);
+            localizedString.TableEntryReference = "INFO_ERROR";
+            child.GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
     }
-
-    /*private void OnDisable()
-    {
-        bubble.onClick.RemoveAllListeners();
-        bubble.onClick.AddListener(ClickTextBubble);
-        qrButton.gameObject.SetActive(false);
-        Debug.Log("speechbubble reset!");
-    }*/
 
     IEnumerator ResetBubble()
     // Resets button listener and text after quitting infoscreen.
@@ -100,4 +107,12 @@ public class SpeechBubble : MonoBehaviour
         Debug.Log("speechbubble reset!");
         StopCoroutine(routine);               
     }
+
+    /*private void OnDisable()
+    {
+        bubble.onClick.RemoveAllListeners();
+        bubble.onClick.AddListener(ClickTextBubble);
+        qrButton.gameObject.SetActive(false);
+        Debug.Log("speechbubble reset!");
+    }*/
 }

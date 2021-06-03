@@ -430,7 +430,19 @@ public class MapSceneManager : MonoBehaviour
         }
         catch (ArgumentOutOfRangeException e)
         {
-            Debug.Log(e);
+            Debug.Log("Following error in the speechbubble: " + e.Message);
+            localizedString.TableEntryReference = "INFO_ERROR";
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("Following error in the speechbubble: " + e.Message);
+            localizedString.TableEntryReference = "INFO_ERROR";
+            speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Following error in the speechbubble: " + e.Message);
             localizedString.TableEntryReference = "INFO_ERROR";
             speechBubble.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = localizedString.GetLocalizedString();
         }
